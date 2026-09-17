@@ -1,5 +1,13 @@
 # Changelog
 
+## V3.1
+
+- Thêm `rub.bat` để khởi chạy VQEAF Theme Studio bằng một cú nhấp đúp trên Windows.
+- Tự tìm cổng trống 8080–8099 và tự mở trình duyệt.
+- Tự phát hiện `py -3`, `python`, `python3`.
+- Thêm `server.ps1` làm static-server dự phòng khi máy không có Python.
+- Thêm `run.bat` làm alias tiện dụng cho `rub.bat`.
+
 ## V3
 
 - Background riêng cho PhoneShellFrame.

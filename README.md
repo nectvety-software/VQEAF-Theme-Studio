@@ -2,15 +2,26 @@
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Nokia 225 / VXPQeaf.
 
-## Chạy
+## Chạy nhanh trên Windows
 
-Không cần build. Có thể mở `index.html` trực tiếp, hoặc nên chạy local server:
+Không cần build. Cách dễ nhất là **nhấp đúp `rub.bat`**. Launcher sẽ:
+
+- tự chuyển vào đúng thư mục dự án;
+- tự tìm cổng trống từ `8080` đến `8099`;
+- ưu tiên `py -3`, `python` hoặc `python3`;
+- nếu máy không có Python, tự dùng `server.ps1` đi kèm;
+- tự mở trình duyệt tại địa chỉ local server;
+- dừng server bằng `Ctrl+C`.
+
+Có thêm `run.bat` làm alias cho `rub.bat` nếu muốn dùng tên launcher thông dụng hơn.
+
+Chạy thủ công vẫn được:
 
 ```bash
-python -m http.server 8080
+python -m http.server 8080 --bind 127.0.0.1
 ```
 
-Sau đó mở `http://localhost:8080/VQEAF-Theme-Studio/` nếu server chạy ở thư mục cha, hoặc `http://localhost:8080/` nếu chạy trong thư mục dự án.
+Sau đó mở `http://127.0.0.1:8080/`.
 
 ## Tính năng
 
@@ -35,6 +46,9 @@ Sau đó mở `http://localhost:8080/VQEAF-Theme-Studio/` nếu server chạy �
 ```text
 VQEAF-Theme-Studio/
 ├── index.html
+├── rub.bat              # launcher Windows
+├── run.bat              # alias gọi rub.bat
+├── server.ps1           # server dự phòng khi không có Python
 ├── styles.css
 ├── README.md
 ├── src/
