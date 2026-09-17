@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VQEAF Theme Studio</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">VQ</div>
+        <div>
+          <h1>VQEAF Theme Studio</h1>
+          <p>Tạo theme Android native bằng một file <code>.vqeaf</code></p>
+        </div>
+      </div>
+      <div class="toolbar-wrap">
+        <div id="autosaveStatus" class="autosave-status"><i></i><span>Tự động lưu</span></div>
+        <div class="toolbar">
+          <button data-action="new" title="Tạo theme mới">Mới</button>
+          <button data-action="random" title="Tạo chủ đề ngẫu nhiên">🎲 Ngẫu nhiên</button>
+          <button data-action="undo" title="Undo (Ctrl+Z)">↶</button>
+          <button data-action="redo" title="Redo (Ctrl+Y)">↷</button>
+          <button data-action="save">Lưu bản</button>
+          <button data-action="import">Nhập .vqeaf</button>
+          <button class="primary" data-action="export">Xuất .vqeaf</button>
+          <input id="fileInput" type="file" accept=".vqeaf,text/plain" hidden />
+          <input id="backgroundFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+          <input id="frameBackgroundFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+        </div>
+      </div>
+    </header>
+
+    <aside class="left-panel panel">
+      <div class="tabs">
+        <button class="tab active" data-left-tab="presets">Chủ đề</button>
+        <button class="tab" data-left-tab="components">Thành phần</button>
+        <button class="tab" data-left-tab="layers">Lớp</button>
+      </div>
+
+      <section class="left-tab active" data-left-view="presets">
+        <div class="section-title-row">
+          <h2>Preset</h2>
+          <span class="badge">1 click</span>
+        </div>
+        <div id="presetGrid" class="preset-grid"></div>
+        <div class="divider"></div>
+        <div class="section-title-row">
+          <h2>Thông tin chủ đề</h2>
+          <button id="randomName" class="ghost compact">🎲 Tên</button>
+        </div>
+        <label class="field">
+          <span>Tên chủ đề</span>
+          <input id="themeName" value="Halloween Neon" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>ID chủ đề</span>
+          <input id="themeId" value="halloween_neon" autocomplete="off" />
+        </label>
+        <label class="toggle field-toggle">
+          <input id="autoIdToggle" type="checkbox" checked />
+          <span>Tự tạo ID theo tên</span>
+        </label>
+        <div class="mini-help">Mọi thay đổi được tự động lưu. Undo/Redo cũng ghi nhận tên, ảnh nền, lớp và hiệu ứng.</div>
+      </section>
+
+      <section class="left-tab" data-left-view="components">
+        <h2>Kéo thả</h2>
+        <p class="muted">Kéo decoration vào khung máy để tạo theme tự do.</p>
+        <div id="componentPalette" class="component-palette"></div>
+
+        <div class="divider"></div>
+        <div class="section-title-row">
+          <h2>Nền bàn phím</h2>
+          <span id="backgroundBadge" class="badge subtle">Chưa có</span>
+        </div>
+        <p class="muted">Nhập PNG/JPG/WebP. Ảnh được tối ưu và nhúng vào theme, có thể đặt dưới hoặc phủ trên các phím.</p>
+        <div class="button-row">
+          <button id="importBackground" class="primary-lite">＋ Nhập background</button>
+          <button id="removeBackground" class="ghost danger">Xóa</button>
+        </div>
+        <div id="backgroundQuickControls" class="quick-controls"></div>
+
+        <div class="divider"></div>
+        <div class="section-title-row">
+          <h2>Nền khung máy</h2>
+          <span id="frameBackgroundBadge" class="badge subtle">Chưa có</span>
+        </div>
+        <p class="muted">Lồng ảnh/texture vào vỏ Nokia. Ảnh được clip theo bo góc và có thể đặt dưới nội dung hoặc làm lớp phủ phía trên.</p>
+        <div class="button-row">
+          <button id="importFrameBackground" class="primary-lite">＋ Nhập background</button>
+          <button id="removeFrameBackground" class="ghost danger">Xóa</button>
+        </div>
+        <div id="frameBackgroundQuickControls" class="quick-controls"></div>
+      </section>
+
+      <section class="left-tab" data-left-view="layers">
+        <div class="section-title-row">
+          <h2>Layer Stack</h2>
+          <button id="resetLayerOrder" class="ghost compact">Reset</button>
+        </div>
+        <p class="muted">Dùng ↑ ↓ để đưa lớp khung, LCD, keypad, decoration hoặc badge lên trên / xuống dưới.</p>
+        <div id="layerList" class="layer-list"></div>
+        <div class="divider"></div>
+        <div class="section-title-row">
+          <h2>Decoration</h2>
+          <button id="clearDecorations" class="ghost danger compact">Xóa hết</button>
+        </div>
+        <div id="decorationLayerList" class="layer-list"></div>
+      </section>
+    </aside>
+
+    <main class="workspace">
+      <div class="workspace-bar panel">
+        <div class="segmented">
+          <button class="active" data-orientation="portrait">Dọc</button>
+          <button data-orientation="landscape">Ngang</button>
+        </div>
+        <div class="zoom-control">
+          <span>Zoom</span>
+          <input id="zoomRange" type="range" min="60" max="130" value="90" />
+          <output id="zoomValue">90%</output>
+        </div>
+        <label class="toggle">
+          <input id="gridToggle" type="checkbox" checked />
+          <span>Lưới</span>
+        </label>
+        <button id="previewPressed" class="ghost">Giữ trạng thái nhấn</button>
+      </div>
+
+      <div class="stage-wrap">
+        <div id="stage" class="stage grid-on">
+          <div id="phone" class="phone-shell selectable" data-component="phoneShell" tabindex="0">
+            <div id="frameBackgroundLayer" class="frame-background-layer" aria-hidden="true"></div>
+            <div id="frameFxLayer" class="frame-fx-layer" aria-hidden="true"></div>
+
+            <div class="network-led-row selectable" data-component="networkLed" data-layer="network">
+              <span class="network-led"></span>
+              <span class="network-text">WiFi · 1,0Gbps</span>
+            </div>
+
+            <div class="display-frame selectable" data-component="screen" data-layer="screen">
+              <div class="screen-content">
+                <div class="screen-title">225 DUAL SIM</div>
+                <div class="screen-subtitle">Đang chờ VXPEmu...</div>
+              </div>
+            </div>
+
+            <div class="keypad selectable" data-component="keypad" id="keypad" data-layer="keypad">
+              <div id="keypadBackgroundLayer" class="keypad-background-layer" aria-hidden="true"></div>
+              <div class="key-row">
+                <button class="key key-soft selectable" data-component="key" data-key="menu"><span>☰</span></button>
+                <button class="key key-soft selectable" data-component="key" data-key="up"><span>▲</span></button>
+                <button class="key key-soft selectable" data-component="key" data-key="rsk"><span>←</span></button>
+              </div>
+              <div class="key-row">
+                <button class="key key-soft selectable" data-component="key" data-key="left"><span>◀</span></button>
+                <button class="key key-soft selectable" data-component="key" data-key="ok"><span>OK</span></button>
+                <button class="key key-soft selectable" data-component="key" data-key="right"><span>▶</span></button>
+              </div>
+              <div class="key-row dpad-bottom">
+                <span></span>
+                <button class="key key-soft selectable" data-component="key" data-key="down"><span>▼</span></button>
+                <span></span>
+              </div>
+              <div id="numberRows"></div>
+            </div>
+
+            <div class="floating-badge menu-badge selectable" data-component="menuButton" data-layer="badges">☰ MENU <i></i></div>
+            <div class="floating-badge fps-badge selectable" data-component="fpsBadge" data-layer="badges"><i></i> 56 FPS</div>
+            <div id="decorationLayer" class="decoration-layer" data-layer="decorations"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="right-panel panel">
+      <div class="section-title-row">
+        <div>
+          <span class="eyebrow">Đang chọn</span>
+          <h2 id="selectedTitle">Phone Shell</h2>
+        </div>
+        <button id="resetSelected" class="ghost">Reset</button>
+      </div>
+
+      <div id="inspector"></div>
+
+      <div class="divider"></div>
+      <details open>
+        <summary>VQEAF Preview</summary>
+        <pre id="codePreview" class="code-preview"></pre>
+      </details>
+    </aside>
+  </div>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
