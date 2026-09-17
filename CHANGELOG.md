@@ -1,5 +1,17 @@
 # Changelog
 
+## V3.3
+
+- Tăng thư viện preset theme từ **40 lên 52 mẫu**.
+- Bổ sung thêm nhiều phong cách mới theo yêu cầu như: **Matrix Rain, Pixel Classic, Pixel Arcade, Pixel Sunset, CRT Green, Arcade Fire, Arcade Ocean, Hologram Grid, Glitch Neon, Digital Camo, Wireframe Cyan, Comic Pop**.
+- Tăng độ đa dạng cho các chủ đề có cảm giác **matrix / pixel / 8-bit / arcade / cyber** để dùng nhanh mà không cần chỉnh tay từ đầu.
+
+## V3.2
+
+- Mở rộng thư viện từ 7 lên **40 preset theme** dựng sẵn.
+- Bổ sung nhiều nhóm màu/phong cách: Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Terminal Amber, Vaporwave, Synthwave, Candy, Lavender, Desert, Forest, Military, Steampunk, TRON, Magenta, Midnight, Pearl, Game Boy, Nokia Blue, Christmas, Lunar New Year, Pastel Sky, Aurora, Magma, Mint, Coffee, Steel, Royal Purple, Coral và Monochrome.
+- Giữ nguyên cơ chế preset cũ: chọn preset vẫn cập nhật theme name/theme id và tham gia Undo/Redo + Autosave.
+
 ## V3.1
 
 - Thêm `rub.bat` để khởi chạy VQEAF Theme Studio bằng một cú nhấp đúp trên Windows.

@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3
+# VQEAF Theme Studio V3.2
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Nokia 225 / VXPQeaf.
 
@@ -30,6 +30,7 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Autosave bằng IndexedDB, fallback localStorage.
 - Undo/Redo 100 bước (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
 - Preview Nokia 225 dọc/ngang và zoom.
+- **52 preset dựng sẵn**: Nokia Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro S40, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Game Boy, Nokia Blue, Aurora, Magma, Mint, Steel, Royal Purple và nhiều mẫu khác.
 - Import/export `.vqeaf` một file.
 - Import background riêng cho keypad.
 - Chế độ **Trên phím → Texture từng phím**, giữ số/nhãn/viền rõ nét thay vì phủ nguyên ảnh lên bàn phím.
