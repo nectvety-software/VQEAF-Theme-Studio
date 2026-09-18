@@ -84,3 +84,19 @@ Chọn trực tiếp **MENU** hoặc **FPS** trên preview để mở inspector 
 ## V3.5 — MENU/FPS isolated style fix
 
 MENU Bubble và FPS Badge dùng style độc lập; chỉnh màu, border, glow, bo góc hoặc typography không còn làm đổi keypad. Bản này cũng thêm cache-busting để trình duyệt luôn tải đúng JavaScript mới sau khi nâng phiên bản.
+
+## V3.6 — Tên theme tự động 8 số + style
+
+Tên theme có thể được tạo tự động theo dạng:
+
+```text
+58310427 Matrix Rain
+94627130 Pixel Arcade
+73140528 Halloween
+```
+
+- Mỗi mã gồm đúng **8 chữ số không lặp trong cùng mã**.
+- Studio ghi nhớ các mã đã sinh trong trình duyệt để hạn chế trùng lại.
+- Chọn preset sẽ sinh mã mới nhưng giữ đúng tên style/preset.
+- Nút **🎲 Tên** chỉ đổi mã và giữ phần tên style hiện tại.
+- Nút **🎲 Ngẫu nhiên** sinh cả style lẫn mã mới.

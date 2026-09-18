@@ -1,5 +1,17 @@
 # Changelog
 
+## V3.6
+
+- Thêm cơ chế **tự đặt tên theme theo `8 số ngẫu nhiên không lặp + tên style`**.
+- Ví dụ: `58310427 Matrix Rain`, `94627130 Pixel Arcade`, `73140528 Halloween`.
+- 8 chữ số trong cùng một mã luôn khác nhau; chữ số đầu không phải `0` để luôn hiển thị đủ 8 chữ số.
+- Lưu lịch sử tối đa 10.000 mã đã sinh trong `localStorage` để hạn chế sinh lại cùng mã ở các lần dùng sau.
+- Khi chọn Preset: tự sinh mã mới + đúng tên preset/style.
+- Khi bấm `🎲 Ngẫu nhiên`: sinh cả style ngẫu nhiên và mã 8 số mới.
+- Khi bấm `🎲 Tên`: giữ tên style hiện tại và chỉ đổi sang mã 8 số mới.
+- Khi bấm `Mới`: tự tạo tên dạng `######## Custom`.
+- Theme ID và tên file `.vqeaf` tự đồng bộ theo tên mới khi Auto ID đang bật.
+
 ## V3.5
 
 - Sửa lỗi chỉnh **MENU/FPS** nhưng màu/style lại áp xuống các phím bên dưới.

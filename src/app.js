@@ -1,5 +1,5 @@
-import { presets, draggableComponents } from './presets.js?v=3.5.0';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.5.0';
+import { presets, draggableComponents } from './presets.js?v=3.6.0';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.6.0';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -343,7 +343,7 @@ function renderPresets() {
     d.style.setProperty('--p1',p.p1); d.style.setProperty('--p2',p.p2);
     d.innerHTML=`<strong>${p.name}</strong><small>${p.subtitle}</small>`;
     d.onclick=()=>commit(()=>{
-      state.themeId=p.id; state.themeName=p.name; state.autoId=true; state.theme=structuredClone(p.theme);
+      state.themeName=makeGeneratedThemeName(p.name); state.autoId=true; state.themeId=slugify(state.themeName); state.theme=structuredClone(p.theme);
       state.menuStyle=badgeStyleFromTheme('menu',state.theme);
       state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
     });
@@ -754,7 +754,7 @@ document.querySelector('[data-action="undo"]').onclick=undo;
 document.querySelector('[data-action="redo"]').onclick=redo;
 document.querySelector('[data-action="save"]').onclick=async()=>{await writeStore('manual',snapshot());toast('Đã lưu bản thủ công');};
 document.querySelector('[data-action="new"]').onclick=()=>commit(()=>{
-  const n=freshState(); const undo=state.undo,redo=state.redo; Object.assign(state,n);state.undo=undo;state.redo=redo;state.themeName='New Theme';state.themeId='new_theme';state.autoId=true;
+  const n=freshState(); const undo=state.undo,redo=state.redo; Object.assign(state,n);state.undo=undo;state.redo=redo;state.themeName=makeGeneratedThemeName('Custom');state.themeId=slugify(state.themeName);state.autoId=true;
 });
 document.querySelector('[data-action="random"]').onclick=()=>randomizeTheme();
 document.querySelector('[data-action="export"]').onclick=()=>{updateCode();download(`${state.themeId}.vqeaf`,serializeTheme(state));};
@@ -856,7 +856,7 @@ function randomizeTheme() {
     state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
     state.menuStyle.appearance=['solid','glass','outline','neon','pixel'][rand(0,5)];
     state.fpsStyle.appearance=['solid','glass','outline','neon','pixel'][rand(0,5)];
-    setRandomName();
+    setRandomName(randomStyleName());
     if(Math.random()>.45) {
       const count=rand(1,4); const types=[...draggableComponents]; state.decorations=[];
       for(let i=0;i<count;i++) {
@@ -867,11 +867,106 @@ function randomizeTheme() {
   });
   toast('Đã tạo theme ngẫu nhiên');
 }
-function setRandomName() {
+function randomStyleName() {
   const a=['Neon','Midnight','Solar','Lunar','Ghost','Aurora','Pixel','Velvet','Cyber','Nova','Crimson','Electric','Mystic','Retro','Dream'];
   const b=['Bloom','Ember','Night','Wave','Pulse','Sakura','Orbit','Phantom','Frost','Storm','Flame','Echo','Arcade','Glow','Shadow'];
-  state.themeName=`${a[rand(0,a.length)]} ${b[rand(0,b.length)]}`;
-  state.autoId=true; state.themeId=slugify(state.themeName);
+  return `${a[rand(0,a.length)]} ${b[rand(0,b.length)]}`;
+}
+
+function setRandomName(styleName=null) {
+  // Nút "🎲 Tên" giữ tên style hiện tại và chỉ sinh mã 8 số mới.
+  let style=styleName || stripGeneratedThemeCode(state.themeName);
+  if(!style || /^(new theme|untitled theme|custom)$/i.test(style)) {
+    style=randomStyleName();
+  }
+
+  state.themeName=makeGeneratedThemeName(style);
+  state.autoId=true;
+  state.themeId=slugify(state.themeName);
+}
+
+const GENERATED_CODE_STORAGE_KEY='vqeaf_used_8digit_theme_codes_v1';
+
+function makeGeneratedThemeName(styleName) {
+  const style=stripGeneratedThemeCode(String(styleName||'').trim()) || 'Custom';
+  return `${generateUnique8DigitCode()} ${style}`;
+}
+
+function stripGeneratedThemeCode(name) {
+  return String(name||'')
+    .replace(/^\d{8}(?:\s*[-–—_:]\s*|\s+)/,'')
+    .trim();
+}
+
+function generateUnique8DigitCode() {
+  const used=loadUsedThemeCodes();
+
+  // Sinh đúng 8 chữ số. Không có chữ số nào lặp trong cùng mã.
+  // Chữ số đầu luôn 1..9 để mã luôn có đủ 8 chữ số khi hiển thị.
+  for(let attempt=0;attempt<256;attempt++) {
+    const first=String(secureRandInt(1,10));
+    const remaining=['0','1','2','3','4','5','6','7','8','9'].filter(x=>x!==first);
+    shuffleInPlace(remaining);
+    const code=first+remaining.slice(0,7).join('');
+    if(!used.has(code)) {
+      used.add(code);
+      saveUsedThemeCodes(used);
+      return code;
+    }
+  }
+
+  // Fallback cực hiếm, vẫn bảo đảm không lặp chữ số và không trùng mã đã lưu.
+  while(true) {
+    const digits=['0','1','2','3','4','5','6','7','8','9'];
+    shuffleInPlace(digits);
+    if(digits[0]==='0') {
+      const swap=1+secureRandInt(0,9);
+      [digits[0],digits[swap]]=[digits[swap],digits[0]];
+    }
+    const code=digits.slice(0,8).join('');
+    if(!used.has(code)) {
+      used.add(code);
+      saveUsedThemeCodes(used);
+      return code;
+    }
+  }
+}
+
+function loadUsedThemeCodes() {
+  try {
+    const raw=JSON.parse(localStorage.getItem(GENERATED_CODE_STORAGE_KEY)||'[]');
+    return new Set(Array.isArray(raw) ? raw.filter(x=>/^\d{8}$/.test(String(x))) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveUsedThemeCodes(set) {
+  try {
+    const values=Array.from(set);
+    localStorage.setItem(GENERATED_CODE_STORAGE_KEY,JSON.stringify(values.slice(-10000)));
+  } catch {
+    // Nếu localStorage bị khóa, việc tạo theme vẫn tiếp tục bình thường.
+  }
+}
+
+function shuffleInPlace(array) {
+  for(let i=array.length-1;i>0;i--) {
+    const j=secureRandInt(0,i+1);
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
+}
+
+function secureRandInt(min,max) {
+  const span=max-min;
+  if(span<=0) return min;
+  if(globalThis.crypto?.getRandomValues) {
+    const buf=new Uint32Array(1);
+    globalThis.crypto.getRandomValues(buf);
+    return min+(buf[0]%span);
+  }
+  return min+Math.floor(Math.random()*span);
 }
 
 function slugify(s) {
