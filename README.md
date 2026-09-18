@@ -75,3 +75,10 @@ Studio xuất thêm các cấu hình:
 - `layerOrder` gồm `frameBackground`
 
 Android VQEAF Engine cần renderer tương ứng cho image resource Data URI và các transform này.
+
+## Sở hữu & Liên hệ
+
+Dự án thuộc sở hữu bởi [https://qeafivels.com/](https://qeafivels.com/).
+
+- Website: https://qeafivels.com/
+- Email: dohop96@gmail.com
