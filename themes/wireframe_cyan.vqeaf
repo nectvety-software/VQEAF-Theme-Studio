@@ -1,0 +1,186 @@
+@vqeaf 1.0
+
+<theme id="wireframe_cyan" name="Wireframe Cyan">
+
+    metadata {
+        author: "Qeafivels Software"
+        version: "1.0.0"
+        description: "Theme created with VQEAF Theme Studio"
+    }
+
+    studio {
+        orientation: "portrait"
+        autoId: false
+        layerOrder: [ "frameBackground", "frameFx", "screen", "keypad", "decorations", "network", "badges" ]
+        frameFxOpacity: 0.12
+        frameFxBlend: "screen"
+    }
+
+    palette {
+        shellTop: "#12384A"
+        shellBottom: "#04111A"
+        shellBorder: "#2A6A80"
+        screen: "#01060A"
+        key: "#15465B"
+        keyPressed: "#1F607A"
+        keyBorder: "#76F8FF"
+        keyText: "#EAFEFF"
+        subText: "#9FD5DD"
+        accent: "#76F8FF"
+        glow: "#3CEEFF"
+    }
+
+    metrics {
+        shellRadius: 17dp
+        keyRadius: 5dp
+        keyBorder: 1dp
+    }
+
+    <component id="phoneShell" type="container">
+        shape {
+            type: rect
+            radius: $metrics.shellRadius
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ $palette.shellTop, $palette.shellBottom ]
+            }
+            stroke { width: 1.5dp color: $palette.shellBorder }
+        }
+        background {
+            source: null
+            opacity: 0.45
+            fit: "cover"
+            blend: "overlay"
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+            brightness: 1.00
+            contrast: 1.00
+            saturation: 1.00
+            clipToFrameShape: true
+            raised: false
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+        }
+        effect {
+            frameFxOpacity: 0.12
+            frameFxBlend: "screen"
+            floating: false
+            floatAmplitude: 6dp
+            floatDuration: 3200ms
+            floatShadow: 30dp
+        }
+        
+    </component>
+
+    <component id="screen" type="panel">
+        shape { radius: 4dp fill: $palette.screen }
+    </component>
+
+    <component id="key" type="button">
+        shape {
+            radius: $metrics.keyRadius
+            fill: $palette.key
+            stroke { width: $metrics.keyBorder color: $palette.keyBorder }
+        }
+        text { color: $palette.keyText weight: 700 align: center }
+        glow { color: $palette.glow radius: 12dp strength: 0.75 }
+        <state name="pressed">
+            shape { fill: $palette.keyPressed }
+            transform { scale: 0.98 }
+        </state>
+    </component>
+
+
+
+    <component id="keypad" type="container">
+        background {
+            source: null
+            opacity: 0.42
+            fit: "cover"
+            blend: "soft-light"
+            position: "below"
+            renderMode: "per-key-texture"
+            textureMode: "per-key"
+            brightness: 1.00
+            contrast: 1.08
+            saturation: 1.00
+            readabilityAssist: true
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+        }
+    </component>
+
+    <component id="networkLed" type="view">
+        shape { fill: $palette.accent radius: 99dp }
+    </component>
+
+    <component id="menuButton" type="badge">
+        appearance: "solid"
+        shape {
+            radius: 18dp
+            fill: "#15465B"
+            stroke { width: 1dp color: "#76F8FF" }
+        }
+        text {
+            color: "#EAFEFF"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#76F8FF"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#3CEEFF" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="fpsBadge" type="badge">
+        appearance: "glass"
+        shape {
+            radius: 18dp
+            fill: "#04111A"
+            stroke { width: 1dp color: "#2A6A80" }
+        }
+        text {
+            color: "#9FD5DD"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#76F8FF"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#3CEEFF" radius: 6dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+
+
+
+
+
+
+
+
+
+
+</theme>

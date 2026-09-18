@@ -454,7 +454,7 @@ function renderButtonBuilder() {
   [['Bình thường','normal'],['Nhấn','pressed'],['Tắt','disabled']].forEach(([label,value])=>{ const b=document.createElement('button'); b.textContent=label; b.classList.toggle('active',state.buttonBuilder.previewState===value); b.onclick=()=>{state.buttonBuilder.previewState=value;renderButtonBuilder();scheduleAutosave();}; states.appendChild(b); });
   els.buttonBuilder.appendChild(states);
 
-  const title=document.createElement('div'); title.className='section-title-row compact-title'; title.innerHTML='<h2>Preset nút</h2><span class="badge">12 mẫu</span>'; els.buttonBuilder.appendChild(title);
+  const title=document.createElement('div'); title.className='section-title-row compact-title'; title.innerHTML=`<h2>Preset nút</h2><span class="badge">${buttonPresets.length} mẫu</span>`; els.buttonBuilder.appendChild(title);
   const grid=document.createElement('div'); grid.className='button-preset-grid';
   buttonPresets.forEach(p=>{ const b=document.createElement('button'); b.className='button-preset-card'; b.classList.toggle('active',state.buttonBuilder.presetId===p.id); b.style.setProperty('--swatch',p.swatch); b.innerHTML=`<span></span><small>${p.name}</small>`; b.onclick=()=>commit(()=>applyPresetToTarget(p.id)); grid.appendChild(b); });
   els.buttonBuilder.appendChild(grid);
@@ -518,6 +518,17 @@ function renderPresets() {
       state.themeName=makeGeneratedThemeName(p.name); state.autoId=true; state.themeId=slugify(state.themeName); state.theme=structuredClone(p.theme);
       state.menuStyle=badgeStyleFromTheme('menu',state.theme);
       state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
+      if(p.buttonMap) {
+        const next={};
+        for(const [keyId,presetId] of Object.entries(p.buttonMap)) {
+          const found=buttonPresets.find(x=>x.id===presetId);
+          if(found) next[keyId]=structuredClone(found.style);
+        }
+        state.buttonStyles=next;
+        state.buttonBuilder.presetId='candy_green';
+      } else {
+        state.buttonStyles={};
+      }
     });
     els.presetGrid.appendChild(d);
   });

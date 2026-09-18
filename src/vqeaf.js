@@ -321,7 +321,14 @@ function vectorFor(id) {
     web: '<path stroke="#DCC6FF" strokeWidth=1 fill="#00000000" data="M0,0 L24,24 M12,0 L12,24 M0,12 L24,12 M2,2 C9,8 15,8 22,2"></path>',
     ghost: '<path fill="#FFFFFF" data="M6,20 V10 C6,5 9,3 12,3 C16,3 18,6 18,10 V20 L15,18 L12,20 L9,18 Z"></path>',
     star: '<path fill="#FFD45A" data="M12,2 L15,9 L22,9 L16,13 L18,21 L12,16 L6,21 L8,13 L2,9 L9,9 Z"></path>',
-    badge: '<path fill="#65DC96" data="M12,3 A9,9 0 1,0 12,21 A9,9 0 1,0 12,3"></path>'
+    badge: '<path fill="#65DC96" data="M12,3 A9,9 0 1,0 12,21 A9,9 0 1,0 12,3"></path>',
+    flower: '<path fill="#FF9BC5" data="M12,4 C10,4 9,6 9,8 C7,8 5,9 5,11 C5,13 7,14 9,14 C9,16 10,18 12,18 C14,18 15,16 15,14 C17,14 19,13 19,11 C19,9 17,8 15,8 C15,6 14,4 12,4 Z"></path>',
+    leaf: '<path fill="#6EDB91" data="M5,19 C5,11 11,5 19,5 C19,13 13,19 5,19 Z"></path>',
+    cloud: '<path fill="#D8F5FF" data="M7,18 C4,18 3,16 3,14 C3,12 5,11 6,11 C7,8 9,7 12,7 C15,7 17,9 17,11 C19,11 21,12 21,14 C21,16 20,18 17,18 Z"></path>',
+    gem: '<path fill="#B04BFF" data="M8,4 L16,4 L20,9 L12,20 L4,9 Z"></path>',
+    sparkle: '<path fill="#FFF3B0" data="M12,3 L13,10 L20,12 L13,14 L12,21 L11,14 L4,12 L11,10 Z"></path>',
+    chest: '<path fill="#C87942" data="M4,10 L20,10 L20,18 L4,18 Z"></path>',
+    slime: '<path fill="#50DCC8" data="M7,20 C5,16 6,12 8,10 C10,6 14,6 16,10 C18,12 19,16 17,20 Z"></path>'
   };
   return `    <vector id="${id}">
         width: 24dp

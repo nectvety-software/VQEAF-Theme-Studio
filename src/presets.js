@@ -206,6 +206,102 @@ export const presets = [
   {
     id: 'comic_pop', name: 'Comic Pop', subtitle: 'Pop art vui mắt', p1:'#FFD93D', p2:'#FF5DA2',
     theme: { shellTop:'#4266D4', shellBottom:'#1D2C60', shellBorder:'#93A9F6', screen:'#10162D', key:'#5E7AEB', keyPressed:'#7A93F5', keyBorder:'#FFE357', keyText:'#FFFFFF', sub:'#FFF3B0', accent:'#6CFFB8', glow:'#FFD93D', radius:26, keyRadius:10 }
+  },
+  {
+    id: 'candy_adventure', name: 'Candy Adventure', subtitle: 'Candy giống ảnh mẫu', p1:'#FFB13B', p2:'#1A2740',
+    theme: { shellTop:'#1D2C4A', shellBottom:'#0B1424', shellBorder:'#33496E', screen:'#07101B', key:'#2A3B58', keyPressed:'#3D5378', keyBorder:'#4A6488', keyText:'#FFFFFF', sub:'#A8BDD6', accent:'#FFB13B', glow:'#FF9BC5', radius:22, keyRadius:12 },
+    buttonMap: {
+      menu: 'cloud_blue', up: 'magic_purple', rsk: 'cloud_blue',
+      left: 'candy_pink', ok: 'star_orange', right: 'candy_green', down: 'magic_purple',
+      1: 'candy_green', 2: 'candy_pink', 3: 'cloud_blue',
+      4: 'magic_purple', 5: 'star_orange', 6: 'aqua_slime',
+      7: 'cloud_blue', 8: 'candy_pink', 9: 'magic_purple',
+      '*': 'star_orange', 0: 'ice_glass', '#': 'candy_green'
+    }
+  },
+  {
+    id: 'split_gaze', name: 'Split Gaze', subtitle: 'Hồng neon + xanh deep', p1:'#FF0A5C', p2:'#0B3D66',
+    theme: { shellTop:'#2B0A22', shellBottom:'#071626', shellBorder:'#FF2F7E', screen:'#04070C', key:'#1B2340', keyPressed:'#33204A', keyBorder:'#FF2F92', keyText:'#FFFFFF', sub:'#9FB8D8', accent:'#00C2FF', glow:'#FF0A5C', radius:18, keyRadius:10 },
+    buttonMap: {
+      menu: 'gaze_blue', up: 'gaze_pink', rsk: 'gaze_blue',
+      left: 'gaze_pink', ok: 'gaze_pale', right: 'gaze_blue', down: 'gaze_pink',
+      1: 'gaze_pink', 2: 'gaze_pale', 3: 'gaze_blue',
+      4: 'gaze_pink', 5: 'gaze_pale', 6: 'gaze_blue',
+      7: 'gaze_pink', 8: 'gaze_pale', 9: 'gaze_blue',
+      '*': 'gaze_pink', 0: 'gaze_pale', '#': 'gaze_blue'
+    }
+  },
+  {
+    id: 'pixel_midnight', name: 'Pixel Midnight', subtitle: 'Pixel đêm neon', p1:'#7B6CFF', p2:'#1B154A',
+    theme: { shellTop:'#141B3D', shellBottom:'#05070F', shellBorder:'#3B4ED8', screen:'#02040A', key:'#141C3A', keyPressed:'#26306B', keyBorder:'#4D5DF0', keyText:'#EAF0FF', sub:'#8FA3E8', accent:'#7B6CFF', glow:'#7B6CFF', radius:12, keyRadius:3 },
+    buttonMap: {
+      menu: 'pixel_sky', up: 'pixel_amber', rsk: 'pixel_sky',
+      left: 'pixel_rose', ok: 'pixel_amber', right: 'pixel_lime', down: 'pixel_rose',
+      1: 'pixel_sky', 2: 'pixel_lime', 3: 'pixel_amber',
+      4: 'pixel_rose', 5: 'pixel_amber', 6: 'pixel_sky',
+      7: 'pixel_lime', 8: 'pixel_rose', 9: 'pixel_sky',
+      '*': 'pixel_rose', 0: 'pixel_amber', '#': 'pixel_lime'
+    }
+  },
+  {
+    id: 'pixel_dungeon', name: 'Pixel Dungeon', subtitle: 'Hầm ngục hổ phách', p1:'#FFB33A', p2:'#3A2116',
+    theme: { shellTop:'#4A2E18', shellBottom:'#120B06', shellBorder:'#A8792E', screen:'#0A0703', key:'#3A2413', keyPressed:'#5C3A1C', keyBorder:'#C89236', keyText:'#FFE9C4', sub:'#CAA65F', accent:'#FFB33A', glow:'#FF9D1C', radius:12, keyRadius:3 },
+    buttonMap: {
+      menu: 'pixel_amber', up: 'pixel_rose', rsk: 'pixel_amber',
+      left: 'pixel_lime', ok: 'pixel_amber', right: 'pixel_rose', down: 'pixel_lime',
+      1: 'pixel_amber', 2: 'pixel_rose', 3: 'pixel_lime',
+      4: 'pixel_lime', 5: 'pixel_amber', 6: 'pixel_rose',
+      7: 'pixel_rose', 8: 'pixel_amber', 9: 'pixel_lime',
+      '*': 'pixel_rose', 0: 'pixel_amber', '#': 'pixel_lime'
+    }
+  },
+  {
+    id: 'pixel_tide', name: 'Pixel Tide', subtitle: 'Pixel biển sâu', p1:'#3FC7FF', p2:'#06345F',
+    theme: { shellTop:'#0B2A3F', shellBottom:'#02090F', shellBorder:'#1F7A9E', screen:'#010507', key:'#0C2E44', keyPressed:'#155A7A', keyBorder:'#3FC7FF', keyText:'#EAFBFF', sub:'#8FD0E8', accent:'#00E5FF', glow:'#00E5FF', radius:12, keyRadius:3 },
+    buttonMap: {
+      menu: 'pixel_sky', up: 'pixel_lime', rsk: 'pixel_sky',
+      left: 'pixel_lime', ok: 'pixel_amber', right: 'pixel_sky', down: 'pixel_lime',
+      1: 'pixel_sky', 2: 'pixel_lime', 3: 'pixel_sky',
+      4: 'pixel_lime', 5: 'pixel_amber', 6: 'pixel_sky',
+      7: 'pixel_lime', 8: 'pixel_sky', 9: 'pixel_lime',
+      '*': 'pixel_sky', 0: 'pixel_amber', '#': 'pixel_lime'
+    }
+  },
+  {
+    id: 'pixel_blossom', name: 'Pixel Blossom', subtitle: 'Pixel hoa anh đào', p1:'#FF7EB6', p2:'#4C1E3A',
+    theme: { shellTop:'#55223C', shellBottom:'#150810', shellBorder:'#C94E89', screen:'#0D0509', key:'#5E2A44', keyPressed:'#8A3E60', keyBorder:'#F472B6', keyText:'#FFF0F6', sub:'#E8A7C4', accent:'#FF7EB6', glow:'#FF7EB6', radius:14, keyRadius:4 },
+    buttonMap: {
+      menu: 'pixel_rose', up: 'pixel_amber', rsk: 'pixel_rose',
+      left: 'candy_pink', ok: 'pixel_amber', right: 'sakura_gloss', down: 'candy_pink',
+      1: 'pixel_rose', 2: 'candy_pink', 3: 'sakura_gloss',
+      4: 'sakura_gloss', 5: 'pixel_amber', 6: 'pixel_rose',
+      7: 'candy_pink', 8: 'sakura_gloss', 9: 'pixel_rose',
+      '*': 'pixel_amber', 0: 'candy_pink', '#': 'sakura_gloss'
+    }
+  },
+  {
+    id: 'pop_thunder', name: 'Pop Thunder', subtitle: 'Truyện tranh đỏ vàng xanh', p1:'#F5382C', p2:'#1D2C60',
+    theme: { shellTop:'#7A1E1E', shellBottom:'#160809', shellBorder:'#141414', screen:'#0B0505', key:'#2A2A2A', keyPressed:'#4A4A4A', keyBorder:'#141414', keyText:'#FFFFFF', sub:'#FFD93D', accent:'#FFD93D', glow:'#1D6FF2', radius:14, keyRadius:8 },
+    buttonMap: {
+      menu: 'pop_blue', up: 'pop_yellow', rsk: 'pop_blue',
+      left: 'pop_red', ok: 'pop_yellow', right: 'pop_red', down: 'pop_blue',
+      1: 'pop_red', 2: 'pop_blue', 3: 'pop_yellow',
+      4: 'pop_yellow', 5: 'pop_red', 6: 'pop_blue',
+      7: 'pop_blue', 8: 'pop_yellow', 9: 'pop_red',
+      '*': 'pop_red', 0: 'pop_yellow', '#': 'pop_blue'
+    }
+  },
+  {
+    id: 'pop_bubble', name: 'Pop Bubble', subtitle: 'Kẹo cao su xanh hồng', p1:'#FF5DA2', p2:'#35E7FF',
+    theme: { shellTop:'#77295E', shellBottom:'#170B22', shellBorder:'#141414', screen:'#0D0614', key:'#3A1E4E', keyPressed:'#5C2E78', keyBorder:'#FF8FC4', keyText:'#FFFFFF', sub:'#FFD3E8', accent:'#35E7FF', glow:'#FF5DA2', radius:16, keyRadius:9 },
+    buttonMap: {
+      menu: 'pop_blue', up: 'pop_red', rsk: 'pop_blue',
+      left: 'pop_yellow', ok: 'gaze_pale', right: 'pop_red', down: 'pop_yellow',
+      1: 'pop_red', 2: 'pop_yellow', 3: 'pop_blue',
+      4: 'pop_blue', 5: 'gaze_pale', 6: 'pop_red',
+      7: 'pop_yellow', 8: 'pop_blue', 9: 'pop_red',
+      '*': 'pop_red', 0: 'gaze_pale', '#': 'pop_blue'
+    }
   }
 ];
 
@@ -214,7 +310,14 @@ export const draggableComponents = [
   { type:'bat', label:'Dơi', icon:'🦇' },
   { type:'web', label:'Mạng nhện', icon:'🕸️' },
   { type:'ghost', label:'Ma', icon:'👻' },
-  { type:'star', label:'Ngôi sao', icon:'✦' },
+  { type:'star', label:'Ngôi sao', icon:'⭐' },
+  { type:'flower', label:'Hoa', icon:'🌸' },
+  { type:'leaf', label:'Lá', icon:'🌿' },
+  { type:'cloud', label:'Mây', icon:'☁️' },
+  { type:'gem', label:'Ngọc', icon:'💎' },
+  { type:'sparkle', label:'Lấp lánh', icon:'✨' },
+  { type:'chest', label:'Rương', icon:'🧰' },
+  { type:'slime', label:'Slime', icon:'💧' },
   { type:'badge', label:'Badge', icon:'●' }
 ];
 
@@ -230,7 +333,17 @@ export const buttonPresets = [
   { id:'sakura_gloss', name:'Sakura Gloss', swatch:'#F697C3', style:{ colorA:'#FFD0E2', colorB:'#F48FBF', colorC:'#D55D98', pressedA:'#E992B7', pressedB:'#BE4E86', border:'#FFF1F7', text:'#FFFFFF', textOutline:'#C34D86', radius:20, borderWidth:2, shadow:'#00000044', shadowBlur:12, shadowY:4, glow:'#FFB1D2', glowRadius:5, gloss:true, glossOpacity:.5, fontSize:14, fontWeight:900, decorLeft:'flower', decorRight:'leaf', disabledOpacity:.45, disabledSaturation:.25 } },
   { id:'rpg_gem', name:'RPG Gem', swatch:'#8B5CF6', style:{ colorA:'#CDB7FF', colorB:'#8E66F3', colorC:'#5735C2', pressedA:'#9C7CEC', pressedB:'#482BA6', border:'#EEE8FF', text:'#FFFFFF', textOutline:'#4B2EAE', radius:15, borderWidth:2, shadow:'#00000066', shadowBlur:12, shadowY:5, glow:'#A987FF', glowRadius:8, gloss:true, glossOpacity:.38, fontSize:14, fontWeight:900, decorLeft:'gem', decorRight:'sparkle', disabledOpacity:.42, disabledSaturation:.2 } },
   { id:'arcade_red', name:'Arcade Red', swatch:'#FF5E59', style:{ colorA:'#FF958F', colorB:'#FF5E59', colorC:'#B92935', pressedA:'#E96161', pressedB:'#992331', border:'#FFD9D7', text:'#FFFFFF', textOutline:'#A71F2D', radius:10, borderWidth:2, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FF5D61', glowRadius:3, gloss:true, glossOpacity:.28, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'star', disabledOpacity:.4, disabledSaturation:.2 } },
-  { id:'ice_glass', name:'Ice Glass', swatch:'#8DDBFF', style:{ colorA:'#D8F5FF', colorB:'#88D8FB', colorC:'#3A9ED8', pressedA:'#9ED8F1', pressedB:'#3389BC', border:'#F2FCFF', text:'#FFFFFF', textOutline:'#2B82BA', radius:20, borderWidth:2, shadow:'#00000044', shadowBlur:12, shadowY:4, glow:'#A8EBFF', glowRadius:7, gloss:true, glossOpacity:.58, fontSize:14, fontWeight:900, decorLeft:'cloud', decorRight:'sparkle', disabledOpacity:.45, disabledSaturation:.22 } }
+  { id:'ice_glass', name:'Ice Glass', swatch:'#8DDBFF', style:{ colorA:'#D8F5FF', colorB:'#88D8FB', colorC:'#3A9ED8', pressedA:'#9ED8F1', pressedB:'#3389BC', border:'#F2FCFF', text:'#FFFFFF', textOutline:'#2B82BA', radius:20, borderWidth:2, shadow:'#00000044', shadowBlur:12, shadowY:4, glow:'#A8EBFF', glowRadius:7, gloss:true, glossOpacity:.58, fontSize:14, fontWeight:900, decorLeft:'cloud', decorRight:'sparkle', disabledOpacity:.45, disabledSaturation:.22 } },
+  { id:'gaze_pink', name:'Gaze Pink', swatch:'#FF0A5C', style:{ colorA:'#FF6FA0', colorB:'#FF0A5C', colorC:'#B3003F', pressedA:'#E84A7E', pressedB:'#8F0030', border:'#FFE3EE', text:'#FFFFFF', textOutline:'#8A0030', radius:14, borderWidth:2, shadow:'#00000066', shadowBlur:10, shadowY:4, glow:'#FF2F92', glowRadius:7, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.25 } },
+  { id:'gaze_blue', name:'Gaze Blue', swatch:'#0E5A8A', style:{ colorA:'#4EA8DE', colorB:'#0E5A8A', colorC:'#083A5C', pressedA:'#2E7CA8', pressedB:'#062A44', border:'#DFF4FF', text:'#FFFFFF', textOutline:'#062A44', radius:14, borderWidth:2, shadow:'#00000066', shadowBlur:10, shadowY:4, glow:'#00B4D8', glowRadius:7, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.25 } },
+  { id:'gaze_pale', name:'Gaze Pale', swatch:'#FFF5F5', style:{ colorA:'#FFFFFF', colorB:'#FFE8EE', colorC:'#D8A8BC', pressedA:'#F2D8E0', pressedB:'#B9889C', border:'#FFFFFF', text:'#400A25', textOutline:'#FFFFFF', radius:14, borderWidth:2, shadow:'#00000055', shadowBlur:10, shadowY:4, glow:'#FFD8E6', glowRadius:5, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.25 } },
+  { id:'pixel_sky', name:'Pixel Sky', swatch:'#38BDF8', style:{ colorA:'#8FD8FF', colorB:'#2E9BDE', colorC:'#0E5A8A', pressedA:'#6FBCE8', pressedB:'#0B4A70', border:'#DFF4FF', text:'#FFFFFF', textOutline:'#0C4A6E', radius:3, borderWidth:2, shadow:'#00000088', shadowBlur:0, shadowY:4, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.15 } },
+  { id:'pixel_lime', name:'Pixel Lime', swatch:'#84CC16', style:{ colorA:'#D3F78A', colorB:'#7BC043', colorC:'#3F7A1E', pressedA:'#A8DE5E', pressedB:'#356313', border:'#F4FFDC', text:'#FFFFFF', textOutline:'#365314', radius:3, borderWidth:2, shadow:'#00000088', shadowBlur:0, shadowY:4, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.15 } },
+  { id:'pixel_rose', name:'Pixel Rose', swatch:'#FB4D6D', style:{ colorA:'#FF9EB0', colorB:'#F43F5E', colorC:'#9F1239', pressedA:'#E85A75', pressedB:'#881337', border:'#FFE4E6', text:'#FFFFFF', textOutline:'#4C0519', radius:3, borderWidth:2, shadow:'#00000088', shadowBlur:0, shadowY:4, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.15 } },
+  { id:'pixel_amber', name:'Pixel Amber', swatch:'#FFB800', style:{ colorA:'#FFE45E', colorB:'#FFB800', colorC:'#B45309', pressedA:'#F2C230', pressedB:'#92400E', border:'#FFF6D6', text:'#FFFFFF', textOutline:'#713F12', radius:3, borderWidth:2, shadow:'#00000088', shadowBlur:0, shadowY:4, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.15 } },
+  { id:'pop_red', name:'Pop Red', swatch:'#F5382C', style:{ colorA:'#FF8A80', colorB:'#F5382C', colorC:'#A31212', pressedA:'#E86055', pressedB:'#7F1D1D', border:'#141414', text:'#FFFFFF', textOutline:'#141414', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFD93D', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'pop_blue', name:'Pop Blue', swatch:'#1D6FF2', style:{ colorA:'#6EC6FF', colorB:'#1D6FF2', colorC:'#0B2E9E', pressedA:'#4A9BE8', pressedB:'#0A2470', border:'#141414', text:'#FFFFFF', textOutline:'#0A0A0A', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#7DD3FC', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'pop_yellow', name:'Pop Yellow', swatch:'#FFB800', style:{ colorA:'#FFE45E', colorB:'#FFB800', colorC:'#E07B00', pressedA:'#F2C230', pressedB:'#B45309', border:'#141414', text:'#231400', textOutline:'#FFFFFF', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFF3B0', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } }
 ];
 
 export const buttonDecorations = [

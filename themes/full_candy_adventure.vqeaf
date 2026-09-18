@@ -1,0 +1,835 @@
+@vqeaf 1.0
+
+<theme id="candy_adventure" name="Candy Adventure">
+
+    metadata {
+        author: "Qeafivels Software"
+        version: "1.0.0"
+        description: "Theme created with VQEAF Theme Studio"
+    }
+
+    studio {
+        orientation: "portrait"
+        autoId: false
+        layerOrder: [ "frameBackground", "frameFx", "screen", "keypad", "decorations", "network", "badges" ]
+        frameFxOpacity: 0.12
+        frameFxBlend: "screen"
+    }
+
+    palette {
+        shellTop: "#1D2C4A"
+        shellBottom: "#0B1424"
+        shellBorder: "#33496E"
+        screen: "#07101B"
+        key: "#2A3B58"
+        keyPressed: "#3D5378"
+        keyBorder: "#4A6488"
+        keyText: "#FFFFFF"
+        subText: "#A8BDD6"
+        accent: "#FFB13B"
+        glow: "#FF9BC5"
+    }
+
+    metrics {
+        shellRadius: 22dp
+        keyRadius: 12dp
+        keyBorder: 1dp
+    }
+
+    <component id="phoneShell" type="container">
+        shape {
+            type: rect
+            radius: $metrics.shellRadius
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ $palette.shellTop, $palette.shellBottom ]
+            }
+            stroke { width: 1.5dp color: $palette.shellBorder }
+        }
+        background {
+            source: @frame_background
+            opacity: 1.00
+            fit: "cover"
+            blend: "normal"
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+            brightness: 1.00
+            contrast: 1.00
+            saturation: 1.00
+            clipToFrameShape: true
+            raised: false
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+        }
+        effect {
+            frameFxOpacity: 0.12
+            frameFxBlend: "screen"
+            floating: false
+            floatAmplitude: 6dp
+            floatDuration: 3200ms
+            floatShadow: 30dp
+        }
+        
+    </component>
+
+    <component id="screen" type="panel">
+        shape { radius: 4dp fill: $palette.screen }
+    </component>
+
+    <component id="key" type="button">
+        shape {
+            radius: $metrics.keyRadius
+            fill: $palette.key
+            stroke { width: $metrics.keyBorder color: $palette.keyBorder }
+        }
+        text { color: $palette.keyText weight: 700 align: center }
+        glow { color: $palette.glow radius: 12dp strength: 0.75 }
+        <state name="pressed">
+            shape { fill: $palette.keyPressed }
+            transform { scale: 0.98 }
+        </state>
+    </component>
+
+    <component id="keyStyle_0" type="button-style">
+        target: "0"
+        preset: "ice_glass"
+        shape {
+            type: "capsule"
+            radius: 20dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#D8F5FF", "#88D8FB", "#3A9ED8" ]
+            }
+            stroke { width: 2dp color: "#F2FCFF" }
+        }
+        shadow { color: "#00000044" y: 4dp blur: 12dp }
+        glow { color: "#A8EBFF" radius: 7dp }
+        gloss { enabled: true opacity: 0.58 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#2B82BA"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "sparkle" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#9ED8F1", "#3389BC" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.22
+        </state>
+    </component>
+
+    <component id="keyStyle_1" type="button-style">
+        target: "1"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_2" type="button-style">
+        target: "2"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_3" type="button-style">
+        target: "3"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_4" type="button-style">
+        target: "4"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_5" type="button-style">
+        target: "5"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_6" type="button-style">
+        target: "6"
+        preset: "aqua_slime"
+        shape {
+            type: "capsule"
+            radius: 20dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98F2E3", "#4CD9C5", "#27A99C" ]
+            }
+            stroke { width: 2dp color: "#E4FFFB" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#6DFFE9" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1D8F87"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "sparkle" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#62D8C7", "#238C84" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_7" type="button-style">
+        target: "7"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_8" type="button-style">
+        target: "8"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_9" type="button-style">
+        target: "9"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_menu" type="button-style">
+        target: "menu"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_up" type="button-style">
+        target: "up"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_rsk" type="button-style">
+        target: "rsk"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_left" type="button-style">
+        target: "left"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_ok" type="button-style">
+        target: "ok"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_right" type="button-style">
+        target: "right"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_down" type="button-style">
+        target: "down"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_star" type="button-style">
+        target: "*"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_pound" type="button-style">
+        target: "#"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keypad" type="container">
+        background {
+            source: null
+            opacity: 0.42
+            fit: "cover"
+            blend: "soft-light"
+            position: "below"
+            renderMode: "per-key-texture"
+            textureMode: "per-key"
+            brightness: 1.00
+            contrast: 1.08
+            saturation: 1.00
+            readabilityAssist: true
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+        }
+    </component>
+
+    <component id="networkLed" type="view">
+        shape { fill: $palette.accent radius: 99dp }
+    </component>
+
+    <component id="menuButton" type="badge">
+        appearance: "outline"
+        shape {
+            radius: 18dp
+            fill: "#2A3B58"
+            stroke { width: 1dp color: "#4A6488" }
+        }
+        text {
+            color: "#FFFFFF"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FFB13B"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF9BC5" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="fpsBadge" type="badge">
+        appearance: "outline"
+        shape {
+            radius: 18dp
+            fill: "#0B1424"
+            stroke { width: 1dp color: "#33496E" }
+        }
+        text {
+            color: "#A8BDD6"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FFB13B"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF9BC5" radius: 6dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+
+
+    <resource id="frame_background" type="image">
+        name: "08301671-39ce-41c4-bb1a-029e58cde5c9.jpg"
+        mime: "image/webp"
+        encoding: "data-uri"
+        data: "data:image/webp;base64,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"
+    </resource>
+
+
+
+
+
+
+
+</theme>

@@ -1,0 +1,830 @@
+@vqeaf 1.0
+
+<theme id="candy_adventure" name="Candy Adventure">
+
+    metadata {
+        author: "Qeafivels Software"
+        version: "1.0.0"
+        description: "Theme created with VQEAF Theme Studio"
+    }
+
+    studio {
+        orientation: "portrait"
+        autoId: false
+        layerOrder: [ "frameBackground", "frameFx", "screen", "keypad", "decorations", "network", "badges" ]
+        frameFxOpacity: 0.12
+        frameFxBlend: "screen"
+    }
+
+    palette {
+        shellTop: "#1D2C4A"
+        shellBottom: "#0B1424"
+        shellBorder: "#33496E"
+        screen: "#07101B"
+        key: "#2A3B58"
+        keyPressed: "#3D5378"
+        keyBorder: "#4A6488"
+        keyText: "#FFFFFF"
+        subText: "#A8BDD6"
+        accent: "#FFB13B"
+        glow: "#FF9BC5"
+    }
+
+    metrics {
+        shellRadius: 22dp
+        keyRadius: 12dp
+        keyBorder: 1dp
+    }
+
+    <component id="phoneShell" type="container">
+        shape {
+            type: rect
+            radius: $metrics.shellRadius
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ $palette.shellTop, $palette.shellBottom ]
+            }
+            stroke { width: 1.5dp color: $palette.shellBorder }
+        }
+        background {
+            source: null
+            opacity: 0.45
+            fit: "cover"
+            blend: "overlay"
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+            brightness: 1.00
+            contrast: 1.00
+            saturation: 1.00
+            clipToFrameShape: true
+            raised: false
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+        }
+        effect {
+            frameFxOpacity: 0.12
+            frameFxBlend: "screen"
+            floating: false
+            floatAmplitude: 6dp
+            floatDuration: 3200ms
+            floatShadow: 30dp
+        }
+        
+    </component>
+
+    <component id="screen" type="panel">
+        shape { radius: 4dp fill: $palette.screen }
+    </component>
+
+    <component id="key" type="button">
+        shape {
+            radius: $metrics.keyRadius
+            fill: $palette.key
+            stroke { width: $metrics.keyBorder color: $palette.keyBorder }
+        }
+        text { color: $palette.keyText weight: 700 align: center }
+        glow { color: $palette.glow radius: 12dp strength: 0.75 }
+        <state name="pressed">
+            shape { fill: $palette.keyPressed }
+            transform { scale: 0.98 }
+        </state>
+    </component>
+
+    <component id="keyStyle_0" type="button-style">
+        target: "0"
+        preset: "ice_glass"
+        shape {
+            type: "capsule"
+            radius: 20dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#D8F5FF", "#88D8FB", "#3A9ED8" ]
+            }
+            stroke { width: 2dp color: "#F2FCFF" }
+        }
+        shadow { color: "#00000044" y: 4dp blur: 12dp }
+        glow { color: "#A8EBFF" radius: 7dp }
+        gloss { enabled: true opacity: 0.58 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#2B82BA"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "sparkle" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#9ED8F1", "#3389BC" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.22
+        </state>
+    </component>
+
+    <component id="keyStyle_1" type="button-style">
+        target: "1"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_2" type="button-style">
+        target: "2"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_3" type="button-style">
+        target: "3"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_4" type="button-style">
+        target: "4"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_5" type="button-style">
+        target: "5"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_6" type="button-style">
+        target: "6"
+        preset: "aqua_slime"
+        shape {
+            type: "capsule"
+            radius: 20dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98F2E3", "#4CD9C5", "#27A99C" ]
+            }
+            stroke { width: 2dp color: "#E4FFFB" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#6DFFE9" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1D8F87"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "sparkle" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#62D8C7", "#238C84" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_7" type="button-style">
+        target: "7"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_8" type="button-style">
+        target: "8"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_9" type="button-style">
+        target: "9"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_menu" type="button-style">
+        target: "menu"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_up" type="button-style">
+        target: "up"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_rsk" type="button-style">
+        target: "rsk"
+        preset: "cloud_blue"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#98E4FF", "#4BBDF6", "#2789DC" ]
+            }
+            stroke { width: 2dp color: "#E8FAFF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#79D8FF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#1F78C9"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "cloud" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#65C5EF", "#2277BF" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_left" type="button-style">
+        target: "left"
+        preset: "candy_pink"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+            }
+            stroke { width: 2dp color: "#FFF0F7" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FF9BC5" radius: 5dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#C83274"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "flower" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_ok" type="button-style">
+        target: "ok"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_right" type="button-style">
+        target: "right"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_down" type="button-style">
+        target: "down"
+        preset: "magic_purple"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#E2A7FF", "#B167EE", "#7640D0" ]
+            }
+            stroke { width: 2dp color: "#F5E8FF" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#C98BFF" radius: 6dp }
+        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#7040C6"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "gem" right: "leaf" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#BD7BE8", "#6536B7" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_star" type="button-style">
+        target: "*"
+        preset: "star_orange"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#FFD778", "#FFB13B", "#F07A25" ]
+            }
+            stroke { width: 2dp color: "#FFF3C9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#FFD05A" radius: 6dp }
+        gloss { enabled: true opacity: 0.52 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#D6611F"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "star" right: "cloud" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#FFC15A", "#D96B1F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_pound" type="button-style">
+        target: "#"
+        preset: "candy_green"
+        shape {
+            type: "capsule"
+            radius: 18dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#B9F58E", "#60C95D", "#48A94B" ]
+            }
+            stroke { width: 2dp color: "#E8FFD9" }
+        }
+        shadow { color: "#00000055" y: 4dp blur: 10dp }
+        glow { color: "#A8FF92" radius: 5dp }
+        gloss { enabled: true opacity: 0.48 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#3C9143"
+            outlineWidth: 1dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "leaf" right: "flower" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#8BDE6E", "#409744" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keypad" type="container">
+        background {
+            source: null
+            opacity: 0.42
+            fit: "cover"
+            blend: "soft-light"
+            position: "below"
+            renderMode: "per-key-texture"
+            textureMode: "per-key"
+            brightness: 1.00
+            contrast: 1.08
+            saturation: 1.00
+            readabilityAssist: true
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+        }
+    </component>
+
+    <component id="networkLed" type="view">
+        shape { fill: $palette.accent radius: 99dp }
+    </component>
+
+    <component id="menuButton" type="badge">
+        appearance: "solid"
+        shape {
+            radius: 18dp
+            fill: "#2A3B58"
+            stroke { width: 1dp color: "#4A6488" }
+        }
+        text {
+            color: "#FFFFFF"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FFB13B"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF9BC5" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="fpsBadge" type="badge">
+        appearance: "glass"
+        shape {
+            radius: 18dp
+            fill: "#0B1424"
+            stroke { width: 1dp color: "#33496E" }
+        }
+        text {
+            color: "#A8BDD6"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FFB13B"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF9BC5" radius: 6dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+
+
+
+
+
+
+
+
+
+
+</theme>
