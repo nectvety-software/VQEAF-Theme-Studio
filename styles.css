@@ -189,3 +189,6 @@ details summary { cursor:pointer; color:#c4d2e6; font-size:12px; margin-bottom:8
 .transform-toolbar { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin:8px 0 10px; }
 .transform-toolbar button { padding:7px 4px; min-width:0; }
 .transform-toolbar button.active { border-color:#5f9cff; background:#18365e; color:#dcecff; box-shadow:0 0 0 1px #5f9cff44 inset; }
+
+/* V3.5: make independent MENU/FPS controls explicit */
+.badge-style-help { margin:0 0 9px; color:#79bfff; border-left:2px solid #3c82c9; padding-left:8px; }

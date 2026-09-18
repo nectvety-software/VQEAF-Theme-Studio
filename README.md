@@ -79,3 +79,8 @@ Android VQEAF Engine cần renderer tương ứng cho image resource Data URI v�
 ## Menu & FPS custom style (V3.4)
 
 Chọn trực tiếp **MENU** hoặc **FPS** trên preview để mở inspector riêng. Có thể chọn Solid / Glass / Outline / Neon / Pixel và tinh chỉnh màu, viền, glow, font, opacity, padding, LED indicator. Các thông số được lưu trong `.vqeaf`.
+
+
+## V3.5 — MENU/FPS isolated style fix
+
+MENU Bubble và FPS Badge dùng style độc lập; chỉnh màu, border, glow, bo góc hoặc typography không còn làm đổi keypad. Bản này cũng thêm cache-busting để trình duyệt luôn tải đúng JavaScript mới sau khi nâng phiên bản.

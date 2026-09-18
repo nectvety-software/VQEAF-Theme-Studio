@@ -1,5 +1,13 @@
 # Changelog
 
+## V3.5
+
+- Sửa lỗi chỉnh **MENU/FPS** nhưng màu/style lại áp xuống các phím bên dưới.
+- Tách inspector MENU và FPS khỏi `theme.key`/palette dùng chung của keypad; thay đổi badge giờ chỉ sửa `menuStyle` hoặc `fpsStyle`.
+- Khi chọn MENU/FPS, panel không còn hiển thị nhóm Style chung dễ gây chỉnh nhầm keypad.
+- Thêm cache-busting cho JavaScript modules và meta no-cache để tránh trình duyệt chạy lại mã V3.3/V3.4 cũ sau khi giải nén bản mới.
+- Thêm ghi chú trong inspector: style badge là độc lập với bàn phím/Phone Shell.
+
 ## V3.4
 
 - Nâng cấp giao diện riêng cho **MENU bubble** và **FPS badge** thay vì chỉ dùng chung màu keypad.

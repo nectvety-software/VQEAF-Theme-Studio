@@ -1,5 +1,5 @@
-import { presets, draggableComponents } from './presets.js';
-import { serializeTheme, parseVqeaf } from './vqeaf.js';
+import { presets, draggableComponents } from './presets.js?v=3.5.0';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.5.0';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -510,15 +510,18 @@ function renderInspector() {
     els.inspector.append(group); return;
   }
 
+  // MENU/FPS are independent badge components. Never expose the generic theme palette
+  // here: changing a badge must not mutate keypad colors underneath it.
+  if(state.selected==='menuButton' || state.selected==='fpsBadge') {
+    els.inspector.append(buildBadgeStyleGroup(state.selected==='menuButton' ? 'menu' : 'fps'));
+    return;
+  }
+
   const group=inspectorGroup('Style');
   (fieldMap[state.selected]||fieldMap.phoneShell).forEach(([key,label,type,min,max])=>{
     group.append(field(label,key,type,state.theme[key],v=>{state.theme[key]=type==='range'?+v:v;renderAll(false);},min,max));
   });
   els.inspector.append(group);
-
-  if(state.selected==='menuButton' || state.selected==='fpsBadge') {
-    els.inspector.append(buildBadgeStyleGroup(state.selected==='menuButton' ? 'menu' : 'fps'));
-  }
 
   if(state.selected==='phoneShell') {
     const fx=inspectorGroup('Frame FX & Floating');
@@ -540,7 +543,11 @@ function renderInspector() {
 function buildBadgeStyleGroup(kind) {
   const isMenu=kind==='menu';
   const style=isMenu ? state.menuStyle : state.fpsStyle;
-  const g=inspectorGroup(isMenu ? 'Giao diện Menu' : 'Giao diện FPS');
+  const g=inspectorGroup(isMenu ? 'Giao diện MENU' : 'Giao diện FPS');
+  const help=document.createElement('div');
+  help.className='mini-help badge-style-help';
+  help.textContent='Style riêng cho badge này — không thay đổi màu bàn phím hoặc Phone Shell.';
+  g.append(help);
   const presetRow=document.createElement('div'); presetRow.className='transform-toolbar';
   const styles=[['Solid','solid'],['Glass','glass'],['Outline','outline'],['Neon','neon'],['Pixel','pixel']];
   styles.forEach(([label,value])=>{const b=document.createElement('button'); b.textContent=label; b.classList.toggle('active',style.appearance===value); b.onclick=()=>commit(()=>style.appearance=value); presetRow.appendChild(b);});
