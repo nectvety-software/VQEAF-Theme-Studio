@@ -217,6 +217,14 @@ export const presets = [
       4: 'magic_purple', 5: 'star_orange', 6: 'aqua_slime',
       7: 'cloud_blue', 8: 'candy_pink', 9: 'magic_purple',
       '*': 'star_orange', 0: 'ice_glass', '#': 'candy_green'
+    },
+    decorMap: {
+      menu: ['leaf', 'leaf'], up: ['none', 'none'], rsk: ['cloud', 'cloud'],
+      left: ['star', 'star'], ok: ['cloud', 'star'], right: ['leaf', 'leaf'], down: ['leaf', 'leaf'],
+      1: ['flower', 'flower'], 2: ['flower', 'flower'], 3: ['cloud', 'cloud'],
+      4: ['cloud', 'leaf'], 5: ['leaf', 'star'], 6: ['leaf', 'leaf'],
+      7: ['flower', 'cloud'], 8: ['flower', 'flower'], 9: ['none', 'leaf'],
+      '*': ['star', 'star'], 0: ['leaf', 'leaf'], '#': ['leaf', 'flower']
     }
   },
   {
@@ -313,6 +321,14 @@ export const presets = [
       4: 'magic_purple', 5: 'star_orange', 6: 'aqua_slime',
       7: 'cloud_blue', 8: 'candy_pink', 9: 'magic_purple',
       '*': 'star_orange', 0: 'ice_glass', '#': 'candy_green'
+    },
+    decorMap: {
+      menu: ['leaf', 'leaf'], up: ['none', 'none'], rsk: ['cloud', 'cloud'],
+      left: ['star', 'star'], ok: ['cloud', 'star'], right: ['leaf', 'leaf'], down: ['leaf', 'leaf'],
+      1: ['flower', 'flower'], 2: ['flower', 'flower'], 3: ['cloud', 'cloud'],
+      4: ['cloud', 'leaf'], 5: ['leaf', 'star'], 6: ['leaf', 'leaf'],
+      7: ['flower', 'cloud'], 8: ['flower', 'flower'], 9: ['none', 'leaf'],
+      '*': ['star', 'star'], 0: ['leaf', 'leaf'], '#': ['leaf', 'flower']
     },
     decorations: [
       { id:'deco_star', type:'star', x:0, y:8, size:18, rotation:0, opacity:1, color:'#FFD45A', flipX:false, flipY:false, floating:true, floatAmplitude:5, floatDuration:2600 },

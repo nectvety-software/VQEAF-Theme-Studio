@@ -524,6 +524,15 @@ function renderPresets() {
           const found=buttonPresets.find(x=>x.id===presetId);
           if(found) next[keyId]=structuredClone(found.style);
         }
+        if(p.decorMap) {
+          for(const [keyId,pair] of Object.entries(p.decorMap)) {
+            if(next[keyId] && Array.isArray(pair)) {
+              const [left,right]=pair;
+              if(left) next[keyId].decorLeft=left;
+              if(right) next[keyId].decorRight=right;
+            }
+          }
+        }
         state.buttonStyles=next;
         state.buttonBuilder.presetId='candy_green';
       } else {
