@@ -112,3 +112,9 @@ Tên theme có thể được tạo tự động theo dạng:
 - Chọn preset sẽ sinh mã mới nhưng giữ đúng tên style/preset.
 - Nút **🎲 Tên** chỉ đổi mã và giữ phần tên style hiện tại.
 - Nút **🎲 Ngẫu nhiên** sinh cả style lẫn mã mới.
+
+## Credits
+
+Maintained by **DOXUANHOP**.
+
+Website: https://qeafivels.com/

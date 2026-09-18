@@ -24,7 +24,8 @@ export function serializeTheme(state) {
 <theme id=${q(state.themeId)} name=${q(state.themeName)}>
 
     metadata {
-        author: "Qeafivels Software"
+        author: "DOXUANHOP"
+        website: "https://qeafivels.com/"
         version: "1.0.0"
         description: "Theme created with VQEAF Theme Studio"
     }

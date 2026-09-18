@@ -3,7 +3,8 @@
 <theme id="gameboy_green" name="Game Boy">
 
     metadata {
-        author: "Qeafivels Software"
+        author: "DOXUANHOP"
+        website: "https://qeafivels.com/"
         version: "1.0.0"
         description: "Theme created with VQEAF Theme Studio"
     }

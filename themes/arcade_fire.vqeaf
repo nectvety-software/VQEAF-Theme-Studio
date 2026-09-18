@@ -3,7 +3,8 @@
 <theme id="arcade_fire" name="Arcade Fire">
 
     metadata {
-        author: "Qeafivels Software"
+        author: "DOXUANHOP"
+        website: "https://qeafivels.com/"
         version: "1.0.0"
         description: "Theme created with VQEAF Theme Studio"
     }

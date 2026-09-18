@@ -1,6 +1,6 @@
 @vqeaf 1.0
 
-<theme id="ocean_blue" name="Ocean Blue">
+<theme id="indigo_tide" name="Indigo Tide">
 
     metadata {
         author: "DOXUANHOP"
@@ -18,17 +18,17 @@
     }
 
     palette {
-        shellTop: "#123D61"
-        shellBottom: "#061826"
-        shellBorder: "#277CAC"
-        screen: "#02101A"
-        key: "#154563"
-        keyPressed: "#216B91"
-        keyBorder: "#3CA8D8"
-        keyText: "#EAFBFF"
-        subText: "#91C9DE"
-        accent: "#45E4D0"
-        glow: "#16B9FF"
+        shellTop: "#1B2A6B"
+        shellBottom: "#0A0F2C"
+        shellBorder: "#4A5FD4"
+        screen: "#05070F"
+        key: "#223070"
+        keyPressed: "#3A4FA8"
+        keyBorder: "#6C83E8"
+        keyText: "#F2F5FF"
+        subText: "#A9B6E8"
+        accent: "#5EE6C8"
+        glow: "#4C7CF0"
     }
 
     metrics {
@@ -74,7 +74,6 @@
             floatDuration: 3200ms
             floatShadow: 30dp
         }
-        
     </component>
 
     <component id="screen" type="panel">
@@ -94,8 +93,6 @@
             transform { scale: 0.98 }
         </state>
     </component>
-
-
 
     <component id="keypad" type="container">
         background {
@@ -128,22 +125,22 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#154563"
-            stroke { width: 1dp color: "#3CA8D8" }
+            fill: "#223070"
+            stroke { width: 1dp color: "#6C83E8" }
         }
         text {
-            color: "#EAFBFF"
+            color: "#F2F5FF"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#45E4D0"
+            color: "#5EE6C8"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#16B9FF" radius: 8dp }
+        glow { color: "#4C7CF0" radius: 8dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }
@@ -153,35 +150,25 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#061826"
-            stroke { width: 1dp color: "#277CAC" }
+            fill: "#0A0F2C"
+            stroke { width: 1dp color: "#4A5FD4" }
         }
         text {
-            color: "#91C9DE"
+            color: "#A9B6E8"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#45E4D0"
+            color: "#5EE6C8"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#16B9FF" radius: 6dp }
+        glow { color: "#00000000" radius: 6dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }
     </component>
-
-
-
-
-
-
-
-
-
-
 
 </theme>
