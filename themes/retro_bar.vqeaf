@@ -1,6 +1,6 @@
 @vqeaf 1.0
 
-<theme id="default_nokia" name="Nokia Dark">
+<theme id="retro_bar" name="Retro Bar">
 
     metadata {
         author: "DOXUANHOP"
@@ -18,22 +18,22 @@
     }
 
     palette {
-        shellTop: "#2B3444"
-        shellBottom: "#151C27"
-        shellBorder: "#435069"
-        screen: "#090D14"
-        key: "#34445D"
-        keyPressed: "#4E6C96"
-        keyBorder: "#506685"
-        keyText: "#FFFFFF"
-        subText: "#9FB2CC"
-        accent: "#65DC96"
+        shellTop: "#5B6670"
+        shellBottom: "#2E343A"
+        shellBorder: "#AAB4BD"
+        screen: "#9CBF8E"
+        key: "#D0D6DB"
+        keyPressed: "#B7C1C9"
+        keyBorder: "#7B8994"
+        keyText: "#1B2024"
+        subText: "#4B5B66"
+        accent: "#66C97A"
         glow: "#00000000"
     }
 
     metrics {
-        shellRadius: 20dp
-        keyRadius: 6dp
+        shellRadius: 16dp
+        keyRadius: 4dp
         keyBorder: 1dp
     }
 
@@ -128,18 +128,18 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#34445D"
-            stroke { width: 1dp color: "#506685" }
+            fill: "#D0D6DB"
+            stroke { width: 1dp color: "#7B8994" }
         }
         text {
-            color: "#FFFFFF"
+            color: "#1B2024"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#65DC96"
+            color: "#66C97A"
             size: 6dp
             glow: 8dp
         }
@@ -153,18 +153,18 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#151C27"
-            stroke { width: 1dp color: "#435069" }
+            fill: "#2E343A"
+            stroke { width: 1dp color: "#AAB4BD" }
         }
         text {
-            color: "#9FB2CC"
+            color: "#4B5B66"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#65DC96"
+            color: "#66C97A"
             size: 6dp
             glow: 8dp
         }

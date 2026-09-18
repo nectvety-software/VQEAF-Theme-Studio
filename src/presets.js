@@ -1,6 +1,6 @@
 export const presets = [
   {
-    id: 'default_nokia', name: 'Nokia Dark', subtitle: 'Gốc cân bằng', p1:'#34445D', p2:'#151C27',
+    id: 'classic_dark', name: 'Classic Dark', subtitle: 'Gốc cân bằng', p1:'#34445D', p2:'#151C27',
     theme: { shellTop:'#2B3444', shellBottom:'#151C27', shellBorder:'#435069', screen:'#090D14', key:'#34445D', keyPressed:'#4E6C96', keyBorder:'#506685', keyText:'#FFFFFF', sub:'#9FB2CC', accent:'#65DC96', glow:'#00000000', radius:20, keyRadius:6 }
   },
   {
@@ -24,7 +24,7 @@ export const presets = [
     theme: { shellTop:'#141414', shellBottom:'#050505', shellBorder:'#54232B', screen:'#000000', key:'#171717', keyPressed:'#38161B', keyBorder:'#8A2E3B', keyText:'#FFFFFF', sub:'#B78E94', accent:'#FF3D5B', glow:'#FF2D4D', radius:18, keyRadius:5 }
   },
   {
-    id: 'retro_s40', name: 'Retro S40', subtitle: 'Xám bạc + xanh', p1:'#D9E1E8', p2:'#325B72',
+    id: 'retro_bar', name: 'Retro Bar', subtitle: 'Xám bạc + xanh', p1:'#D9E1E8', p2:'#325B72',
     theme: { shellTop:'#5B6670', shellBottom:'#2E343A', shellBorder:'#AAB4BD', screen:'#9CBF8E', key:'#D0D6DB', keyPressed:'#B7C1C9', keyBorder:'#7B8994', keyText:'#1B2024', sub:'#4B5B66', accent:'#66C97A', glow:'#00000000', radius:16, keyRadius:4 }
   },
   {
@@ -92,7 +92,7 @@ export const presets = [
     theme: { shellTop:'#523626', shellBottom:'#1A100B', shellBorder:'#87573B', screen:'#0E0906', key:'#67442F', keyPressed:'#84583C', keyBorder:'#B0714A', keyText:'#FFE2BA', sub:'#D1A579', accent:'#D79A5B', glow:'#B8622F', radius:18, keyRadius:6 }
   },
   {
-    id: 'tron_blue', name: 'TRON Blue', subtitle: 'Đen + xanh điện', p1:'#00BFFF', p2:'#001926',
+    id: 'volt_blue', name: 'Volt Blue', subtitle: 'Đen + xanh điện', p1:'#00BFFF', p2:'#001926',
     theme: { shellTop:'#061E2C', shellBottom:'#01070B', shellBorder:'#086B8D', screen:'#000306', key:'#072637', keyPressed:'#0B3D55', keyBorder:'#00A9E6', keyText:'#D8F8FF', sub:'#6EBBD1', accent:'#00E5FF', glow:'#00BFFF', radius:17, keyRadius:4 }
   },
   {
@@ -108,11 +108,11 @@ export const presets = [
     theme: { shellTop:'#E1E6EC', shellBottom:'#B8C1CB', shellBorder:'#8E9AA7', screen:'#18212A', key:'#EDF1F5', keyPressed:'#CDD6E0', keyBorder:'#9EABB9', keyText:'#202A35', sub:'#657386', accent:'#35B98A', glow:'#00000000', radius:24, keyRadius:9 }
   },
   {
-    id: 'gameboy_green', name: 'Game Boy', subtitle: 'LCD xanh retro', p1:'#9BBC0F', p2:'#306230',
+    id: 'dot_matrix', name: 'Dot Matrix', subtitle: 'LCD xanh retro', p1:'#9BBC0F', p2:'#306230',
     theme: { shellTop:'#5B5B5B', shellBottom:'#303030', shellBorder:'#808080', screen:'#0F380F', key:'#4F4F4F', keyPressed:'#6A6A6A', keyBorder:'#777777', keyText:'#D9E8B6', sub:'#9FAF84', accent:'#8BAC0F', glow:'#00000000', radius:14, keyRadius:4 }
   },
   {
-    id: 'nokia_blue', name: 'Nokia Blue', subtitle: 'Xanh Nokia cổ điển', p1:'#2477B3', p2:'#0E2B45',
+    id: 'classic_blue', name: 'Classic Blue', subtitle: 'Xanh feature phone cổ điển', p1:'#2477B3', p2:'#0E2B45',
     theme: { shellTop:'#244A69', shellBottom:'#122638', shellBorder:'#477597', screen:'#94B989', key:'#2D5B7B', keyPressed:'#3D769A', keyBorder:'#5E8DAC', keyText:'#FFFFFF', sub:'#B7D0E1', accent:'#63D48B', glow:'#00000000', radius:17, keyRadius:4 }
   },
   {

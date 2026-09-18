@@ -1,6 +1,6 @@
 @vqeaf 1.0
 
-<theme id="retro_s40" name="Retro S40">
+<theme id="dot_matrix" name="Dot Matrix">
 
     metadata {
         author: "DOXUANHOP"
@@ -18,21 +18,21 @@
     }
 
     palette {
-        shellTop: "#5B6670"
-        shellBottom: "#2E343A"
-        shellBorder: "#AAB4BD"
-        screen: "#9CBF8E"
-        key: "#D0D6DB"
-        keyPressed: "#B7C1C9"
-        keyBorder: "#7B8994"
-        keyText: "#1B2024"
-        subText: "#4B5B66"
-        accent: "#66C97A"
+        shellTop: "#5B5B5B"
+        shellBottom: "#303030"
+        shellBorder: "#808080"
+        screen: "#0F380F"
+        key: "#4F4F4F"
+        keyPressed: "#6A6A6A"
+        keyBorder: "#777777"
+        keyText: "#D9E8B6"
+        subText: "#9FAF84"
+        accent: "#8BAC0F"
         glow: "#00000000"
     }
 
     metrics {
-        shellRadius: 16dp
+        shellRadius: 14dp
         keyRadius: 4dp
         keyBorder: 1dp
     }
@@ -128,18 +128,18 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#D0D6DB"
-            stroke { width: 1dp color: "#7B8994" }
+            fill: "#4F4F4F"
+            stroke { width: 1dp color: "#777777" }
         }
         text {
-            color: "#1B2024"
+            color: "#D9E8B6"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#66C97A"
+            color: "#8BAC0F"
             size: 6dp
             glow: 8dp
         }
@@ -153,18 +153,18 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#2E343A"
-            stroke { width: 1dp color: "#AAB4BD" }
+            fill: "#303030"
+            stroke { width: 1dp color: "#808080" }
         }
         text {
-            color: "#4B5B66"
+            color: "#9FAF84"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#66C97A"
+            color: "#8BAC0F"
             size: 6dp
             glow: 8dp
         }

@@ -1,5 +1,12 @@
 # Changelog
 
+## V3.7.2 — Trademark-safe naming + Credits
+
+- Đổi tên preset sang generic cả tên hiển thị lẫn ID: Nokia Dark → Classic Dark (`classic_dark`), Nokia Blue → Classic Blue (`classic_blue`), Retro S40 → Retro Bar (`retro_bar`), TRON Blue → Volt Blue (`volt_blue`), Game Boy → Dot Matrix (`dot_matrix`); file `themes/` tương ứng được xuất lại tên mới.
+- Chuỗi UI dùng tên generic: Classic 240×320, vỏ máy classic, CLASSIC DUAL SIM.
+- Thêm Credits (DOXUANHOP, qeafivels.com) và Trademark Notice vào README + giao diện Studio.
+- Metadata `.vqeaf` xuất ra ghi `author: DOXUANHOP` + `website: https://qeafivels.com/`.
+
 ## V3.7.1 — Documentation Pack
 
 - Gom toàn bộ file Markdown vào `docs/`.

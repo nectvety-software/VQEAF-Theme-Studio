@@ -1,6 +1,6 @@
 @vqeaf 1.0
 
-<theme id="gameboy_green" name="Game Boy">
+<theme id="classic_dark" name="Classic Dark">
 
     metadata {
         author: "DOXUANHOP"
@@ -18,22 +18,22 @@
     }
 
     palette {
-        shellTop: "#5B5B5B"
-        shellBottom: "#303030"
-        shellBorder: "#808080"
-        screen: "#0F380F"
-        key: "#4F4F4F"
-        keyPressed: "#6A6A6A"
-        keyBorder: "#777777"
-        keyText: "#D9E8B6"
-        subText: "#9FAF84"
-        accent: "#8BAC0F"
+        shellTop: "#2B3444"
+        shellBottom: "#151C27"
+        shellBorder: "#435069"
+        screen: "#090D14"
+        key: "#34445D"
+        keyPressed: "#4E6C96"
+        keyBorder: "#506685"
+        keyText: "#FFFFFF"
+        subText: "#9FB2CC"
+        accent: "#65DC96"
         glow: "#00000000"
     }
 
     metrics {
-        shellRadius: 14dp
-        keyRadius: 4dp
+        shellRadius: 20dp
+        keyRadius: 6dp
         keyBorder: 1dp
     }
 
@@ -128,18 +128,18 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#4F4F4F"
-            stroke { width: 1dp color: "#777777" }
+            fill: "#34445D"
+            stroke { width: 1dp color: "#506685" }
         }
         text {
-            color: "#D9E8B6"
+            color: "#FFFFFF"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#8BAC0F"
+            color: "#65DC96"
             size: 6dp
             glow: 8dp
         }
@@ -153,18 +153,18 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#303030"
-            stroke { width: 1dp color: "#808080" }
+            fill: "#151C27"
+            stroke { width: 1dp color: "#435069" }
         }
         text {
-            color: "#9FAF84"
+            color: "#9FB2CC"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#8BAC0F"
+            color: "#65DC96"
             size: 6dp
             glow: 8dp
         }

@@ -1,5 +1,7 @@
 # Tài liệu thiết kế — Bàn phím & Vỏ máy Nokia 225 (VXPQeaf)
 
+> **Trademark:** Tài liệu kỹ thuật nội bộ, mô tả tính tương thích. Không liên kết hay được bảo trợ bởi Nokia/MediaTek. Không dùng tên, logo hay tài sản thương hiệu làm icon/banner/splash/feature graphic khi phát hành.
+>
 > App: **VXPQeaf** (`vn.com.doxuanhop.dxh.oxplay`)  
 > Vai trò: giả lập MRE/VXP trên Android, mô phỏng **Nokia 225 Dual SIM** (màn 240×320 + bàn phím T9).  
 > Tài liệu này mô tả **khung vỏ máy**, **bàn phím ảo**, **bảng mã phím**, và **luồng sự kiện** từ UI → native core.

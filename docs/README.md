@@ -1,6 +1,6 @@
 # VQEAF Theme Studio V3.7.1
 
-Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Nokia 225 / VXPQeaf.
+Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Classic 240×320 / VXPQeaf.
 
 ## Chạy nhanh trên Windows
 
@@ -29,8 +29,8 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Random theme / random name.
 - Autosave bằng IndexedDB, fallback localStorage.
 - Undo/Redo 100 bước (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
-- Preview Nokia 225 dọc/ngang và zoom.
-- **61 preset dựng sẵn**: Nokia Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro S40, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Game Boy, Nokia Blue, Aurora, Magma, Mint, Steel, Royal Purple, Candy Adventure, Split Gaze, Pixel Midnight, Pixel Dungeon, Pixel Tide, Pixel Blossom, Pop Thunder, Pop Bubble, Candy Cloud Full và nhiều mẫu khác.
+- Preview Classic 240×320 dọc/ngang và zoom.
+- **61 preset dựng sẵn**: Classic Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro Bar, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Dot Matrix, Classic Blue, Aurora, Magma, Mint, Steel, Royal Purple, Candy Adventure, Split Gaze, Pixel Midnight, Pixel Dungeon, Pixel Tide, Pixel Blossom, Pop Thunder, Pop Bubble, Candy Cloud Full và nhiều mẫu khác.
 - Import/export `.vqeaf` một file.
 - Import background riêng cho keypad.
 - Chế độ **Trên phím → Texture từng phím**, giữ số/nhãn/viền rõ nét thay vì phủ nguyên ảnh lên bàn phím.
@@ -56,7 +56,7 @@ VQEAF-Theme-Studio/
 │   ├── presets.js
 │   └── vqeaf.js
 ├── assets/
-│   └── nokia225-reference.png
+│   └── classic240x320-reference.png
 └── docs/
     ├── README.md
     ├── CHANGELOG.md
@@ -118,3 +118,7 @@ Tên theme có thể được tạo tự động theo dạng:
 Maintained by **DOXUANHOP**.
 
 Website: https://qeafivels.com/
+
+## Trademark Notice
+
+VQEAF Theme Studio không liên kết, chứng thực hay được bảo trợ bởi Nokia, MediaTek, Nintendo, Disney hay bất kỳ chủ sở hữu thương hiệu nào. Tên kiểu máy/định dạng trong tài liệu chỉ dùng để mô tả tính tương thích. Không dùng logo, tên thương hiệu hay tài sản có bản quyền của bên thứ ba làm icon, banner, splash hoặc feature graphic nếu không có quyền.
