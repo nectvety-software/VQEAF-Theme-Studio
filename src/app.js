@@ -1,5 +1,5 @@
-import { presets, draggableComponents } from './presets.js?v=3.6.0';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.6.0';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.0';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.0';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -12,6 +12,22 @@ const LAYER_META = {
   network: { label:'Network LED', icon:'●', component:'networkLed' },
   badges: { label:'Menu + FPS badges', icon:'◉', component:'menuButton' }
 };
+
+const ALL_KEY_IDS = ['menu','up','rsk','left','ok','right','down','1','2','3','4','5','6','7','8','9','*','0','#'];
+const KEY_GROUPS = {
+  navigation:['menu','up','rsk','left','ok','right','down'],
+  digits:['1','2','3','4','5','6','7','8','9','*','0','#'],
+  all:ALL_KEY_IDS
+};
+const DECOR_EMOJI = Object.fromEntries(buttonDecorations);
+function cloneButtonPreset(id='candy_green') {
+  const p=buttonPresets.find(x=>x.id===id) || buttonPresets[0];
+  return { presetId:p.id, ...structuredClone(p.style) };
+}
+function normalizeButtonStyle(s={}) {
+  return { ...cloneButtonPreset(s.presetId || 'candy_green'), ...s };
+}
+function freshButtonBuilder() { return { target:'selected', presetId:'candy_green', previewState:'normal' }; }
 
 function freshBackground() {
   return { dataUrl:null, name:'', opacity:.42, fit:'cover', blend:'soft-light', position:'below', renderMode:'per-key-texture', textureMode:'per-key', scale:1, offsetX:0, offsetY:0, blur:0, brightness:1, contrast:1.08, saturation:1, readabilityAssist:true, rotation:0, flipX:false, flipY:false };
@@ -69,6 +85,9 @@ function freshState() {
     effects:freshEffects(),
     menuStyle:freshBadgeStyle('menu'),
     fpsStyle:freshBadgeStyle('fps'),
+    buttonStyles:{},
+    buttonBuilder:freshButtonBuilder(),
+    selectedKey:'ok',
     layerOrder:[...DEFAULT_LAYER_ORDER],
     undo:[],
     redo:[]
@@ -103,7 +122,8 @@ const els = {
   zoom: document.querySelector('#zoomRange'),
   zoomValue: document.querySelector('#zoomValue'),
   grid: document.querySelector('#gridToggle'),
-  autosaveStatus: document.querySelector('#autosaveStatus')
+  autosaveStatus: document.querySelector('#autosaveStatus'),
+  buttonBuilder: document.querySelector('#buttonBuilder')
 };
 
 const labels = {
@@ -138,6 +158,8 @@ function serializableState() {
     effects:state.effects,
     menuStyle:state.menuStyle,
     fpsStyle:state.fpsStyle,
+    buttonStyles:state.buttonStyles,
+    buttonBuilder:state.buttonBuilder,
     layerOrder:state.layerOrder,
     orientation:state.orientation,
     zoom:state.zoom,
@@ -168,6 +190,9 @@ function normalizeLoaded(x={}) {
     effects:{...freshEffects(),...(x.effects||{})},
     menuStyle:{...freshBadgeStyle('menu', {...base.theme,...(x.theme||{})}),...(x.menuStyle||{})},
     fpsStyle:{...freshBadgeStyle('fps', {...base.theme,...(x.theme||{})}),...(x.fpsStyle||{})},
+    buttonStyles:Object.fromEntries(Object.entries(x.buttonStyles||{}).map(([k,v])=>[k,normalizeButtonStyle(v)])),
+    buttonBuilder:{...freshButtonBuilder(),...(x.buttonBuilder||{})},
+    selectedKey:x.selectedKey || 'ok',
     layerOrder:(()=>{ const a=Array.isArray(x.layerOrder)?x.layerOrder.filter(v=>DEFAULT_LAYER_ORDER.includes(v)):[]; for(const id of DEFAULT_LAYER_ORDER) if(!a.includes(id)) a.push(id); return a; })(),
     decorations:Array.isArray(x.decorations) ? x.decorations.map((d,i)=>({
       id:d.id || `${Date.now().toString(36)}${i}`,
@@ -266,6 +291,7 @@ function applyTheme() {
 
   applyBadgeStyle(document.querySelector('.menu-badge'), state.menuStyle, 'menu');
   applyBadgeStyle(document.querySelector('.fps-badge'), state.fpsStyle, 'fps');
+  applyKeyStyles();
 
   applyLayerOrder();
 }
@@ -321,6 +347,152 @@ function applyBadgeStyle(el, style, kind) {
     dot.style.background=accent;
     dot.style.boxShadow=`0 0 ${Number(style.dotGlow ?? 8)}px ${accent}`;
   }
+}
+
+
+function keyLabelForId(id) {
+  const map={menu:'MENU',up:'▲',rsk:'←',left:'◀',ok:'OK',right:'▶',down:'▼','*':'*','#':'#'};
+  return map[id] || id;
+}
+function targetKeys(target=state.buttonBuilder?.target || 'selected') {
+  if(target==='selected') return [state.selectedKey || 'ok'];
+  return KEY_GROUPS[target] || [state.selectedKey || 'ok'];
+}
+function ensureButtonStyle(key=state.selectedKey || 'ok') {
+  if(!state.buttonStyles[key]) state.buttonStyles[key]=cloneButtonPreset(state.buttonBuilder?.presetId || 'candy_green');
+  return state.buttonStyles[key];
+}
+function decorationEmoji(name) {
+  return (!name || name==='none') ? '' : (DECOR_EMOJI[name] || '✨');
+}
+function clearKeyCustomStyle(el) {
+  el.classList.remove('custom-key','custom-disabled','custom-preview-pressed');
+  for(const prop of ['background','borderColor','borderWidth','borderRadius','boxShadow','color','fontSize','fontWeight','textShadow']) el.style[prop]='';
+  for(const prop of ['--custom-pressed-a','--custom-pressed-b','--custom-disabled-opacity','--custom-disabled-saturation','--custom-gloss-opacity','--custom-gloss-color']) el.style.removeProperty(prop);
+  el.querySelectorAll('.key-decoration').forEach(x=>x.remove());
+}
+function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
+  clearKeyCustomStyle(el);
+  if(!style) return;
+  style=normalizeButtonStyle(style);
+  el.classList.add('custom-key');
+  const a=normalizeColor(style.colorA), b=normalizeColor(style.colorB), c=normalizeColor(style.colorC || style.colorB);
+  el.style.background=`linear-gradient(180deg, ${a} 0%, ${b} 58%, ${c} 100%)`;
+  el.style.borderColor=normalizeColor(style.border);
+  el.style.borderWidth=`${Number(style.borderWidth ?? 2)}px`;
+  el.style.borderRadius=`${Number(style.radius ?? 18)}px`;
+  const shadow=normalizeColor(style.shadow || '#000000');
+  const glow=normalizeColor(style.glow || '#000000');
+  el.style.boxShadow=`0 ${Number(style.shadowY ?? 4)}px ${Number(style.shadowBlur ?? 10)}px ${shadow}, 0 0 ${Number(style.glowRadius ?? 0)}px ${glow}`;
+  el.style.color=normalizeColor(style.text || '#FFFFFF');
+  el.style.fontSize=`${Number(style.fontSize ?? 14)}px`;
+  el.style.fontWeight=String(Number(style.fontWeight ?? 900));
+  const outline=normalizeColor(style.textOutline || '#000000');
+  const ow=Math.max(0,Number(style.textOutlineWidth ?? 1));
+  el.style.textShadow=ow>0 ? `${ow}px 0 ${outline}, -${ow}px 0 ${outline}, 0 ${ow}px ${outline}, 0 -${ow}px ${outline}, 0 2px 3px #0005` : '0 2px 3px #0005';
+  el.style.setProperty('--custom-pressed-a',normalizeColor(style.pressedA || style.colorB));
+  el.style.setProperty('--custom-pressed-b',normalizeColor(style.pressedB || style.colorC));
+  el.style.setProperty('--custom-disabled-opacity',String(Number(style.disabledOpacity ?? .45)));
+  el.style.setProperty('--custom-disabled-saturation',String(Number(style.disabledSaturation ?? .25)));
+  el.style.setProperty('--custom-gloss-opacity',style.gloss===false ? '0' : String(Number(style.glossOpacity ?? .45)));
+  el.style.setProperty('--custom-gloss-color','#FFFFFF');
+  const left=decorationEmoji(style.decorLeft), right=decorationEmoji(style.decorRight);
+  if(left){ const s=document.createElement('span'); s.className='key-decoration key-decoration-left'; s.textContent=left; el.appendChild(s); }
+  if(right){ const s=document.createElement('span'); s.className='key-decoration key-decoration-right'; s.textContent=right; el.appendChild(s); }
+  if(previewState==='pressed') el.classList.add('custom-preview-pressed');
+  if(previewState==='disabled') el.classList.add('custom-disabled');
+}
+function applyKeyStyles() {
+  document.querySelectorAll('.key[data-key]').forEach(el=>{
+    const id=el.dataset.key;
+    applyStyleToKeyElement(el,state.buttonStyles[id],id,'normal');
+  });
+}
+function applyPresetToTarget(presetId,target=state.buttonBuilder.target) {
+  const style=cloneButtonPreset(presetId);
+  const keys=targetKeys(target);
+  keys.forEach(k=>state.buttonStyles[k]=structuredClone(style));
+  state.buttonBuilder.presetId=presetId;
+}
+function copyCurrentStyleToTarget(target=state.buttonBuilder.target) {
+  const source=normalizeButtonStyle(state.buttonStyles[state.selectedKey || 'ok'] || cloneButtonPreset(state.buttonBuilder.presetId));
+  targetKeys(target).forEach(k=>state.buttonStyles[k]=structuredClone(source));
+}
+function removeButtonStyleTarget(target=state.buttonBuilder.target) {
+  targetKeys(target).forEach(k=>delete state.buttonStyles[k]);
+}
+function renderButtonBuilderPreview() {
+  const preview=document.querySelector('#buttonBuilderPreviewKey');
+  if(!preview) return;
+  const key=state.selectedKey || 'ok';
+  preview.dataset.key=key;
+  const main=preview.querySelector('.builder-preview-label');
+  if(main) main.textContent=keyLabelForId(key);
+  applyStyleToKeyElement(preview,state.buttonStyles[key] || cloneButtonPreset(state.buttonBuilder.presetId),key,state.buttonBuilder.previewState || 'normal');
+  let label=preview.querySelector('.builder-preview-label');
+  if(!label){ label=document.createElement('span'); label.className='builder-preview-label'; label.textContent=keyLabelForId(key); preview.appendChild(label); }
+}
+function renderButtonBuilder() {
+  if(!els.buttonBuilder) return;
+  els.buttonBuilder.innerHTML='';
+  const selectedKey=state.selectedKey || 'ok';
+  const head=document.createElement('div'); head.className='builder-head';
+  head.innerHTML=`<div><span class="eyebrow">Đang chỉnh</span><strong>${keyLabelForId(selectedKey)}</strong></div><span class="badge subtle">${selectedKey}</span>`;
+  els.buttonBuilder.appendChild(head);
+
+  const keySelect=selectField('Chọn phím',selectedKey,ALL_KEY_IDS.map(k=>[k,keyLabelForId(k)]),v=>{
+    state.selectedKey=v; state.selected='key'; renderSelection(); renderInspector(); renderButtonBuilder();
+  });
+  const target=selectField('Áp dụng cho',state.buttonBuilder.target,[['selected','Phím đang chọn'],['navigation','Nhóm điều hướng'],['digits','Bàn phím số'],['all','Toàn bộ phím']],v=>{state.buttonBuilder.target=v;renderButtonBuilderPreview();scheduleAutosave();});
+  els.buttonBuilder.append(keySelect,target);
+
+  const previewWrap=document.createElement('div'); previewWrap.className='button-builder-preview';
+  previewWrap.innerHTML='<button id="buttonBuilderPreviewKey" class="key builder-preview-key"><span class="builder-preview-label"></span></button>';
+  els.buttonBuilder.appendChild(previewWrap);
+
+  const states=document.createElement('div'); states.className='transform-toolbar builder-state-toolbar';
+  [['Bình thường','normal'],['Nhấn','pressed'],['Tắt','disabled']].forEach(([label,value])=>{ const b=document.createElement('button'); b.textContent=label; b.classList.toggle('active',state.buttonBuilder.previewState===value); b.onclick=()=>{state.buttonBuilder.previewState=value;renderButtonBuilder();scheduleAutosave();}; states.appendChild(b); });
+  els.buttonBuilder.appendChild(states);
+
+  const title=document.createElement('div'); title.className='section-title-row compact-title'; title.innerHTML='<h2>Preset nút</h2><span class="badge">12 mẫu</span>'; els.buttonBuilder.appendChild(title);
+  const grid=document.createElement('div'); grid.className='button-preset-grid';
+  buttonPresets.forEach(p=>{ const b=document.createElement('button'); b.className='button-preset-card'; b.classList.toggle('active',state.buttonBuilder.presetId===p.id); b.style.setProperty('--swatch',p.swatch); b.innerHTML=`<span></span><small>${p.name}</small>`; b.onclick=()=>commit(()=>applyPresetToTarget(p.id)); grid.appendChild(b); });
+  els.buttonBuilder.appendChild(grid);
+
+  const actionRow=document.createElement('div'); actionRow.className='button-row builder-actions';
+  const apply=document.createElement('button'); apply.className='primary-lite'; apply.textContent='Áp preset'; apply.onclick=()=>commit(()=>applyPresetToTarget(state.buttonBuilder.presetId));
+  const copy=document.createElement('button'); copy.className='ghost'; copy.textContent='Sao chép → nhóm'; copy.onclick=()=>commit(()=>copyCurrentStyleToTarget());
+  const clear=document.createElement('button'); clear.className='ghost danger'; clear.textContent='Xóa style'; clear.onclick=()=>commit(()=>removeButtonStyleTarget());
+  actionRow.append(apply,copy,clear); els.buttonBuilder.appendChild(actionRow);
+
+  const edit=inspectorGroup('Style nút đang chọn');
+  const s=state.buttonStyles[selectedKey] || cloneButtonPreset(state.buttonBuilder.presetId);
+  const set=(prop,cast=v=>v)=>v=>{ const x=ensureButtonStyle(selectedKey); x[prop]=cast(v); renderAll(false); };
+  edit.append(
+    field('Màu sáng','btnColorA','color',s.colorA,set('colorA')),
+    field('Màu giữa','btnColorB','color',s.colorB,set('colorB')),
+    field('Màu đáy','btnColorC','color',s.colorC,set('colorC')),
+    field('Màu khi nhấn 1','btnPressedA','color',s.pressedA,set('pressedA')),
+    field('Màu khi nhấn 2','btnPressedB','color',s.pressedB,set('pressedB')),
+    field('Viền','btnBorder','color',s.border,set('border')),
+    field('Chữ','btnText','color',s.text,set('text')),
+    field('Outline chữ','btnTextOutline','color',s.textOutline,set('textOutline')),
+    field('Bo góc','btnRadius','range',s.radius,set('radius',Number),0,24),
+    field('Viền dày','btnBorderWidth','range',s.borderWidth,set('borderWidth',Number),0,4,.25),
+    field('Shadow blur','btnShadowBlur','range',s.shadowBlur,set('shadowBlur',Number),0,24),
+    field('Shadow Y','btnShadowY','range',s.shadowY,set('shadowY',Number),0,10),
+    field('Glow','btnGlow','color',s.glow,set('glow')),
+    field('Glow radius','btnGlowRadius','range',s.glowRadius,set('glowRadius',Number),0,18),
+    toggleField('Gloss highlight',s.gloss!==false,set('gloss',Boolean)),
+    field('Gloss opacity','btnGlossOpacity','range',s.glossOpacity,set('glossOpacity',Number),0,.8,.02),
+    field('Cỡ chữ','btnFontSize','range',s.fontSize,set('fontSize',Number),9,20),
+    field('Đậm chữ','btnFontWeight','range',s.fontWeight,set('fontWeight',Number),400,900,100),
+    selectField('Trang trí trái',s.decorLeft,buttonDecorations,set('decorLeft')),
+    selectField('Trang trí phải',s.decorRight,buttonDecorations,set('decorRight')),
+    field('Opacity khi tắt','btnDisabledOpacity','range',s.disabledOpacity,set('disabledOpacity',Number),.1,1,.05)
+  );
+  els.buttonBuilder.appendChild(edit);
+  renderButtonBuilderPreview();
 }
 
 function applyLayerOrder() {
@@ -466,7 +638,9 @@ els.phone.addEventListener('drop',e=>{
 
 document.addEventListener('click',e=>{
   const s=e.target.closest('.selectable'); if(!s || s.classList.contains('decoration')) return;
-  state.selected=s.dataset.component || 'phoneShell'; state.selectedDecoration=null; renderSelection(); renderInspector();
+  state.selected=s.dataset.component || 'phoneShell';
+  if(state.selected==='key' && s.dataset.key) state.selectedKey=s.dataset.key;
+  state.selectedDecoration=null; renderSelection(); renderInspector(); renderButtonBuilder();
 });
 function renderSelection() {
   document.querySelectorAll('.is-selected').forEach(x=>x.classList.remove('is-selected'));
@@ -475,7 +649,7 @@ function renderSelection() {
     els.title.textContent='Decoration';
   } else {
     document.querySelector(`[data-component="${state.selected}"]`)?.classList.add('is-selected');
-    els.title.textContent=labels[state.selected] || state.selected;
+    els.title.textContent=state.selected==='key' ? `Keypad Key · ${state.selectedKey || ''}` : (labels[state.selected] || state.selected);
   }
 }
 
@@ -706,7 +880,7 @@ function updateCode() {
   els.code.textContent=serializeTheme(state);
 }
 function renderAll(full=true) {
-  syncControls(); applyTheme(); renderDecorations(); renderLayerList(); renderSelection(); renderBackgroundQuickControls(); renderFrameBackgroundQuickControls(); if(full) renderInspector(); updateCode(); scheduleAutosave();
+  syncControls(); applyTheme(); renderDecorations(); renderLayerList(); renderSelection(); renderBackgroundQuickControls(); renderFrameBackgroundQuickControls(); if(full){ renderInspector(); renderButtonBuilder(); } else { renderButtonBuilderPreview(); } updateCode(); scheduleAutosave();
 }
 
 // Theme name / id with history and automatic slug.
@@ -825,7 +999,8 @@ function resetSelected() {
     else if(state.selected==='networkLed') state.theme.accent=base.accent;
     else if(state.selected==='key' || state.selected==='keypad') {
       Object.assign(state.theme,{key:base.key,keyPressed:base.keyPressed,keyBorder:base.keyBorder,keyText:base.keyText,sub:base.sub,glow:base.glow,keyRadius:base.keyRadius});
-      if(state.selected==='keypad') state.keypadBackground=freshBackground();
+      if(state.selected==='key') delete state.buttonStyles[state.selectedKey || 'ok'];
+      if(state.selected==='keypad') { state.keypadBackground=freshBackground(); state.buttonStyles={}; }
     }
   });
 }

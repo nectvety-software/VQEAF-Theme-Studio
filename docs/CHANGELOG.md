@@ -1,5 +1,24 @@
 # Changelog
 
+## V3.7.1 — Documentation Pack
+
+- Gom toàn bộ file Markdown vào `docs/`.
+- Thêm `docs/prompts/` chứa prompt cho Android Engine, Nokia Frame Integration, Button Builder và tiếp tục phát triển Theme Studio.
+- Thêm `docs/VQEAF_1_0_SPEC.md` làm đặc tả tóm tắt VQEAF 1.0.
+- Cập nhật README lên V3.7.1.
+
+## V3.7
+
+- Thêm **Button Builder / Tạo nút** trực quan cho keypad Nokia.
+- Bổ sung **12 preset nút glossy/cute/fantasy**: Candy Green, Candy Pink, Cloud Blue, Magic Purple, Star Orange, Aqua Slime, Treasure Gold, Pixel Cute, Sakura Gloss, RPG Gem, Arcade Red, Ice Glass.
+- Có thể áp style cho **một phím, nhóm điều hướng, nhóm số hoặc toàn bộ keypad**.
+- Cho phép chỉnh gradient 3 màu, màu nhấn, viền, glow, shadow, gloss, chữ/outline, bo góc và decoration hai bên.
+- Hỗ trợ decoration mini: lá, hoa, mây, sao, gem, sparkle.
+- Có preview **Bình thường / Nhấn / Tắt (Disabled)** ngay trong Button Builder.
+- Mỗi phím có thể giữ style riêng; nền keypad texture vẫn render bên trong key và không che chữ.
+- Export `.vqeaf` tạo component `keyStyle_*` riêng cho các phím đã tùy chỉnh; import phục hồi lại đầy đủ style nút.
+- Undo/Redo và Autosave bao phủ các thay đổi Button Builder.
+
 ## V3.6
 
 - Thêm cơ chế **tự đặt tên theme theo `8 số ngẫu nhiên không lặp + tên style`**.

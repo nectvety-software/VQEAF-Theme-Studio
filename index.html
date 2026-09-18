@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>VQEAF Theme Studio</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=3.7.0" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -41,6 +41,7 @@
         <button class="tab active" data-left-tab="presets">Chủ đề</button>
         <button class="tab" data-left-tab="components">Thành phần</button>
         <button class="tab" data-left-tab="layers">Lớp</button>
+        <button class="tab" data-left-tab="buttons">Tạo nút</button>
       </div>
 
       <section class="left-tab active" data-left-view="presets">
@@ -97,6 +98,15 @@
           <button id="removeFrameBackground" class="ghost danger">Xóa</button>
         </div>
         <div id="frameBackgroundQuickControls" class="quick-controls"></div>
+      </section>
+
+      <section class="left-tab" data-left-view="buttons">
+        <div class="section-title-row">
+          <h2>Button Builder</h2>
+          <span class="badge">Glossy / Cute</span>
+        </div>
+        <p class="muted">Tạo nút capsule bóng, candy, fantasy, pixel hoặc arcade cho từng phím hay cả nhóm.</p>
+        <div id="buttonBuilder"></div>
       </section>
 
       <section class="left-tab" data-left-view="layers">
@@ -198,6 +208,6 @@
     </aside>
   </div>
 
-  <script type="module" src="./src/app.js?v=3.6.0"></script>
+  <script type="module" src="./src/app.js?v=3.7.0"></script>
 </body>
 </html>

@@ -10,6 +10,8 @@ export function serializeTheme(state) {
   const frameBg = state.frameBackground || {};
   const menuStyle = state.menuStyle || {};
   const fpsStyle = state.fpsStyle || {};
+  const buttonStyles = state.buttonStyles || {};
+  const buttonStyleBlock = Object.entries(buttonStyles).map(([id,s])=>buttonStyleComponent(id,s)).join('\n\n');
   const layerOrder = state.layerOrder || [];
   const vectorIds = [...new Set(decorations.map(d => d.type))];
   const vectorBlock = vectorIds.map(id => vectorFor(id)).join('\n\n');
@@ -113,6 +115,8 @@ export function serializeTheme(state) {
         </state>
     </component>
 
+${buttonStyleBlock}
+
     <component id="keypad" type="container">
         background {
             source: ${bg.dataUrl ? '@keypad_background' : 'null'}
@@ -201,6 +205,46 @@ ${frameAnimation}
 ${decorationAnimations}
 
 </theme>`;
+}
+
+
+function safeKeyId(id) {
+  return String(id).replace('*','star').replace('#','pound').replace(/[^A-Za-z0-9_-]/g,'_');
+}
+function buttonStyleComponent(id,s={}) {
+  return `    <component id="keyStyle_${safeKeyId(id)}" type="button-style">
+        target: ${q(id)}
+        preset: ${q(s.presetId || 'custom')}
+        shape {
+            type: "capsule"
+            radius: ${Number(s.radius ?? 18)}dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ ${color(s.colorA || '#B9F58E')}, ${color(s.colorB || '#60C95D')}, ${color(s.colorC || s.colorB || '#48A94B')} ]
+            }
+            stroke { width: ${Number(s.borderWidth ?? 2)}dp color: ${color(s.border || '#E8FFD9')} }
+        }
+        shadow { color: ${color(s.shadow || '#00000055')} y: ${Number(s.shadowY ?? 4)}dp blur: ${Number(s.shadowBlur ?? 10)}dp }
+        glow { color: ${color(s.glow || '#A8FF92')} radius: ${Number(s.glowRadius ?? 5)}dp }
+        gloss { enabled: ${bool(s.gloss !== false)} opacity: ${Number(s.glossOpacity ?? .48).toFixed(2)} style: "top-arc" }
+        text {
+            color: ${color(s.text || '#FFFFFF')}
+            outline: ${color(s.textOutline || '#3C9143')}
+            outlineWidth: ${Number(s.textOutlineWidth ?? 1)}dp
+            size: ${Number(s.fontSize ?? 14)}sp
+            weight: ${Number(s.fontWeight ?? 900)}
+        }
+        decoration { left: ${q(s.decorLeft || 'none')} right: ${q(s.decorRight || 'none')} }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ ${color(s.pressedA || s.colorB || '#60C95D')}, ${color(s.pressedB || s.colorC || '#48A94B')} ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: ${Number(s.disabledOpacity ?? .45).toFixed(2)}
+            saturation: ${Number(s.disabledSaturation ?? .25).toFixed(2)}
+        </state>
+    </component>`;
 }
 
 function imageResource(bg) {
@@ -402,6 +446,37 @@ export function parseVqeaf(source) {
     appearance:'glass', background:getColor('shellBottom','#151C27'), border:getColor('shellBorder','#435069'), text:getColor('subText','#9FB2CC'), accent:getColor('accent','#65DC96'), glow:getColor('glow','#00000000')
   });
 
+  const buttonStyles = {};
+  const keyStyleRe=/<component\s+id="keyStyle_([^"]+)"\s+type="button-style">([\s\S]*?)<\/component>/g;
+  for(const m of source.matchAll(keyStyleRe)) {
+    const block=m[2];
+    const target=blockString(block,'target',m[1].replace('star','*').replace('pound','#'));
+    const colors=[...block.matchAll(/colors\s*:\s*\[\s*"(#[0-9A-Fa-f]{3,8})"\s*,\s*"(#[0-9A-Fa-f]{3,8})"(?:\s*,\s*"(#[0-9A-Fa-f]{3,8})")?/g)];
+    const normal=colors[0] || [];
+    const pressed=colors[1] || [];
+    const shapeBlock=block.match(/shape\s*\{([\s\S]*?)\n\s*\}/)?.[1] || block;
+    const strokeBlock=block.match(/stroke\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const textBlock=block.match(/text\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const shadowBlock=block.match(/shadow\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const glowBlock=block.match(/glow\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const glossBlock=block.match(/gloss\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const decorationBlock=block.match(/decoration\s*\{([\s\S]*?)\}/)?.[1] || block;
+    const disabledBlock=block.match(/<state\s+name="disabled">([\s\S]*?)<\/state>/)?.[1] || '';
+    const findColor=(b,n,fb)=>b.match(new RegExp(`${escapeRegExp(n)}\\s*:\\s*"(#[0-9A-Fa-f]{3,8})"`))?.[1] || fb;
+    buttonStyles[target]={
+      presetId:blockString(block,'preset','custom'),
+      colorA:normal[1] || '#B9F58E', colorB:normal[2] || '#60C95D', colorC:normal[3] || normal[2] || '#48A94B',
+      pressedA:pressed[1] || normal[2] || '#60C95D', pressedB:pressed[2] || normal[3] || '#48A94B',
+      border:findColor(strokeBlock,'color','#E8FFD9'), borderWidth:blockUnit(strokeBlock,'width',2), radius:blockUnit(shapeBlock,'radius',18),
+      shadow:findColor(shadowBlock,'color','#00000055'), shadowY:blockUnit(shadowBlock,'y',4), shadowBlur:blockUnit(shadowBlock,'blur',10),
+      glow:findColor(glowBlock,'color','#A8FF92'), glowRadius:blockUnit(glowBlock,'radius',5),
+      gloss:blockBoolean(glossBlock,'enabled',true), glossOpacity:blockNumber(glossBlock,'opacity',.48),
+      text:findColor(textBlock,'color','#FFFFFF'), textOutline:findColor(textBlock,'outline','#3C9143'), textOutlineWidth:blockUnit(textBlock,'outlineWidth',1), fontSize:blockUnit(textBlock,'size',14,'sp'), fontWeight:blockNumber(textBlock,'weight',900),
+      decorLeft:blockString(decorationBlock,'left','none'), decorRight:blockString(decorationBlock,'right','none'),
+      disabledOpacity:blockNumber(disabledBlock,'opacity',.45), disabledSaturation:blockNumber(disabledBlock,'saturation',.25)
+    };
+  }
+
   return {
     themeId: attr('id','imported_theme'),
     themeName: attr('name','Imported Theme'),
@@ -420,6 +495,8 @@ export function parseVqeaf(source) {
     frameBackground,
     menuStyle,
     fpsStyle,
+    buttonStyles,
+    buttonBuilder:{target:'selected',presetId:'candy_green',previewState:'normal'},
     decorations,
     theme: {
       shellTop:getColor('shellTop','#2B3444'), shellBottom:getColor('shellBottom','#151C27'), shellBorder:getColor('shellBorder','#435069'),

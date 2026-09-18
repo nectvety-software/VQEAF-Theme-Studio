@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3.2
+# VQEAF Theme Studio V3.7.1
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Nokia 225 / VXPQeaf.
 
@@ -51,7 +51,6 @@ VQEAF-Theme-Studio/
 ├── run.bat              # alias gọi rub.bat
 ├── server.ps1           # server dự phòng khi không có Python
 ├── styles.css
-├── README.md
 ├── src/
 │   ├── app.js
 │   ├── presets.js
@@ -59,7 +58,15 @@ VQEAF-Theme-Studio/
 ├── assets/
 │   └── nokia225-reference.png
 └── docs/
-    └── Nokia225_Keypad_Shell.md
+    ├── README.md
+    ├── CHANGELOG.md
+    ├── Nokia225_Keypad_Shell.md
+    ├── VQEAF_1_0_SPEC.md
+    └── prompts/
+        ├── PROMPT_01_VQEAF_ANDROID_ENGINE.md
+        ├── PROMPT_02_NOKIA_FRAME_INTEGRATION.md
+        ├── PROMPT_03_BUTTON_BUILDER_V37.md
+        └── PROMPT_04_THEME_STUDIO_CONTINUE.md
 ```
 
 ## VQEAF extensions dùng trong V3
@@ -84,6 +91,11 @@ Chọn trực tiếp **MENU** hoặc **FPS** trên preview để mở inspector 
 ## V3.5 — MENU/FPS isolated style fix
 
 MENU Bubble và FPS Badge dùng style độc lập; chỉnh màu, border, glow, bo góc hoặc typography không còn làm đổi keypad. Bản này cũng thêm cache-busting để trình duyệt luôn tải đúng JavaScript mới sau khi nâng phiên bản.
+
+
+## V3.7 — Button Builder
+
+Tab **Tạo nút** cho phép dựng keycap kiểu glossy/candy/fantasy tương tự UI game mobile: gradient nhiều lớp, gloss highlight, shadow/glow, outline chữ và decoration ở hai mép. Có thể áp cho một phím hoặc hàng loạt nhóm điều hướng / bàn phím số / toàn bộ keypad. Style riêng được lưu trực tiếp trong `.vqeaf` bằng các component `keyStyle_*`.
 
 ## V3.6 — Tên theme tự động 8 số + style
 
