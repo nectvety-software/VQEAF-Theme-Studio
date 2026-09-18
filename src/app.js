@@ -529,6 +529,11 @@ function renderPresets() {
       } else {
         state.buttonStyles={};
       }
+      if(Array.isArray(p.decorations)) {
+        state.decorations=structuredClone(p.decorations);
+        state.selectedDecoration=null;
+        if(state.selected==='decoration') state.selected='phoneShell';
+      }
     });
     els.presetGrid.appendChild(d);
   });

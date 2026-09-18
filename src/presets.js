@@ -302,6 +302,27 @@ export const presets = [
       7: 'pop_yellow', 8: 'pop_blue', 9: 'pop_red',
       '*': 'pop_red', 0: 'gaze_pale', '#': 'pop_blue'
     }
+  },
+  {
+    id: 'candy_cloud_full', name: 'Candy Cloud Full', subtitle: 'Nền mây + nút candy', p1:'#FFB2D4', p2:'#8A7BC8',
+    theme: { shellTop:'#7A6A9E', shellBottom:'#3A3358', shellBorder:'#E8D8F5', screen:'#141428', key:'#6A5A94', keyPressed:'#8676B8', keyBorder:'#D8C8F0', keyText:'#FFFFFF', sub:'#E4D8F5', accent:'#FFB13B', glow:'#FF9BC5', radius:22, keyRadius:12 },
+    buttonMap: {
+      menu: 'cloud_blue', up: 'magic_purple', rsk: 'cloud_blue',
+      left: 'candy_pink', ok: 'star_orange', right: 'candy_green', down: 'magic_purple',
+      1: 'candy_green', 2: 'candy_pink', 3: 'cloud_blue',
+      4: 'magic_purple', 5: 'star_orange', 6: 'aqua_slime',
+      7: 'cloud_blue', 8: 'candy_pink', 9: 'magic_purple',
+      '*': 'star_orange', 0: 'ice_glass', '#': 'candy_green'
+    },
+    decorations: [
+      { id:'deco_star', type:'star', x:0, y:8, size:18, rotation:0, opacity:1, color:'#FFD45A', flipX:false, flipY:false, floating:true, floatAmplitude:5, floatDuration:2600 },
+      { id:'deco_flower', type:'flower', x:246, y:10, size:18, rotation:0, opacity:1, color:'#FF9BC5', flipX:false, flipY:false, floating:true, floatAmplitude:4, floatDuration:3000 },
+      { id:'deco_cloud', type:'cloud', x:236, y:330, size:24, rotation:0, opacity:.95, color:'#D8F5FF', flipX:false, flipY:false, floating:false, floatAmplitude:5, floatDuration:2600 },
+      { id:'deco_leaf', type:'leaf', x:2, y:560, size:16, rotation:0, opacity:1, color:'#6EDB91', flipX:false, flipY:false, floating:false, floatAmplitude:5, floatDuration:2600 },
+      { id:'deco_gem', type:'gem', x:4, y:300, size:18, rotation:0, opacity:1, color:'#B04BFF', flipX:false, flipY:false, floating:true, floatAmplitude:6, floatDuration:2800 },
+      { id:'deco_chest', type:'chest', x:228, y:545, size:28, rotation:0, opacity:1, color:'#C87942', flipX:false, flipY:false, floating:false, floatAmplitude:5, floatDuration:2600 },
+      { id:'deco_slime', type:'slime', x:200, y:556, size:26, rotation:0, opacity:1, color:'#50DCC8', flipX:false, flipY:false, floating:true, floatAmplitude:5, floatDuration:2400 }
+    ]
   }
 ];
 
