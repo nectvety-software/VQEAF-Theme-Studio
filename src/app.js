@@ -23,6 +23,35 @@ function freshFrameBackground() {
 function freshEffects() {
   return { frameFxOpacity:.12, frameFxBlend:'screen', floatEnabled:false, floatAmplitude:6, floatDuration:3200, floatShadow:30 };
 }
+function freshBadgeStyle(kind='menu', theme=defaultPreset.theme) {
+  return {
+    appearance: kind==='fps' ? 'glass' : 'solid',
+    background: theme.key,
+    border: theme.keyBorder,
+    text: theme.keyText,
+    accent: theme.accent,
+    glow: theme.glow,
+    radius: 18,
+    borderWidth: 1,
+    fontSize: 11,
+    fontWeight: 800,
+    letterSpacing: .04,
+    opacity: 1,
+    glowRadius: kind==='fps' ? 6 : 8,
+    shadow: 18,
+    paddingX: 13,
+    paddingY: 11,
+    dotSize: 6,
+    dotGlow: 8,
+    uppercase: true
+  };
+}
+function badgeStyleFromTheme(kind, theme) {
+  const b=freshBadgeStyle(kind,theme);
+  if(kind==='menu') { b.background=theme.key; b.border=theme.keyBorder; b.text=theme.keyText; }
+  else { b.background=theme.shellBottom; b.border=theme.shellBorder; b.text=theme.sub || theme.keyText; }
+  return b;
+}
 function freshState() {
   return {
     themeId: defaultPreset.id,
@@ -38,6 +67,8 @@ function freshState() {
     keypadBackground:freshBackground(),
     frameBackground:freshFrameBackground(),
     effects:freshEffects(),
+    menuStyle:freshBadgeStyle('menu'),
+    fpsStyle:freshBadgeStyle('fps'),
     layerOrder:[...DEFAULT_LAYER_ORDER],
     undo:[],
     redo:[]
@@ -105,6 +136,8 @@ function serializableState() {
     keypadBackground:state.keypadBackground,
     frameBackground:state.frameBackground,
     effects:state.effects,
+    menuStyle:state.menuStyle,
+    fpsStyle:state.fpsStyle,
     layerOrder:state.layerOrder,
     orientation:state.orientation,
     zoom:state.zoom,
@@ -133,6 +166,8 @@ function normalizeLoaded(x={}) {
     keypadBackground:{...freshBackground(),...(x.keypadBackground||{})},
     frameBackground:{...freshFrameBackground(),...(x.frameBackground||{})},
     effects:{...freshEffects(),...(x.effects||{})},
+    menuStyle:{...freshBadgeStyle('menu', {...base.theme,...(x.theme||{})}),...(x.menuStyle||{})},
+    fpsStyle:{...freshBadgeStyle('fps', {...base.theme,...(x.theme||{})}),...(x.fpsStyle||{})},
     layerOrder:(()=>{ const a=Array.isArray(x.layerOrder)?x.layerOrder.filter(v=>DEFAULT_LAYER_ORDER.includes(v)):[]; for(const id of DEFAULT_LAYER_ORDER) if(!a.includes(id)) a.push(id); return a; })(),
     decorations:Array.isArray(x.decorations) ? x.decorations.map((d,i)=>({
       id:d.id || `${Date.now().toString(36)}${i}`,
@@ -229,7 +264,63 @@ function applyTheme() {
   els.keypadBgLayer.style.transform=`translate(${bg.offsetX}px,${bg.offsetY}px) rotate(${bg.rotation||0}deg) scale(${bg.scale}) scaleX(${bg.flipX?-1:1}) scaleY(${bg.flipY?-1:1})`;
   els.keypadBgLayer.style.zIndex=bg.position==='above' ? '5' : '0';
 
+  applyBadgeStyle(document.querySelector('.menu-badge'), state.menuStyle, 'menu');
+  applyBadgeStyle(document.querySelector('.fps-badge'), state.fpsStyle, 'fps');
+
   applyLayerOrder();
+}
+
+function applyBadgeStyle(el, style, kind) {
+  if(!el || !style) return;
+  const alphaHex=Math.round(Math.max(0,Math.min(1,style.opacity ?? 1))*255).toString(16).padStart(2,'0').toUpperCase();
+  const bg=normalizeColor(style.background || '#151F2E');
+  const border=normalizeColor(style.border || '#40506C');
+  const text=normalizeColor(style.text || '#FFFFFF');
+  const glow=normalizeColor(style.glow || '#000000');
+  const accent=normalizeColor(style.accent || '#65DC96');
+  const appearance=style.appearance || 'solid';
+  el.style.borderRadius=`${Number(style.radius ?? 18)}px`;
+  el.style.borderWidth=`${Number(style.borderWidth ?? 1)}px`;
+  el.style.borderStyle='solid';
+  el.style.borderColor=border;
+  el.style.color=text;
+  el.style.fontSize=`${Number(style.fontSize ?? 11)}px`;
+  el.style.fontWeight=String(Number(style.fontWeight ?? 800));
+  el.style.letterSpacing=`${Number(style.letterSpacing ?? .04)}em`;
+  el.style.padding=`${Number(style.paddingY ?? 11)}px ${Number(style.paddingX ?? 13)}px`;
+  el.style.opacity=String(Number(style.opacity ?? 1));
+  el.style.textTransform=style.uppercase===false ? 'none' : 'uppercase';
+  let background=bg;
+  let shadow=`0 ${Math.max(3,Math.round(Number(style.shadow ?? 18)*.45))}px ${Number(style.shadow ?? 18)}px #0006`;
+  if(appearance==='glass') {
+    background=`linear-gradient(180deg, ${bg}${alphaHex}, ${bg}99)`;
+    el.style.backdropFilter='blur(8px) saturate(1.15)';
+    shadow+=`, inset 0 1px 0 #FFFFFF20`;
+  } else if(appearance==='outline') {
+    background='#00000022';
+    el.style.backdropFilter='blur(3px)';
+  } else if(appearance==='neon') {
+    background=`linear-gradient(180deg, ${bg}F2, ${bg}CC)`;
+    shadow+=`, 0 0 ${Number(style.glowRadius ?? 8)}px ${glow}, inset 0 0 ${Math.max(2,Number(style.glowRadius ?? 8)*.45)}px ${glow}66`;
+  } else if(appearance==='pixel') {
+    background=bg;
+    el.style.borderRadius='3px';
+    el.style.backdropFilter='none';
+    shadow=`3px 3px 0 ${border}, 6px 6px 0 #0008`;
+  } else {
+    background=`linear-gradient(180deg, ${bg}, ${bg}E6)`;
+    el.style.backdropFilter='none';
+    if(Number(style.glowRadius ?? 0)>0) shadow+=`, 0 0 ${Number(style.glowRadius)}px ${glow}88`;
+  }
+  el.style.background=background;
+  el.style.boxShadow=shadow;
+  const dot=el.querySelector('i');
+  if(dot) {
+    dot.style.width=`${Number(style.dotSize ?? 6)}px`;
+    dot.style.height=`${Number(style.dotSize ?? 6)}px`;
+    dot.style.background=accent;
+    dot.style.boxShadow=`0 0 ${Number(style.dotGlow ?? 8)}px ${accent}`;
+  }
 }
 
 function applyLayerOrder() {
@@ -253,6 +344,8 @@ function renderPresets() {
     d.innerHTML=`<strong>${p.name}</strong><small>${p.subtitle}</small>`;
     d.onclick=()=>commit(()=>{
       state.themeId=p.id; state.themeName=p.name; state.autoId=true; state.theme=structuredClone(p.theme);
+      state.menuStyle=badgeStyleFromTheme('menu',state.theme);
+      state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
     });
     els.presetGrid.appendChild(d);
   });
@@ -392,8 +485,8 @@ const fieldMap = {
   key:[['key','Màu phím','color'],['keyPressed','Khi nhấn','color'],['keyBorder','Viền phím','color'],['keyText','Chữ','color'],['sub','Nhãn phụ','color'],['glow','Glow','color'],['keyRadius','Bo góc','range',0,18]],
   keypad:[['key','Màu phím','color'],['keyBorder','Viền phím','color'],['keyText','Chữ','color'],['sub','Nhãn phụ','color']],
   networkLed:[['accent','LED / Accent','color']],
-  menuButton:[['key','Nền','color'],['keyBorder','Viền','color'],['keyText','Chữ','color']],
-  fpsBadge:[['key','Nền','color'],['keyBorder','Viền','color'],['keyText','Chữ','color']]
+  menuButton:[],
+  fpsBadge:[]
 };
 
 function renderInspector() {
@@ -423,6 +516,10 @@ function renderInspector() {
   });
   els.inspector.append(group);
 
+  if(state.selected==='menuButton' || state.selected==='fpsBadge') {
+    els.inspector.append(buildBadgeStyleGroup(state.selected==='menuButton' ? 'menu' : 'fps'));
+  }
+
   if(state.selected==='phoneShell') {
     const fx=inspectorGroup('Frame FX & Floating');
     fx.append(
@@ -440,6 +537,40 @@ function renderInspector() {
     els.inspector.append(buildBackgroundGroup());
   }
 }
+function buildBadgeStyleGroup(kind) {
+  const isMenu=kind==='menu';
+  const style=isMenu ? state.menuStyle : state.fpsStyle;
+  const g=inspectorGroup(isMenu ? 'Giao diện Menu' : 'Giao diện FPS');
+  const presetRow=document.createElement('div'); presetRow.className='transform-toolbar';
+  const styles=[['Solid','solid'],['Glass','glass'],['Outline','outline'],['Neon','neon'],['Pixel','pixel']];
+  styles.forEach(([label,value])=>{const b=document.createElement('button'); b.textContent=label; b.classList.toggle('active',style.appearance===value); b.onclick=()=>commit(()=>style.appearance=value); presetRow.appendChild(b);});
+  g.append(presetRow);
+  g.append(
+    selectField('Kiểu hiển thị',style.appearance,[['solid','Solid'],['glass','Glass'],['outline','Outline'],['neon','Neon'],['pixel','Pixel']],v=>{style.appearance=v;renderAll(false);}),
+    field('Màu nền','badgeBackground','color',style.background,v=>{style.background=v;renderAll(false);}),
+    field('Màu viền','badgeBorder','color',style.border,v=>{style.border=v;renderAll(false);}),
+    field('Màu chữ','badgeText','color',style.text,v=>{style.text=v;renderAll(false);}),
+    field('Màu chấm LED','badgeAccent','color',style.accent,v=>{style.accent=v;renderAll(false);}),
+    field('Màu glow','badgeGlow','color',style.glow,v=>{style.glow=v;renderAll(false);}),
+    field('Bo góc','badgeRadius','range',style.radius,v=>{style.radius=+v;renderAll(false);},0,32),
+    field('Độ dày viền','badgeBorderWidth','range',style.borderWidth,v=>{style.borderWidth=+v;renderAll(false);},0,4,.25),
+    field('Glow radius','badgeGlowRadius','range',style.glowRadius,v=>{style.glowRadius=+v;renderAll(false);},0,24),
+    field('Độ sâu bóng','badgeShadow','range',style.shadow,v=>{style.shadow=+v;renderAll(false);},0,40),
+    field('Độ mờ','badgeOpacity','range',style.opacity,v=>{style.opacity=+v;renderAll(false);},.2,1,.05),
+    field('Cỡ chữ','badgeFontSize','range',style.fontSize,v=>{style.fontSize=+v;renderAll(false);},8,18),
+    field('Độ đậm chữ','badgeFontWeight','range',style.fontWeight,v=>{style.fontWeight=+v;renderAll(false);},400,900,100),
+    field('Giãn chữ','badgeLetterSpacing','range',style.letterSpacing,v=>{style.letterSpacing=+v;renderAll(false);},0,.18,.01),
+    field('Padding ngang','badgePaddingX','range',style.paddingX,v=>{style.paddingX=+v;renderAll(false);},4,24),
+    field('Padding dọc','badgePaddingY','range',style.paddingY,v=>{style.paddingY=+v;renderAll(false);},4,18),
+    field('Kích thước LED','badgeDotSize','range',style.dotSize,v=>{style.dotSize=+v;renderAll(false);},3,12),
+    field('Glow LED','badgeDotGlow','range',style.dotGlow,v=>{style.dotGlow=+v;renderAll(false);},0,20),
+    toggleField('Chữ in hoa',style.uppercase!==false,v=>{style.uppercase=v;renderAll(false);})
+  );
+  const reset=document.createElement('button'); reset.className='ghost'; reset.textContent='Đồng bộ màu theo theme'; reset.onclick=()=>commit(()=>{const next=badgeStyleFromTheme(kind,state.theme); if(isMenu) state.menuStyle=next; else state.fpsStyle=next;});
+  g.append(reset);
+  return g;
+}
+
 function inspectorGroup(title) { const g=document.createElement('div'); g.className='inspector-group'; g.innerHTML=`<h3>${title}</h3>`; return g; }
 
 function field(label,key,type,value,onchange,min=0,max=100,step=1) {
@@ -714,6 +845,10 @@ function randomizeTheme() {
     state.effects.frameFxBlend=['screen','overlay','soft-light'][rand(0,3)];
     state.effects.floatEnabled=Math.random()>.45;
     state.effects.floatAmplitude=rand(3,10); state.effects.floatDuration=rand(24,48)*100; state.effects.floatShadow=rand(22,48);
+    state.menuStyle=badgeStyleFromTheme('menu',state.theme);
+    state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
+    state.menuStyle.appearance=['solid','glass','outline','neon','pixel'][rand(0,5)];
+    state.fpsStyle.appearance=['solid','glass','outline','neon','pixel'][rand(0,5)];
     setRandomName();
     if(Math.random()>.45) {
       const count=rand(1,4); const types=[...draggableComponents]; state.decorations=[];

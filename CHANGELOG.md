@@ -1,5 +1,14 @@
 # Changelog
 
+## V3.4
+
+- Nâng cấp giao diện riêng cho **MENU bubble** và **FPS badge** thay vì chỉ dùng chung màu keypad.
+- Thêm 5 kiểu badge: **Solid, Glass, Outline, Neon, Pixel**.
+- Cho phép chỉnh độc lập màu nền, viền, chữ, LED, glow, bo góc, độ dày viền, shadow, opacity, font, letter spacing, padding và kích thước/glow chấm LED.
+- Preset và Random Theme tự tạo style Menu/FPS phù hợp với palette hiện tại.
+- Export/import `.vqeaf` lưu và khôi phục đầy đủ component `menuButton` / `fpsBadge`.
+- Undo/Redo và Autosave bao phủ toàn bộ thông số mới.
+
 ## V3.3
 
 - Tăng thư viện preset theme từ **40 lên 52 mẫu**.

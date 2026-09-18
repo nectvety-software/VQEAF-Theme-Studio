@@ -8,6 +8,8 @@ export function serializeTheme(state) {
   const effects = state.effects || {};
   const bg = state.keypadBackground || {};
   const frameBg = state.frameBackground || {};
+  const menuStyle = state.menuStyle || {};
+  const fpsStyle = state.fpsStyle || {};
   const layerOrder = state.layerOrder || [];
   const vectorIds = [...new Set(decorations.map(d => d.type))];
   const vectorBlock = vectorIds.map(id => vectorFor(id)).join('\n\n');
@@ -138,11 +140,55 @@ export function serializeTheme(state) {
         shape { fill: $palette.accent radius: 99dp }
     </component>
 
-    <component id="menuButton" extends="key">
-        shape { radius: 18dp }
+    <component id="menuButton" type="badge">
+        appearance: ${q(menuStyle.appearance || 'solid')}
+        shape {
+            radius: ${Number(menuStyle.radius ?? 18)}dp
+            fill: ${color(menuStyle.background || t.key)}
+            stroke { width: ${Number(menuStyle.borderWidth ?? 1)}dp color: ${color(menuStyle.border || t.keyBorder)} }
+        }
+        text {
+            color: ${color(menuStyle.text || t.keyText)}
+            size: ${Number(menuStyle.fontSize ?? 11)}sp
+            weight: ${Number(menuStyle.fontWeight ?? 800)}
+            letterSpacing: ${Number(menuStyle.letterSpacing ?? .04).toFixed(2)}
+            uppercase: ${bool(menuStyle.uppercase !== false)}
+        }
+        indicator {
+            color: ${color(menuStyle.accent || t.accent)}
+            size: ${Number(menuStyle.dotSize ?? 6)}dp
+            glow: ${Number(menuStyle.dotGlow ?? 8)}dp
+        }
+        glow { color: ${color(menuStyle.glow || t.glow)} radius: ${Number(menuStyle.glowRadius ?? 8)}dp }
+        shadow { blur: ${Number(menuStyle.shadow ?? 18)}dp }
+        opacity: ${Number(menuStyle.opacity ?? 1).toFixed(2)}
+        padding { horizontal: ${Number(menuStyle.paddingX ?? 13)}dp vertical: ${Number(menuStyle.paddingY ?? 11)}dp }
     </component>
 
-    <component id="fpsBadge" extends="menuButton"></component>
+    <component id="fpsBadge" type="badge">
+        appearance: ${q(fpsStyle.appearance || 'glass')}
+        shape {
+            radius: ${Number(fpsStyle.radius ?? 18)}dp
+            fill: ${color(fpsStyle.background || t.shellBottom)}
+            stroke { width: ${Number(fpsStyle.borderWidth ?? 1)}dp color: ${color(fpsStyle.border || t.shellBorder)} }
+        }
+        text {
+            color: ${color(fpsStyle.text || t.sub)}
+            size: ${Number(fpsStyle.fontSize ?? 11)}sp
+            weight: ${Number(fpsStyle.fontWeight ?? 800)}
+            letterSpacing: ${Number(fpsStyle.letterSpacing ?? .04).toFixed(2)}
+            uppercase: ${bool(fpsStyle.uppercase !== false)}
+        }
+        indicator {
+            color: ${color(fpsStyle.accent || t.accent)}
+            size: ${Number(fpsStyle.dotSize ?? 6)}dp
+            glow: ${Number(fpsStyle.dotGlow ?? 8)}dp
+        }
+        glow { color: ${color(fpsStyle.glow || t.glow)} radius: ${Number(fpsStyle.glowRadius ?? 6)}dp }
+        shadow { blur: ${Number(fpsStyle.shadow ?? 18)}dp }
+        opacity: ${Number(fpsStyle.opacity ?? 1).toFixed(2)}
+        padding { horizontal: ${Number(fpsStyle.paddingX ?? 13)}dp vertical: ${Number(fpsStyle.paddingY ?? 11)}dp }
+    </component>
 
 ${decorations.map(d => decorationComponent(d)).join('\n\n')}
 
@@ -349,6 +395,13 @@ export function parseVqeaf(source) {
     });
   }
 
+  const menuStyle = parseBadgeComponent(source,'menuButton',{
+    appearance:'solid', background:getColor('key','#34445D'), border:getColor('keyBorder','#506685'), text:getColor('keyText','#FFFFFF'), accent:getColor('accent','#65DC96'), glow:getColor('glow','#00000000')
+  });
+  const fpsStyle = parseBadgeComponent(source,'fpsBadge',{
+    appearance:'glass', background:getColor('shellBottom','#151C27'), border:getColor('shellBorder','#435069'), text:getColor('subText','#9FB2CC'), accent:getColor('accent','#65DC96'), glow:getColor('glow','#00000000')
+  });
+
   return {
     themeId: attr('id','imported_theme'),
     themeName: attr('name','Imported Theme'),
@@ -365,6 +418,8 @@ export function parseVqeaf(source) {
     },
     keypadBackground,
     frameBackground,
+    menuStyle,
+    fpsStyle,
     decorations,
     theme: {
       shellTop:getColor('shellTop','#2B3444'), shellBottom:getColor('shellBottom','#151C27'), shellBorder:getColor('shellBorder','#435069'),
@@ -372,6 +427,31 @@ export function parseVqeaf(source) {
       keyText:getColor('keyText','#FFFFFF'), sub:getColor('subText','#9FB2CC'), accent:getColor('accent','#65DC96'), glow:getColor('glow','#00000000'),
       radius:unit('shellRadius',20), keyRadius:unit('keyRadius',6)
     }
+  };
+}
+
+function parseBadgeComponent(source,id,fallback={}) {
+  const re=new RegExp(`<component\\s+id="${escapeRegExp(id)}"[^>]*>([\\s\\S]*?)<\\/component>`);
+  const block=source.match(re)?.[1] || '';
+  if(!block) return {
+    appearance:fallback.appearance || 'solid', background:fallback.background || '#151F2E', border:fallback.border || '#40506C', text:fallback.text || '#FFFFFF', accent:fallback.accent || '#65DC96', glow:fallback.glow || '#00000000', radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1, glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+  };
+  const shape=block.match(/shape\s*\{([\s\S]*?)\n\s*\}/)?.[1] || block;
+  const textBlock=block.match(/text\s*\{([\s\S]*?)\}/)?.[1] || block;
+  const indicator=block.match(/indicator\s*\{([\s\S]*?)\}/)?.[1] || block;
+  const glowBlock=block.match(/glow\s*\{([\s\S]*?)\}/)?.[1] || block;
+  const shadowBlock=block.match(/shadow\s*\{([\s\S]*?)\}/)?.[1] || block;
+  const padding=block.match(/padding\s*\{([\s\S]*?)\}/)?.[1] || block;
+  const findColor=(b,n,fb)=>b.match(new RegExp(`${escapeRegExp(n)}\\s*:\\s*"(#[0-9A-Fa-f]{3,8})"`))?.[1] || fb;
+  return {
+    appearance:blockString(block,'appearance',fallback.appearance || 'solid'),
+    background:findColor(shape,'fill',fallback.background || '#151F2E'),
+    border:findColor(shape,'color',fallback.border || '#40506C'),
+    text:findColor(textBlock,'color',fallback.text || '#FFFFFF'),
+    accent:findColor(indicator,'color',fallback.accent || '#65DC96'),
+    glow:findColor(glowBlock,'color',fallback.glow || '#00000000'),
+    radius:blockUnit(shape,'radius',18), borderWidth:blockUnit(shape,'width',1), fontSize:blockUnit(textBlock,'size',11,'sp'), fontWeight:blockNumber(textBlock,'weight',800), letterSpacing:blockNumber(textBlock,'letterSpacing',.04), uppercase:blockBoolean(textBlock,'uppercase',true),
+    dotSize:blockUnit(indicator,'size',6), dotGlow:blockUnit(indicator,'glow',8), glowRadius:blockUnit(glowBlock,'radius',8), shadow:blockUnit(shadowBlock,'blur',18), opacity:blockNumber(block,'opacity',1), paddingX:blockUnit(padding,'horizontal',13), paddingY:blockUnit(padding,'vertical',11)
   };
 }
 

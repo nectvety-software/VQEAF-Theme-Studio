@@ -2,8 +2,6 @@
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Nokia 225 / VXPQeaf.
 
-Lightweight web app for designing `.vqeaf` themes for the Nokia 225 / VXPQeaf frame.
-
 ## Chạy nhanh trên Windows
 
 Không cần build. Cách dễ nhất là **nhấp đúp `rub.bat`**. Launcher sẽ:
@@ -78,94 +76,6 @@ Studio xuất thêm các cấu hình:
 
 Android VQEAF Engine cần renderer tương ứng cho image resource Data URI và các transform này.
 
-## Sở hữu & Liên hệ
+## Menu & FPS custom style (V3.4)
 
-Dự án thuộc sở hữu bởi [https://qeafivels.com/](https://qeafivels.com/).
-
-- Website: https://qeafivels.com/
-- Email: dohop96@gmail.com
-
----
-
-## English
-
-### Quick start on Windows
-
-No build required. The easiest way is to **double-click `rub.bat`**. The launcher will:
-
-- switch to the correct project directory;
-- find a free port from `8080` to `8099`;
-- prefer `py -3`, `python`, or `python3`;
-- fall back to the bundled `server.ps1` if Python is not installed;
-- automatically open the browser at the local server address;
-- stop the server with `Ctrl+C`.
-
-An extra `run.bat` is provided as an alias for `rub.bat` if you prefer a more common launcher name.
-
-Manual run is also supported:
-
-```bash
-python -m http.server 8080 --bind 127.0.0.1
-```
-
-Then open `http://127.0.0.1:8080/`.
-
-### Features
-
-- Set theme name + auto-generate ID.
-- Random theme / random name.
-- Autosave with IndexedDB, localStorage fallback.
-- 100-step Undo/Redo (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
-- Nokia 225 portrait/landscape preview with zoom.
-- **52 built-in presets**: Nokia Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro S40, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Game Boy, Nokia Blue, Aurora, Magma, Mint, Steel, Royal Purple, and more.
-- Single-file `.vqeaf` import/export.
-- Separate background import for the keypad.
-- **On-key → Per-key texture** mode keeps numbers/labels/borders sharp instead of covering the whole keypad with an image.
-- Adjust opacity, blend, brightness, contrast, saturation, blur, scale, and offset.
-- Separate background import for **PhoneShellFrame**, clipped to rounded corners and controlled via Layer Stack.
-- Keypad/frame backgrounds support rotate left/right, flip horizontal/vertical, and transform reset.
-- Drag-and-drop decorations with delete, rotate, flip horizontal/vertical, layer reorder, and floating animation.
-- Layer Stack for Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED, Menu/FPS.
-- Whole-frame floating effect plus per-decoration floating.
-- Raster images are optimized and then embedded as Data URIs directly in the `.vqeaf` file.
-
-### Structure
-
-```text
-VQEAF-Theme-Studio/
-├── index.html
-├── rub.bat              # Windows launcher
-├── run.bat              # alias for rub.bat
-├── server.ps1           # fallback server when Python is unavailable
-├── styles.css
-├── README.md
-├── src/
-│   ├── app.js
-│   ├── presets.js
-│   └── vqeaf.js
-├── assets/
-│   └── nokia225-reference.png
-└── docs/
-    └── Nokia225_Keypad_Shell.md
-```
-
-### VQEAF extensions used in V3
-
-The Studio exports these additional settings:
-
-- `frame_background` image resource
-- `keypad_background` image resource
-- `phoneShell.background { ... }`
-- `keypad.background.renderMode = "per-key-texture"`
-- `brightness`, `contrast`, `saturation`, `readabilityAssist`
-- `rotation`, `scaleX`, `scaleY` for backgrounds and decorations
-- `layerOrder` including `frameBackground`
-
-The Android VQEAF Engine needs a matching renderer for Data URI image resources and these transforms.
-
-### Ownership & Contact
-
-This project is owned by [https://qeafivels.com/](https://qeafivels.com/).
-
-- Website: https://qeafivels.com/
-- Email: dohop96@gmail.com
+Chọn trực tiếp **MENU** hoặc **FPS** trên preview để mở inspector riêng. Có thể chọn Solid / Glass / Outline / Neon / Pixel và tinh chỉnh màu, viền, glow, font, opacity, padding, LED indicator. Các thông số được lưu trong `.vqeaf`.
