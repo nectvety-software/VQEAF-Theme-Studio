@@ -1,12 +1,12 @@
 @vqeaf 1.0
 
-<theme id="matrix_rain_hd" name="Matrix Rain">
+<theme id="hanoi_night" name="Hà Nội Night">
 
     metadata {
         author: "DOXUANHOP"
         website: "https://qeafivels.com/"
         version: "1.0.0"
-        description: "Theme created with VQEAF Theme Studio"
+        description: "Theme Ha Noi dem - pho dem + den vang"
     }
 
     studio {
@@ -18,23 +18,23 @@
     }
 
     palette {
-        shellTop: "#102818"
-        shellBottom: "#010603"
-        shellBorder: "#2D7D41"
-        screen: "#000400"
-        key: "#12311D"
-        keyPressed: "#1A4A2D"
-        keyBorder: "#44C467"
-        keyText: "#C9FFD6"
-        subText: "#76C78A"
-        accent: "#7BFF92"
-        glow: "#34FF66"
+        shellTop: "#1A2A3A"
+        shellBottom: "#0B1C2E"
+        shellBorder: "#C4A35A"
+        screen: "#061018"
+        key: "#2A3D4F"
+        keyPressed: "#3E5568"
+        keyBorder: "#FFC857"
+        keyText: "#F5E6C8"
+        subText: "#A8C0D0"
+        accent: "#FF4D4D"
+        glow: "#FFC857"
     }
 
     metrics {
-        shellRadius: 16dp
-        keyRadius: 5dp
-        keyBorder: 1dp
+        shellRadius: 20dp
+        keyRadius: 8dp
+        keyBorder: 2dp
     }
 
     <component id="phoneShell" type="container">
@@ -74,7 +74,6 @@
             floatDuration: 3200ms
             floatShadow: 30dp
         }
-        
     </component>
 
     <component id="screen" type="panel">
@@ -94,8 +93,6 @@
             transform { scale: 0.98 }
         </state>
     </component>
-
-
 
     <component id="keypad" type="container">
         background {
@@ -128,22 +125,22 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#12311D"
-            stroke { width: 1dp color: "#44C467" }
+            fill: "#2A3D4F"
+            stroke { width: 1dp color: "#FFC857" }
         }
         text {
-            color: "#C9FFD6"
+            color: "#F5E6C8"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#7BFF92"
+            color: "#FF4D4D"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#34FF66" radius: 8dp }
+        glow { color: "#FFC857" radius: 8dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }
@@ -153,35 +150,25 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#010603"
-            stroke { width: 1dp color: "#2D7D41" }
+            fill: "#0B1C2E"
+            stroke { width: 1dp color: "#C4A35A" }
         }
         text {
-            color: "#76C78A"
+            color: "#A8C0D0"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#7BFF92"
+            color: "#FF4D4D"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#34FF66" radius: 6dp }
+        glow { color: "#FFC857" radius: 6dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }
     </component>
-
-
-
-
-
-
-
-
-
-
 
 </theme>

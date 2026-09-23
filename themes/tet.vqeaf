@@ -1,12 +1,12 @@
 @vqeaf 1.0
 
-<theme id="indigo_tide" name="Indigo Tide">
+<theme id="tet" name="Tết">
 
     metadata {
         author: "DOXUANHOP"
         website: "https://qeafivels.com/"
         version: "1.0.0"
-        description: "Theme created with VQEAF Theme Studio"
+        description: "Theme Tet - do dao + vang mai"
     }
 
     studio {
@@ -18,23 +18,23 @@
     }
 
     palette {
-        shellTop: "#1B2A6B"
-        shellBottom: "#0A0F2C"
-        shellBorder: "#4A5FD4"
-        screen: "#05070F"
-        key: "#223070"
-        keyPressed: "#3A4FA8"
-        keyBorder: "#6C83E8"
-        keyText: "#F2F5FF"
-        subText: "#A9B6E8"
-        accent: "#5EE6C8"
-        glow: "#4C7CF0"
+        shellTop: "#8B1217"
+        shellBottom: "#2A0A0C"
+        shellBorder: "#E2352F"
+        screen: "#140406"
+        key: "#A82C2F"
+        keyPressed: "#D4503B"
+        keyBorder: "#FFD166"
+        keyText: "#FFF3C4"
+        subText: "#FFB4A2"
+        accent: "#FFD166"
+        glow: "#FF6B4A"
     }
 
     metrics {
-        shellRadius: 22dp
-        keyRadius: 8dp
-        keyBorder: 1dp
+        shellRadius: 24dp
+        keyRadius: 10dp
+        keyBorder: 2dp
     }
 
     <component id="phoneShell" type="container">
@@ -125,22 +125,22 @@
         appearance: "solid"
         shape {
             radius: 18dp
-            fill: "#223070"
-            stroke { width: 1dp color: "#6C83E8" }
+            fill: "#A82C2F"
+            stroke { width: 1dp color: "#FFD166" }
         }
         text {
-            color: "#F2F5FF"
+            color: "#FFF3C4"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#5EE6C8"
+            color: "#FFD166"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#4C7CF0" radius: 8dp }
+        glow { color: "#FF6B4A" radius: 8dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }
@@ -150,22 +150,22 @@
         appearance: "glass"
         shape {
             radius: 18dp
-            fill: "#0A0F2C"
-            stroke { width: 1dp color: "#4A5FD4" }
+            fill: "#2A0A0C"
+            stroke { width: 1dp color: "#E2352F" }
         }
         text {
-            color: "#A9B6E8"
+            color: "#FFB4A2"
             size: 11sp
             weight: 800
             letterSpacing: 0.04
             uppercase: true
         }
         indicator {
-            color: "#5EE6C8"
+            color: "#FFD166"
             size: 6dp
             glow: 8dp
         }
-        glow { color: "#00000000" radius: 6dp }
+        glow { color: "#FF6B4A" radius: 6dp }
         shadow { blur: 18dp }
         opacity: 1.00
         padding { horizontal: 13dp vertical: 11dp }

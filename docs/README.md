@@ -30,7 +30,7 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Autosave bằng IndexedDB, fallback localStorage.
 - Undo/Redo 100 bước (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
 - Preview Classic 240×320 dọc/ngang và zoom.
-- **61 preset dựng sẵn**: Classic Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro Bar, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Dot Matrix, Classic Blue, Aurora, Magma, Mint, Steel, Royal Purple, Candy Adventure, Split Gaze, Pixel Midnight, Pixel Dungeon, Pixel Tide, Pixel Blossom, Pop Thunder, Pop Bubble, Candy Cloud Full và nhiều mẫu khác.
+- **61 preset dựng sẵn** (đã gộp trùng): Classic Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro Bar, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Dot Matrix, Classic Blue, Aurora, Magma, Mint, Steel, Royal Purple, Candy Adventure, Split Gaze, Pixel Arcade, Pixel Dungeon, Pop Thunder, Comic Bang, Classic Sheet, **Tết**, **Trung Thu**, **Hà Nội Night** và nhiều mẫu khác.
 - Import/export `.vqeaf` một file.
 - Import background riêng cho keypad.
 - Chế độ **Trên phím → Texture từng phím**, giữ số/nhãn/viền rõ nét thay vì phủ nguyên ảnh lên bàn phím.

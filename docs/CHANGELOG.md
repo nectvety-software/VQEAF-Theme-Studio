@@ -1,5 +1,13 @@
 # Changelog
 
+## V3.7.7 — Dọn theme trùng + Tết / Trung Thu / Hà Nội
+
+- Xóa preset/theme trùng lặp: **Candy Cloud Full**, **Matrix Rain**, **Comic Pop**, **Pixel Midnight** (giữ bản đặc trưng hơn).
+- Xóa file rác: `full_candy_adventure`, `92687154_dream_pulse`, `indigo_tide`.
+- Gộp **Lunar New Year** → **Tết** (đỏ đào + vàng mai, có `menuButton`/`fpsBadge` + buttonMap).
+- Thêm **Trung Thu** (trăng rằm + đèn ông sao) và **Hà Nội Night** (phố đêm + đèn vàng).
+- Thêm 8 button preset: Tết Red/Gold, Peach Blossom, Mai Yellow, Moon Gold, Lantern Red, Hanoi Steel/Lamp/Night.
+
 ## V3.7.6 — menuButton / fpsBadge cho 2 mẫu mới
 
 - Comic Bang & Classic Sheet mang style riêng cho **`menuButton`** và **`fpsBadge`** (khớp component trong `.vqeaf`).

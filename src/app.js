@@ -1,5 +1,5 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.6';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.6';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.7';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.7';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
