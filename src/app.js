@@ -1,5 +1,5 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.7';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.7';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.8';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.8';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -990,6 +990,7 @@ document.querySelector('[data-action="new"]').onclick=()=>commit(()=>{
 document.querySelector('[data-action="random"]').onclick=()=>randomizeTheme();
 document.querySelector('[data-action="export"]').onclick=()=>{updateCode();download(`${state.themeId}.vqeaf`,serializeTheme(state));};
 document.querySelector('[data-action="import"]').onclick=()=>els.file.click();
+document.querySelector('[data-action="screenshot"]').onclick=()=>captureNokiaFrame();
 
 els.file.onchange=async()=>{
   const f=els.file.files?.[0]; if(!f)return;
@@ -1228,6 +1229,361 @@ function loadImage(url) { return new Promise((resolve,reject)=>{const img=new Im
 
 function download(name,text) {
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function downloadBlob(name,blob) {
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+
+/** Chụp khung Nokia preview ra PNG (canvas, không cần thư viện ngoài). */
+async function captureNokiaFrame() {
+  try {
+    const png = await renderNokiaFramePng();
+    downloadBlob(`${state.themeId || 'vqeaf'}-frame.png`, png);
+    toast('Đã chụp khung Nokia');
+  } catch (err) {
+    console.error(err);
+    alert('Chụp khung thất bại: ' + err.message);
+  }
+}
+
+async function renderNokiaFramePng() {
+  const t = state.theme;
+  const landscape = state.orientation === 'landscape';
+  const designW = landscape ? 594 : 268;
+  const designH = landscape ? 334 : 600;
+  const badgePad = 34; // chừa chỗ MENU / SHOT phía trên
+  const pad = 10;
+  const outW = designW + pad * 2;
+  const outH = designH + badgePad + pad;
+  const scale = 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(outW * scale);
+  canvas.height = Math.round(outH * scale);
+  const ctx = canvas.getContext('2d');
+  ctx.scale(scale, scale);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  // nền trong suốt ngoài khung
+  ctx.clearRect(0, 0, outW, outH);
+
+  const phoneX = pad;
+  const phoneY = badgePad;
+  const radius = Number(t.radius ?? 22);
+  const keyRadius = Number(t.keyRadius ?? 8);
+
+  // clip khung máy
+  roundRect(ctx, phoneX, phoneY, designW, designH, radius);
+  ctx.save();
+  ctx.clip();
+
+  // gradient vỏ
+  const grad = ctx.createLinearGradient(0, phoneY, 0, phoneY + designH);
+  grad.addColorStop(0, t.shellTop);
+  grad.addColorStop(1, t.shellBottom);
+  ctx.fillStyle = grad;
+  ctx.fillRect(phoneX, phoneY, designW, designH);
+
+  // frame background image
+  const frameBg = state.frameBackground;
+  if (frameBg?.dataUrl) {
+    try {
+      const img = await loadImage(frameBg.dataUrl);
+      ctx.save();
+      ctx.globalAlpha = Number(frameBg.opacity ?? 0.45);
+      ctx.globalCompositeOperation = blendToComposite(frameBg.blend);
+      const filter = `brightness(${frameBg.brightness ?? 1}) contrast(${frameBg.contrast ?? 1}) saturate(${frameBg.saturation ?? 1})`;
+      if ('filter' in ctx) ctx.filter = filter;
+      const { dw, dh, dx, dy } = coverRect(img.width, img.height, designW, designH, frameBg.scale ?? 1, frameBg.offsetX ?? 0, frameBg.offsetY ?? 0);
+      ctx.translate(phoneX + designW / 2, phoneY + designH / 2);
+      ctx.rotate(((frameBg.rotation || 0) * Math.PI) / 180);
+      ctx.scale(frameBg.flipX ? -1 : 1, frameBg.flipY ? -1 : 1);
+      ctx.drawImage(img, dx - designW / 2, dy - designH / 2, dw, dh);
+      ctx.restore();
+    } catch { /* bỏ qua ảnh lỗi */ }
+  }
+
+  ctx.restore();
+
+  // viền khung
+  roundRect(ctx, phoneX + 0.75, phoneY + 0.75, designW - 1.5, designH - 1.5, radius);
+  ctx.strokeStyle = t.shellBorder;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  if (landscape) {
+    await drawLandscapeContent(ctx, phoneX, phoneY, designW, designH, t, keyRadius);
+  } else {
+    await drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius);
+  }
+
+  // badge MENU / SHOT phía trên
+  drawBadge(ctx, phoneX + 4, badgePad - 28, state.menuStyle, '☰ MENU', 'menu');
+  const shotText = '📷 Shot';
+  drawBadge(ctx, phoneX + designW - 4 - measureBadgeW(ctx, state.fpsStyle, shotText), badgePad - 28, state.fpsStyle, shotText, 'shot');
+
+  // decorations
+  for (const d of state.decorations || []) {
+    ctx.save();
+    ctx.globalAlpha = Number(d.opacity ?? 1);
+    ctx.translate(phoneX + (d.x || 0) + (d.size || 28) / 2, phoneY + (d.y || 0) + (d.size || 28) / 2);
+    ctx.rotate(((d.rotation || 0) * Math.PI) / 180);
+    ctx.scale(d.flipX ? -1 : 1, d.flipY ? -1 : 1);
+    ctx.fillStyle = d.color || '#FFB13B';
+    ctx.font = `${d.size || 28}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(decorationGlyph(d.type), 0, 0);
+    ctx.restore();
+  }
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Không tạo được PNG'))), 'image/png');
+  });
+}
+
+async function drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius) {
+  const cx = phoneX + designW / 2;
+  // shell status
+  let y = phoneY + 14;
+  ctx.fillStyle = t.accent;
+  ctx.font = '700 8px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  // LED
+  roundRect(ctx, cx - 52, y - 2, 14, 4, 2);
+  ctx.fill();
+  ctx.fillText('WiFi · 1.0Gbps', cx + 12, y);
+  y += 12;
+  ctx.font = '700 7px system-ui, sans-serif';
+  ctx.globalAlpha = 0.9;
+  ctx.fillText('56 FPS', cx, y);
+  ctx.globalAlpha = 1;
+
+  // LCD 240x320
+  const sw = 240, sh = 320;
+  const sx = phoneX + (designW - sw) / 2;
+  const sy = y + 8;
+  roundRect(ctx, sx, sy, sw, sh, 4);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+  ctx.save();
+  roundRect(ctx, sx, sy, sw, sh, 4);
+  ctx.clip();
+  ctx.fillStyle = t.screen;
+  ctx.fillRect(sx, sy, sw, sh);
+  // screen UI
+  ctx.fillStyle = '#c8d0d8';
+  ctx.font = '8px system-ui, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('4G VoLTE', sx + 10, sy + 14);
+  ctx.textAlign = 'right';
+  ctx.fillText('▮', sx + sw - 10, sy + 14);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#e8eef4';
+  ctx.font = '700 28px system-ui, sans-serif';
+  ctx.fillText('10:30', cx, sy + 70);
+  ctx.font = '10px system-ui, sans-serif';
+  ctx.fillStyle = '#c8d0d8';
+  ctx.fillText('Mon 12 May', cx, sy + 90);
+  ctx.font = '10px system-ui, sans-serif';
+  ctx.fillStyle = '#c8d0d8';
+  ctx.globalAlpha = 0.9;
+  ctx.fillText('CLASSIC DUAL SIM', cx, sy + 170);
+  ctx.globalAlpha = 0.65;
+  ctx.font = '9px system-ui, sans-serif';
+  ctx.fillText('Đang chờ VXPEmu...', cx, sy + 195);
+  ctx.globalAlpha = 1;
+  // softkeys bar
+  ctx.strokeStyle = '#ffffff22';
+  ctx.beginPath();
+  ctx.moveTo(sx + 10, sy + sh - 28);
+  ctx.lineTo(sx + sw - 10, sy + sh - 28);
+  ctx.stroke();
+  ctx.fillStyle = '#d8e0e8';
+  ctx.font = '700 10px system-ui, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Menu', sx + 12, sy + sh - 14);
+  ctx.textAlign = 'right';
+  ctx.fillText('Contacts', sx + sw - 12, sy + sh - 14);
+  ctx.restore();
+
+  // keypad
+  const kpW = 234;
+  const kpX = phoneX + (designW - kpW) / 2;
+  let ky = sy + sh + 12;
+  const softH = 26, numH = 30, gap = 4;
+  const keyW = (kpW - gap * 2) / 3;
+
+  const drawKey = (x, yy, w, h, label, sub, style, isOk = false) => {
+    const s = style || {};
+    const r = isOk ? 12 : (s.radius != null ? s.radius : (label.length <= 1 || label === '—' || label === 'OK' ? 999 : keyRadius));
+    // fill gradient
+    const kg = ctx.createLinearGradient(0, yy, 0, yy + h);
+    const a = s.colorA || t.key, b = s.colorB || t.key, c = s.colorC || s.colorB || t.key;
+    kg.addColorStop(0, a); kg.addColorStop(0.58, b); kg.addColorStop(1, c);
+    roundRect(ctx, x, yy, w, h, isOk ? 12 : (r === 999 ? h / 2 : Number(r)));
+    ctx.fillStyle = kg;
+    ctx.fill();
+    // border
+    ctx.strokeStyle = s.border || t.keyBorder;
+    ctx.lineWidth = Number(s.borderWidth ?? 1);
+    roundRect(ctx, x + 0.5, yy + 0.5, w - 1, h - 1, isOk ? 12 : (r === 999 ? h / 2 : Number(r)));
+    ctx.stroke();
+    // text
+    ctx.fillStyle = s.text || t.keyText;
+    ctx.font = `800 ${s.fontSize || (isOk ? 12 : sub ? 13 : 11)}px system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (sub) {
+      ctx.fillText(label, x + w / 2, yy + h / 2 - 5);
+      ctx.fillStyle = t.sub;
+      ctx.font = '500 7px system-ui, sans-serif';
+      ctx.fillText(sub, x + w / 2, yy + h / 2 + 8);
+    } else {
+      ctx.fillText(label, x + w / 2, yy + h / 2);
+    }
+  };
+
+  const st = (id) => state.buttonStyles?.[id] || state.buttonStyles?.[safeKeyId(id)];
+  // nav rows
+  const nav = [
+    [['menu', '—'], ['up', '▲'], ['rsk', '—']],
+    [['left', '☎'], ['ok', 'OK'], ['right', '☎']],
+    [[null, ''], ['down', '▼'], [null, '']],
+  ];
+  nav.forEach((row, ri) => {
+    row.forEach(([id, label], i) => {
+      const x = kpX + i * (keyW + gap);
+      if (!id) return;
+      drawKey(x, ky, keyW, ri === 1 && id === 'ok' ? 36 : softH, label, null, st(id), id === 'ok');
+    });
+    ky += (ri === 1 ? 36 : softH) + gap;
+  });
+
+  // number rows
+  const nums = [['1','∞'],['2','abc'],['3','def'],['4','ghi'],['5','jkl'],['6','mno'],['7','pqrs'],['8','tuv'],['9','wxyz'],['*','+'],['0','_'],['#','⇧']];
+  nums.forEach(([n, s], idx) => {
+    const i = idx % 3;
+    const x = kpX + i * (keyW + gap);
+    drawKey(x, ky, keyW, numH, n, s, st(n));
+    if (i === 2) ky += numH + gap;
+  });
+}
+
+async function drawLandscapeContent(ctx, phoneX, phoneY, designW, designH, t, keyRadius) {
+  // simplified landscape: screen left, keypad right
+  const pad = 14, gap = 12;
+  const sw = 320, sh = 240;
+  const sx = phoneX + pad;
+  const sy = phoneY + (designH - sh) / 2;
+  roundRect(ctx, sx, sy, sw, sh, 4);
+  ctx.fillStyle = t.screen;
+  ctx.fill();
+  ctx.strokeStyle = t.shellBorder;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.fillStyle = '#8290a8';
+  ctx.font = '11px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('CLASSIC DUAL SIM', sx + sw / 2, sy + sh / 2 - 8);
+  ctx.font = '10px system-ui, sans-serif';
+  ctx.fillText('Đang chờ VXPEmu...', sx + sw / 2, sy + sh / 2 + 14);
+
+  // keypad grid right
+  const kpW = 234;
+  const kpX = sx + sw + gap;
+  let ky = sy + 8;
+  const softH = 22, numH = 24, g = 3;
+  const keyW = (kpW - g * 2) / 3;
+  const rows = [
+    ['—', '▲', '—'],
+    ['☎', 'OK', '☎'],
+    ['', '▼', ''],
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['*', '0', '#'],
+  ];
+  rows.forEach((row, ri) => {
+    row.forEach((label, i) => {
+      if (!label) return;
+      const x = kpX + i * (keyW + g);
+      const h = ri < 3 ? softH : numH;
+      roundRect(ctx, x, ky, keyW, h, label === 'OK' ? 10 : h / 2);
+      ctx.fillStyle = t.key;
+      ctx.fill();
+      ctx.strokeStyle = t.keyBorder;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.fillStyle = t.keyText;
+      ctx.font = `800 ${ri < 3 ? 10 : 11}px system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, x + keyW / 2, ky + h / 2);
+    });
+    ky += (ri < 3 ? softH : numH) + g;
+  });
+}
+
+function drawBadge(ctx, x, y, style, text, kind) {
+  const s = style || {};
+  const padX = Number(s.paddingX ?? 12), padY = Number(s.paddingY ?? 8);
+  ctx.font = `800 ${Number(s.fontSize ?? 11)}px system-ui, sans-serif`;
+  const tw = ctx.measureText(text).width;
+  const w = tw + padX * 2 + (s.dotSize ? Number(s.dotSize) + 6 : 0);
+  const h = Number(s.fontSize ?? 11) + padY * 2;
+  const r = Number(s.radius ?? 16);
+  roundRect(ctx, x, y, w, h, r);
+  ctx.fillStyle = s.background || '#151f2e';
+  ctx.fill();
+  ctx.strokeStyle = s.border || '#40506c';
+  ctx.lineWidth = Number(s.borderWidth ?? 1);
+  ctx.stroke();
+  // LED
+  if (s.dotSize) {
+    ctx.beginPath();
+    ctx.arc(x + padX + Number(s.dotSize) / 2, y + h / 2, Number(s.dotSize) / 2, 0, Math.PI * 2);
+    ctx.fillStyle = s.accent || '#65DC96';
+    ctx.fill();
+  }
+  ctx.fillStyle = s.text || '#FFFFFF';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x + padX + (s.dotSize ? Number(s.dotSize) + 6 : 0), y + h / 2);
+}
+
+function measureBadgeW(ctx, style, text) {
+  const s = style || {};
+  ctx.font = `800 ${Number(s.fontSize ?? 11)}px system-ui, sans-serif`;
+  return ctx.measureText(text).width + Number(s.paddingX ?? 12) * 2 + (s.dotSize ? Number(s.dotSize) + 6 : 0);
+}
+
+function decorationGlyph(type) {
+  return ({ star:'⭐', flower:'🌸', leaf:'🌿', cloud:'☁️', gem:'💎', sparkle:'✨', chest:'🧰', slime:'💧', pumpkin:'🎃', bat:'🦇', web:'🕸️', ghost:'👻', badge:'●' })[type] || '⭐';
+}
+
+function blendToComposite(blend) {
+  const map = { normal:'source-over', overlay:'overlay', 'soft-light':'soft-light', multiply:'multiply', screen:'screen' };
+  return map[blend] || 'source-over';
+}
+
+function coverRect(iw, ih, bw, bh, scale = 1, ox = 0, oy = 0) {
+  const s = Math.max(bw / iw, bh / ih) * scale;
+  const dw = iw * s, dh = ih * s;
+  return { dw, dh, dx: (bw - dw) / 2 + ox, dy: (bh - dh) / 2 + oy };
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  const rr = Math.max(0, Math.min(r, w / 2, h / 2));
+  ctx.beginPath();
+  ctx.moveTo(x + rr, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rr);
+  ctx.arcTo(x + w, y + h, x, y + h, rr);
+  ctx.arcTo(x, y + h, x, y, rr);
+  ctx.arcTo(x, y, x + w, y, rr);
+  ctx.closePath();
 }
 function toast(msg) {
   const d=document.createElement('div'); d.textContent=msg;

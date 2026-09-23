@@ -1,5 +1,10 @@
 # Changelog
 
+## V3.7.8 — Nút chụp khung Nokia ở topbar
+
+- Thêm nút **📷 Chụp khung** trên toolbar: render preview khung Nokia (LCD + keypad + badge MENU/Shot + background) ra **PNG** và tải về.
+- Hỗ trợ cả portrait / landscape, gradient shell, ảnh nền frame, style nút `keyStyle_*`.
+
 ## V3.7.7 — Dọn theme trùng + Tết / Trung Thu / Hà Nội
 
 - Xóa preset/theme trùng lặp: **Candy Cloud Full**, **Matrix Rain**, **Comic Pop**, **Pixel Midnight** (giữ bản đặc trưng hơn).
