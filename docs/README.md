@@ -83,9 +83,11 @@ Studio xuất thêm các cấu hình:
 
 Android VQEAF Engine cần renderer tương ứng cho image resource Data URI và các transform này.
 
-## Menu & FPS custom style (V3.4)
+## Menu & Shot custom style (V3.4+)
 
-Chọn trực tiếp **MENU** hoặc **FPS** trên preview để mở inspector riêng. Có thể chọn Solid / Glass / Outline / Neon / Pixel và tinh chỉnh màu, viền, glow, font, opacity, padding, LED indicator. Các thông số được lưu trong `.vqeaf`.
+Chọn trực tiếp **MENU** hoặc **Shot** trên preview để mở inspector riêng. Có thể chọn Solid / Glass / Outline / Neon / Pixel và tinh chỉnh màu, viền, glow, font, opacity, padding, LED indicator. Các thông số được lưu trong `.vqeaf` (`menuButton` / `fpsBadge`).
+
+Từ V3.7.3 preview khung máy khớp frame VXPQeaf: FPS nằm dưới dải Network LED trong khung; badge góc phải là Shot (vẫn dùng component `fpsBadge`).
 
 
 ## V3.5 — MENU/FPS isolated style fix

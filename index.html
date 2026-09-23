@@ -150,40 +150,57 @@
             <div id="frameBackgroundLayer" class="frame-background-layer" aria-hidden="true"></div>
             <div id="frameFxLayer" class="frame-fx-layer" aria-hidden="true"></div>
 
-            <div class="network-led-row selectable" data-component="networkLed" data-layer="network">
-              <span class="network-led"></span>
-              <span class="network-text">WiFi · 1,0Gbps</span>
+            <div class="shell-status">
+              <div class="network-led-row selectable" data-component="networkLed" data-layer="network">
+                <span class="network-led"></span>
+                <span class="network-text">WiFi · 1.0Gbps</span>
+              </div>
+              <div class="fps-strip" id="fpsStrip">56 FPS</div>
             </div>
 
             <div class="display-frame selectable" data-component="screen" data-layer="screen">
               <div class="screen-content">
-                <div class="screen-title">CLASSIC DUAL SIM</div>
-                <div class="screen-subtitle">Đang chờ VXPEmu...</div>
+                <div class="screen-status-row">
+                  <span>4G VoLTE</span>
+                  <span class="battery">▮</span>
+                </div>
+                <div class="screen-clock">10:30</div>
+                <div class="screen-date">Mon 12 May</div>
+                <div class="screen-body">
+                  <div class="screen-title">CLASSIC DUAL SIM</div>
+                  <div class="screen-subtitle">Đang chờ VXPEmu...</div>
+                </div>
+                <div class="screen-softkeys">
+                  <span>Menu</span>
+                  <span>Contacts</span>
+                </div>
               </div>
             </div>
 
             <div class="keypad selectable" data-component="keypad" id="keypad" data-layer="keypad">
               <div id="keypadBackgroundLayer" class="keypad-background-layer" aria-hidden="true"></div>
-              <div class="key-row">
-                <button class="key key-soft selectable" data-component="key" data-key="menu"><span>☰</span></button>
-                <button class="key key-soft selectable" data-component="key" data-key="up"><span>▲</span></button>
-                <button class="key key-soft selectable" data-component="key" data-key="rsk"><span>←</span></button>
+              <div class="key-row nav-row">
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="menu" aria-label="LSK"><span class="key-dash">—</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="up"><span>▲</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="rsk" aria-label="RSK"><span class="key-dash">—</span></button>
               </div>
-              <div class="key-row">
-                <button class="key key-soft selectable" data-component="key" data-key="left"><span>◀</span></button>
-                <button class="key key-soft selectable" data-component="key" data-key="ok"><span>OK</span></button>
-                <button class="key key-soft selectable" data-component="key" data-key="right"><span>▶</span></button>
+              <div class="key-row nav-row dpad-mid">
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="left" aria-label="Call"><span class="key-icon icon-call">☎</span></button>
+                <button class="key key-soft key-ok selectable" data-component="key" data-key="ok"><span>OK</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="right" aria-label="End"><span class="key-icon icon-end">☎</span></button>
               </div>
-              <div class="key-row dpad-bottom">
+              <div class="key-row nav-row dpad-bottom">
                 <span></span>
-                <button class="key key-soft selectable" data-component="key" data-key="down"><span>▼</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="down"><span>▼</span></button>
                 <span></span>
               </div>
               <div id="numberRows"></div>
             </div>
 
-            <div class="floating-badge menu-badge selectable" data-component="menuButton" data-layer="badges">☰ MENU <i></i></div>
-            <div class="floating-badge fps-badge selectable" data-component="fpsBadge" data-layer="badges"><i></i> 56 FPS</div>
+            <div class="badge-dock">
+              <div class="floating-badge menu-badge selectable" data-component="menuButton" data-layer="badges">☰ MENU <i></i></div>
+              <div class="floating-badge shot-badge selectable" data-component="fpsBadge" data-layer="badges" title="Shot / fpsBadge">📷 Shot</div>
+            </div>
             <div id="decorationLayer" class="decoration-layer" data-layer="decorations"></div>
           </div>
         </div>
@@ -195,6 +212,7 @@
         <div>
           <span class="eyebrow">Đang chọn</span>
           <h2 id="selectedTitle">Phone Shell</h2>
+          <code id="selectedId" class="selected-id" title="ID component trong .vqeaf">phoneShell</code>
         </div>
         <button id="resetSelected" class="ghost">Reset</button>
       </div>
@@ -209,6 +227,6 @@
     </aside>
   </div>
 
-  <script type="module" src="./src/app.js?v=3.7.0"></script>
+  <script type="module" src="./src/app.js?v=3.7.6"></script>
 </body>
 </html>

@@ -1,5 +1,32 @@
 # Changelog
 
+## V3.7.6 — menuButton / fpsBadge cho 2 mẫu mới
+
+- Comic Bang & Classic Sheet mang style riêng cho **`menuButton`** và **`fpsBadge`** (khớp component trong `.vqeaf`).
+- Chọn preset áp dụng luôn badge style; import `.vqeaf` vẫn restore đủ.
+- Layer list ghi rõ `menuButton / fpsBadge`.
+
+## V3.7.5 — Hiện ID component khi chọn
+
+- Panel phải hiển thị **ID `.vqeaf`** của thành phần đang chọn (`phoneShell`, `screen`, `keyStyle_ok`, `menuButton`, `decoration_…`).
+- Click phím trên keypad sẽ highlight đúng phím đó.
+
+## V3.7.4 — Fix badge chồng + khung theo sheet Nokia
+
+- Sửa lỗi **MENU / SHOT chồng nhau và đè FPS** ở đỉnh khung (badge-dock tách trái/phải, FPS strip nằm trong khung dưới dải WiFi).
+- Cập nhật preview theo sheet sản phẩm classic: phím pill, D-pad OK lớn hơn, softkey `—`, Call/End kiểu ☎.
+- Idle screen: status 4G VoLTE, đồng hồ, softkey `Menu` / `Contacts`.
+- Nhãn T9: `1∞`, `0 _`, `#⇧` khớp sheet.
+
+## V3.7.3 — Frame Nokia khớp VXPQeaf
+
+- Cập nhật preview khung máy Classic theo `PortraitPhone` / `NokiaKeypad` / `ShotBadge` trong `D:\Program\android\VXPQeaf`.
+- FPS chuyển từ badge nổi góc phải xuống **dải text dưới Network LED** bên trong khung (giống app).
+- Badge góc phải đổi thành **Shot** (component `fpsBadge` trong `.vqeaf`, style vẫn chỉnh độc lập).
+- Softkey dùng icon Menu / Back; nhãn T9 khớp `NokiaKeypad.kt` (`∞ abc def…`, `␣`, `⇧`).
+- Scale khi nhấn phím `0.94` (trước `0.98`) cho khớp Compose `pressScale`.
+- Bo góc badge Menu/Shot kiểu feature-phone (`16 4 16 16`).
+
 ## V3.7.2 — Trademark-safe naming + Credits
 
 - Đổi tên preset sang generic cả tên hiển thị lẫn ID: Nokia Dark → Classic Dark (`classic_dark`), Nokia Blue → Classic Blue (`classic_blue`), Retro S40 → Retro Bar (`retro_bar`), TRON Blue → Volt Blue (`volt_blue`), Game Boy → Dot Matrix (`dot_matrix`); file `themes/` tương ứng được xuất lại tên mới.

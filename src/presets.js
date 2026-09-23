@@ -339,6 +339,60 @@ export const presets = [
       { id:'deco_chest', type:'chest', x:228, y:545, size:28, rotation:0, opacity:1, color:'#C87942', flipX:false, flipY:false, floating:false, floatAmplitude:5, floatDuration:2600 },
       { id:'deco_slime', type:'slime', x:200, y:556, size:26, rotation:0, opacity:1, color:'#50DCC8', flipX:false, flipY:false, floating:true, floatAmplitude:5, floatDuration:2400 }
     ]
+  },
+  {
+    id: 'comic_bang', name: 'Comic Bang', subtitle: 'Nền comic + nút pop', p1:'#F2C732', p2:'#93296F',
+    theme: { shellTop:'#93296F', shellBottom:'#281226', shellBorder:'#F2C732', screen:'#1A0A18', key:'#B05229', keyPressed:'#D89618', keyBorder:'#141414', keyText:'#FBF0D4', sub:'#FFE45E', accent:'#F5382C', glow:'#1D6FF2', radius:18, keyRadius:10 },
+    // component id="menuButton" / id="fpsBadge" trong comic_bang.vqeaf
+    menuStyle: {
+      appearance:'solid', background:'#B05229', border:'#141414', text:'#FBF0D4', accent:'#F5382C', glow:'#1D6FF2',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    fpsStyle: {
+      appearance:'glass', background:'#281226', border:'#F2C732', text:'#FFE45E', accent:'#F5382C', glow:'#1D6FF2',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:6, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    buttonMap: {
+      menu: 'comic_cream', up: 'pop_yellow', rsk: 'comic_cream',
+      left: 'pop_red', ok: 'pop_yellow', right: 'pop_blue', down: 'pop_purple',
+      1: 'pop_red', 2: 'pop_yellow', 3: 'pop_blue',
+      4: 'pop_purple', 5: 'comic_orange', 6: 'comic_cream',
+      7: 'pop_blue', 8: 'pop_red', 9: 'pop_yellow',
+      '*': 'comic_orange', 0: 'comic_cream', '#': 'pop_purple'
+    },
+    decorMap: {
+      menu: ['none', 'none'], up: ['star', 'star'], rsk: ['none', 'none'],
+      left: ['star', 'none'], ok: ['star', 'star'], right: ['none', 'star'], down: ['sparkle', 'none'],
+      1: ['none', 'star'], 2: ['star', 'none'], 3: ['none', 'none'],
+      4: ['sparkle', 'none'], 5: ['star', 'star'], 6: ['none', 'sparkle'],
+      7: ['none', 'none'], 8: ['star', 'none'], 9: ['none', 'star'],
+      '*': ['sparkle', 'star'], 0: ['none', 'none'], '#': ['star', 'sparkle']
+    }
+  },
+  {
+    id: 'classic_sheet', name: 'Classic Sheet', subtitle: 'Ảnh nền mềm + nút classic', p1:'#D3CCC6', p2:'#645F59',
+    theme: { shellTop:'#D3CCC6', shellBottom:'#645F59', shellBorder:'#AEA79F', screen:'#1A1816', key:'#E0D8D0', keyPressed:'#C4BDB6', keyBorder:'#9D968E', keyText:'#2A2622', sub:'#645F59', accent:'#3E3A36', glow:'#00000000', radius:22, keyRadius:8 },
+    // component id="menuButton" / id="fpsBadge" trong classic_sheet.vqeaf
+    menuStyle: {
+      appearance:'solid', background:'#E0D8D0', border:'#9D968E', text:'#2A2622', accent:'#3E3A36', glow:'#00000000',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    fpsStyle: {
+      appearance:'glass', background:'#645F59', border:'#AEA79F', text:'#E0D8D0', accent:'#3E3A36', glow:'#00000000',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:6, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    buttonMap: {
+      menu: 'classic_warm', up: 'classic_soft', rsk: 'classic_warm',
+      left: 'classic_soft', ok: 'classic_slate', right: 'classic_soft', down: 'classic_soft',
+      1: 'classic_soft', 2: 'classic_pearl', 3: 'classic_soft',
+      4: 'classic_pearl', 5: 'classic_warm', 6: 'classic_pearl',
+      7: 'classic_soft', 8: 'classic_pearl', 9: 'classic_soft',
+      '*': 'classic_soft', 0: 'classic_pearl', '#': 'classic_soft'
+    }
   }
 ];
 
@@ -380,7 +434,14 @@ export const buttonPresets = [
   { id:'pixel_amber', name:'Pixel Amber', swatch:'#FFB800', style:{ colorA:'#FFE45E', colorB:'#FFB800', colorC:'#B45309', pressedA:'#F2C230', pressedB:'#92400E', border:'#FFF6D6', text:'#FFFFFF', textOutline:'#713F12', radius:3, borderWidth:2, shadow:'#00000088', shadowBlur:0, shadowY:4, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.15 } },
   { id:'pop_red', name:'Pop Red', swatch:'#F5382C', style:{ colorA:'#FF8A80', colorB:'#F5382C', colorC:'#A31212', pressedA:'#E86055', pressedB:'#7F1D1D', border:'#141414', text:'#FFFFFF', textOutline:'#141414', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFD93D', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
   { id:'pop_blue', name:'Pop Blue', swatch:'#1D6FF2', style:{ colorA:'#6EC6FF', colorB:'#1D6FF2', colorC:'#0B2E9E', pressedA:'#4A9BE8', pressedB:'#0A2470', border:'#141414', text:'#FFFFFF', textOutline:'#0A0A0A', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#7DD3FC', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
-  { id:'pop_yellow', name:'Pop Yellow', swatch:'#FFB800', style:{ colorA:'#FFE45E', colorB:'#FFB800', colorC:'#E07B00', pressedA:'#F2C230', pressedB:'#B45309', border:'#141414', text:'#231400', textOutline:'#FFFFFF', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFF3B0', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } }
+  { id:'pop_yellow', name:'Pop Yellow', swatch:'#FFB800', style:{ colorA:'#FFE45E', colorB:'#FFB800', colorC:'#E07B00', pressedA:'#F2C230', pressedB:'#B45309', border:'#141414', text:'#231400', textOutline:'#FFFFFF', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFF3B0', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'pop_purple', name:'Pop Purple', swatch:'#93296F', style:{ colorA:'#D8A0FF', colorB:'#93296F', colorC:'#4A1240', pressedA:'#B0528F', pressedB:'#3A0E32', border:'#141414', text:'#FFFFFF', textOutline:'#2A0A22', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FF8FC4', glowRadius:5, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'sparkle', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'comic_orange', name:'Comic Orange', swatch:'#B05229', style:{ colorA:'#FFB07A', colorB:'#B05229', colorC:'#6E2E12', pressedA:'#D87848', pressedB:'#5A260E', border:'#141414', text:'#FFFFFF', textOutline:'#2A1208', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFD93D', glowRadius:4, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'comic_cream', name:'Comic Cream', swatch:'#FBF0D4', style:{ colorA:'#FFF8E8', colorB:'#FBF0D4', colorC:'#D89618', pressedA:'#F2E4B8', pressedB:'#B87A10', border:'#141414', text:'#281226', textOutline:'#FBF0D4', radius:10, borderWidth:3, shadow:'#00000077', shadowBlur:6, shadowY:4, glow:'#FFE45E', glowRadius:3, gloss:true, glossOpacity:.3, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
+  { id:'classic_soft', name:'Classic Soft', swatch:'#E0D8D0', style:{ colorA:'#F5F0EB', colorB:'#E0D8D0', colorC:'#C4BDB6', pressedA:'#D8D0C8', pressedB:'#AEA79F', border:'#9D968E', text:'#2A2622', textOutline:'#F5F0EB', radius:8, borderWidth:1, shadow:'#00000033', shadowBlur:4, shadowY:2, glow:'#00000000', glowRadius:0, gloss:true, glossOpacity:.18, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'none', disabledOpacity:.5, disabledSaturation:.15 } },
+  { id:'classic_pearl', name:'Classic Pearl', swatch:'#F0EBE6', style:{ colorA:'#FFFFFF', colorB:'#F0EBE6', colorC:'#D3CCC6', pressedA:'#E8E2DC', pressedB:'#BFB7B0', border:'#AEA79F', text:'#1A1816', textOutline:'#FFFFFF', radius:10, borderWidth:1, shadow:'#00000022', shadowBlur:5, shadowY:2, glow:'#00000000', glowRadius:0, gloss:true, glossOpacity:.22, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'none', disabledOpacity:.5, disabledSaturation:.15 } },
+  { id:'classic_warm', name:'Classic Warm', swatch:'#C8BFB6', style:{ colorA:'#EDE6DF', colorB:'#C8BFB6', colorC:'#9D968E', pressedA:'#D5CCC4', pressedB:'#8A837C', border:'#645F59', text:'#FFFFFF', textOutline:'#4A453F', radius:8, borderWidth:1, shadow:'#00000044', shadowBlur:5, shadowY:3, glow:'#00000000', glowRadius:0, gloss:false, glossOpacity:0, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.2 } },
+  { id:'classic_slate', name:'Classic Slate', swatch:'#645F59', style:{ colorA:'#8A837C', colorB:'#645F59', colorC:'#3E3A36', pressedA:'#6E6860', pressedB:'#2E2A26', border:'#4A453F', text:'#F5F0EB', textOutline:'#2A2622', radius:8, borderWidth:1, shadow:'#00000055', shadowBlur:6, shadowY:3, glow:'#00000000', glowRadius:0, gloss:true, glossOpacity:.12, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.2 } }
 ];
 
 export const buttonDecorations = [

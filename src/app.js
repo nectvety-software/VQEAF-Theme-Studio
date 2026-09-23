@@ -1,5 +1,5 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.0';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.0';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.6';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.6';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -10,7 +10,7 @@ const LAYER_META = {
   keypad: { label:'Keypad', icon:'⌨', component:'keypad' },
   decorations: { label:'Decoration', icon:'✦', component:'decoration' },
   network: { label:'Network LED', icon:'●', component:'networkLed' },
-  badges: { label:'Menu + FPS badges', icon:'◉', component:'menuButton' }
+  badges: { label:'menuButton / fpsBadge', icon:'◉', component:'menuButton' }
 };
 
 const ALL_KEY_IDS = ['menu','up','rsk','left','ok','right','down','1','2','3','4','5','6','7','8','9','*','0','#'];
@@ -100,6 +100,7 @@ const els = {
   stage: document.querySelector('#stage'),
   inspector: document.querySelector('#inspector'),
   title: document.querySelector('#selectedTitle'),
+  selectedId: document.querySelector('#selectedId'),
   code: document.querySelector('#codePreview'),
   presetGrid: document.querySelector('#presetGrid'),
   componentPalette: document.querySelector('#componentPalette'),
@@ -128,16 +129,17 @@ const els = {
 
 const labels = {
   phoneShell:'Phone Shell', screen:'LCD Screen', key:'Keypad Key', keypad:'Keypad', networkLed:'Network LED',
-  menuButton:'Menu Bubble', fpsBadge:'FPS Badge', decoration:'Decoration'
+  menuButton:'Menu Bubble', fpsBadge:'Shot Badge', decoration:'Decoration'
 };
 
-const numRows = [['1','∞'],['2','abc'],['3','def'],['4','ghi'],['5','jkl'],['6','mno'],['7','pqrs'],['8','tuv'],['9','wxyz'],['*','+'],['0','␠'],['#','⇧']];
+// Nhãn T9 khớp sheet sản phẩm classic (1∞, 0 _, #⇧)
+const numRows = [['1','∞'],['2','abc'],['3','def'],['4','ghi'],['5','jkl'],['6','mno'],['7','pqrs'],['8','tuv'],['9','wxyz'],['*','+'],['0','_'],['#','⇧']];
 for (let r=0;r<4;r++) {
   const row = document.createElement('div');
   row.className='key-row';
   numRows.slice(r*3,r*3+3).forEach(([n,s])=>{
     const b=document.createElement('button');
-    b.className='key num selectable';
+    b.className='key num key-pill selectable';
     b.dataset.component='key';
     b.dataset.key=n;
     b.innerHTML=`<span>${n}</span><span class="sub">${s}</span>`;
@@ -248,6 +250,11 @@ function applyTheme() {
   const led=document.querySelector('.network-led');
   const ledRow=document.querySelector('.network-led-row');
   led.style.background=t.accent; led.style.boxShadow=`0 0 10px ${t.accent}`; ledRow.style.color=t.accent;
+  const fpsStrip=document.querySelector('#fpsStrip');
+  if (fpsStrip) {
+    // FPS strip nằm dưới dải WiFi trong khung (giống PortraitPhone của VXPQeaf)
+    fpsStrip.style.color = t.accent;
+  }
 
   els.frameFxLayer.style.opacity=String(state.effects.frameFxOpacity);
   els.frameFxLayer.style.mixBlendMode=state.effects.frameFxBlend;
@@ -290,7 +297,7 @@ function applyTheme() {
   els.keypadBgLayer.style.zIndex=bg.position==='above' ? '5' : '0';
 
   applyBadgeStyle(document.querySelector('.menu-badge'), state.menuStyle, 'menu');
-  applyBadgeStyle(document.querySelector('.fps-badge'), state.fpsStyle, 'fps');
+  applyBadgeStyle(document.querySelector('.shot-badge'), state.fpsStyle, 'fps');
   applyKeyStyles();
 
   applyLayerOrder();
@@ -503,8 +510,9 @@ function applyLayerOrder() {
   document.querySelector('.display-frame').style.zIndex=z.screen ?? 20;
   document.querySelector('.keypad').style.zIndex=z.keypad ?? 30;
   els.decorationLayer.style.zIndex=z.decorations ?? 40;
-  document.querySelector('.network-led-row').style.zIndex=z.network ?? 50;
-  document.querySelectorAll('.floating-badge').forEach(el=>el.style.zIndex=z.badges ?? 60);
+  const status=document.querySelector('.shell-status') || document.querySelector('.network-led-row');
+  if (status) status.style.zIndex=z.network ?? 50;
+  document.querySelectorAll('.floating-badge, .badge-dock').forEach(el=>el.style.zIndex=z.badges ?? 60);
 }
 
 function renderPresets() {
@@ -516,8 +524,9 @@ function renderPresets() {
     d.innerHTML=`<strong>${p.name}</strong><small>${p.subtitle}</small>`;
     d.onclick=()=>commit(()=>{
       state.themeName=makeGeneratedThemeName(p.name); state.autoId=true; state.themeId=slugify(state.themeName); state.theme=structuredClone(p.theme);
-      state.menuStyle=badgeStyleFromTheme('menu',state.theme);
-      state.fpsStyle=badgeStyleFromTheme('fps',state.theme);
+      // Ưu tiên style badge riêng của preset (menuButton / fpsBadge); fallback đồng bộ theo palette
+      state.menuStyle=p.menuStyle ? { ...badgeStyleFromTheme('menu',state.theme), ...structuredClone(p.menuStyle) } : badgeStyleFromTheme('menu',state.theme);
+      state.fpsStyle=p.fpsStyle ? { ...badgeStyleFromTheme('fps',state.theme), ...structuredClone(p.fpsStyle) } : badgeStyleFromTheme('fps',state.theme);
       if(p.buttonMap) {
         const next={};
         for(const [keyId,presetId] of Object.entries(p.buttonMap)) {
@@ -667,14 +676,34 @@ document.addEventListener('click',e=>{
   if(state.selected==='key' && s.dataset.key) state.selectedKey=s.dataset.key;
   state.selectedDecoration=null; renderSelection(); renderInspector(); renderButtonBuilder();
 });
+function safeKeyId(id) {
+  return String(id ?? '').replace('*','star').replace('#','pound').replace(/[^A-Za-z0-9_-]/g,'_');
+}
+
+function componentIdForSelection() {
+  if (state.selected==='decoration') return `decoration_${state.selectedDecoration || '...'}`;
+  if (state.selected==='key') return `keyStyle_${safeKeyId(state.selectedKey || 'ok')}`;
+  return state.selected || 'phoneShell';
+}
+
 function renderSelection() {
   document.querySelectorAll('.is-selected').forEach(x=>x.classList.remove('is-selected'));
+  let title='';
   if(state.selected==='decoration') {
     document.querySelector(`.decoration[data-id="${CSS.escape(state.selectedDecoration || '')}"]`)?.classList.add('is-selected');
-    els.title.textContent='Decoration';
+    title='Decoration';
+  } else if (state.selected==='key' && state.selectedKey) {
+    document.querySelector(`.key[data-key="${CSS.escape(state.selectedKey)}"]`)?.classList.add('is-selected');
+    title=`Keypad Key · ${state.selectedKey}`;
   } else {
     document.querySelector(`[data-component="${state.selected}"]`)?.classList.add('is-selected');
-    els.title.textContent=state.selected==='key' ? `Keypad Key · ${state.selectedKey || ''}` : (labels[state.selected] || state.selected);
+    title=labels[state.selected] || state.selected;
+  }
+  els.title.textContent=title;
+  if (els.selectedId) {
+    const id=componentIdForSelection();
+    els.selectedId.textContent=id;
+    els.selectedId.title=`ID component trong .vqeaf — ${id}`;
   }
 }
 
@@ -716,6 +745,7 @@ function renderInspector() {
     return;
   }
 
+
   const group=inspectorGroup('Style');
   (fieldMap[state.selected]||fieldMap.phoneShell).forEach(([key,label,type,min,max])=>{
     group.append(field(label,key,type,state.theme[key],v=>{state.theme[key]=type==='range'?+v:v;renderAll(false);},min,max));
@@ -742,10 +772,12 @@ function renderInspector() {
 function buildBadgeStyleGroup(kind) {
   const isMenu=kind==='menu';
   const style=isMenu ? state.menuStyle : state.fpsStyle;
-  const g=inspectorGroup(isMenu ? 'Giao diện MENU' : 'Giao diện FPS');
+  const g=inspectorGroup(isMenu ? 'Giao diện MENU' : 'Giao diện Shot');
   const help=document.createElement('div');
   help.className='mini-help badge-style-help';
-  help.textContent='Style riêng cho badge này — không thay đổi màu bàn phím hoặc Phone Shell.';
+  help.textContent=isMenu
+    ? 'Style riêng cho MENU bubble — không thay đổi màu bàn phím hoặc Phone Shell.'
+    : 'Style riêng cho Shot badge (component fpsBadge trong .vqeaf) — không thay đổi màu bàn phím hoặc Phone Shell.';
   g.append(help);
   const presetRow=document.createElement('div'); presetRow.className='transform-toolbar';
   const styles=[['Solid','solid'],['Glass','glass'],['Outline','outline'],['Neon','neon'],['Pixel','pixel']];
