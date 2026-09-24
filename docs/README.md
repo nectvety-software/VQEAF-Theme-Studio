@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3.7.1
+# VQEAF Theme Studio V3.7.8
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Classic 240×320 / VXPQeaf.
 
@@ -29,18 +29,34 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Random theme / random name.
 - Autosave bằng IndexedDB, fallback localStorage.
 - Undo/Redo 100 bước (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
-- Preview Classic 240×320 dọc/ngang và zoom.
-- **61 preset dựng sẵn** (đã gộp trùng): Classic Dark, Halloween, Cyber Neon, Sakura, Ice Glass, AMOLED Red, Retro Bar, Ocean, Emerald, Galaxy, Sunset, Luxury Gold, Carbon, Matrix, Vaporwave, Synthwave, Dot Matrix, Classic Blue, Aurora, Magma, Mint, Steel, Royal Purple, Candy Adventure, Split Gaze, Pixel Arcade, Pixel Dungeon, Pop Thunder, Comic Bang, Classic Sheet, **Tết**, **Trung Thu**, **Hà Nội Night** và nhiều mẫu khác.
+- Preview Classic 240×320 dọc/ngang và zoom — khớp frame VXPQeaf / sheet Nokia classic.
+- **61 preset** (đã gộp trùng), trong đó có nhóm Việt:
+  - **Tết** — đỏ đào + vàng mai (thay Lunar New Year)
+  - **Trung Thu** — trăng rằm + đèn ông sao
+  - **Hà Nội Night** — phố đêm + đèn vàng
+  - **Comic Bang** / **Classic Sheet** — dùng ảnh làm background + bộ nút pop/classic
 - Import/export `.vqeaf` một file.
-- Import background riêng cho keypad.
-- Chế độ **Trên phím → Texture từng phím**, giữ số/nhãn/viền rõ nét thay vì phủ nguyên ảnh lên bàn phím.
-- Chỉnh opacity, blend, brightness, contrast, saturation, blur, scale, offset.
-- Import background riêng cho **PhoneShellFrame**, clip theo bo góc và điều khiển bằng Layer Stack.
-- Background keypad/frame có xoay trái/phải, lật ngang/dọc và reset transform.
-- Decoration kéo thả có xóa, xoay, lật ngang/dọc, đổi layer và floating animation.
-- Layer Stack cho Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED, Menu/FPS.
-- Hiệu ứng nổi toàn frame và nổi riêng từng decoration.
+- Import background riêng cho **keypad** và **PhoneShellFrame** (clip theo bo góc, Layer Stack).
+- Chế độ **Trên phím → Texture từng phím** (`per-key-texture`), giữ số/nhãn/viền rõ nét.
+- Chỉnh opacity, blend, brightness, contrast, saturation, blur, scale, offset, rotate/flip.
+- Decoration kéo thả có xóa, xoay, lật ngang/dọc và floating animation.
+- Layer Stack: Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED, `menuButton / fpsBadge`.
+- **Button Builder (Tạo nút)**: keycap glossy/candy/fantasy + 20+ preset nút (candy, pop, classic, Tết, Trung Thu, Hà Nội…).
+- Panel phải hiển thị **ID component `.vqeaf`** khi chọn thành phần (`phoneShell`, `keyStyle_ok`, `menuButton`, `decoration_…`).
+- Nút **📷 Chụp khung** trên topbar: xuất preview khung Nokia ra PNG.
 - Ảnh raster được tối ưu rồi nhúng Data URI vào chính file `.vqeaf`.
+
+## Khung preview (khớp VXPQeaf)
+
+| Vùng | Ghi chú |
+|------|---------|
+| Badge dock | MENU (trái) / Shot (phải) — component `menuButton` / `fpsBadge` |
+| Network LED + FPS strip | Bên trong khung, dưới đỉnh máy |
+| LCD | 240×320 portrait / 320×240 landscape; idle UI + softkey `Menu` / `Contacts` |
+| Keypad | 234px; softkey `—`, D-pad OK, Call/End kiểu ☎; T9 `1∞`, `0 _`, `#⇧` |
+| Nhấn phím | scale `0.94` (khớp Compose `pressScale`) |
+
+Geometry chuẩn: portrait ~`268×600`, landscape ~`594×334`, `fontScale=1`.
 
 ## Cấu trúc
 
@@ -55,8 +71,9 @@ VQEAF-Theme-Studio/
 │   ├── app.js
 │   ├── presets.js
 │   └── vqeaf.js
-├── assets/
-│   └── classic240x320-reference.png
+├── assets/              # ảnh nền / tham chiếu (comic_bang_bg, classic_sheet_bg, …)
+├── themes/              # file .vqeaf mẫu (trùng với preset id)
+├── tools/               # script sinh theme / kiểm tra
 └── docs/
     ├── README.md
     ├── CHANGELOG.md
@@ -73,47 +90,74 @@ VQEAF-Theme-Studio/
 
 Studio xuất thêm các cấu hình:
 
-- `frame_background` image resource
-- `keypad_background` image resource
-- `phoneShell.background { ... }`
+- `frame_background` / `keypad_background` image resource (data-uri)
+- `phoneShell.background { ... }` (opacity, fit, blend, filter, transform)
 - `keypad.background.renderMode = "per-key-texture"`
+- `keyStyle_<keyId>` type `button-style` (gradient, gloss, shadow, decoration…)
+- `menuButton` / `fpsBadge` type `badge` (appearance solid|glass|outline|neon|pixel)
 - `brightness`, `contrast`, `saturation`, `readabilityAssist`
 - `rotation`, `scaleX`, `scaleY` cho background và decoration
 - `layerOrder` gồm `frameBackground`
 
 Android VQEAF Engine cần renderer tương ứng cho image resource Data URI và các transform này.
 
+## Component IDs
+
+| Thành phần | ID `.vqeaf` |
+|------------|-------------|
+| Vỏ máy | `phoneShell` |
+| LCD | `screen` |
+| Bàn phím | `keypad` |
+| Phím | `key` + `keyStyle_<id>` (vd `keyStyle_ok`, `keyStyle_star`, `keyStyle_pound`) |
+| LED mạng | `networkLed` |
+| MENU bubble | `menuButton` |
+| Shot badge (góc phải) | `fpsBadge` |
+| Decoration | `decoration_<id>` |
+
+19 key ID: `menu`, `up`, `rsk`, `left`, `ok`, `right`, `down`, `1`–`9`, `*`, `0`, `#`  
+(`*` → `keyStyle_star`, `#` → `keyStyle_pound`).
+
 ## Menu & Shot custom style (V3.4+)
 
-Chọn trực tiếp **MENU** hoặc **Shot** trên preview để mở inspector riêng. Có thể chọn Solid / Glass / Outline / Neon / Pixel và tinh chỉnh màu, viền, glow, font, opacity, padding, LED indicator. Các thông số được lưu trong `.vqeaf` (`menuButton` / `fpsBadge`).
+Chọn trực tiếp **MENU** hoặc **Shot** trên preview để mở inspector riêng. Solid / Glass / Outline / Neon / Pixel + màu, viền, glow, font, opacity, padding, LED. Lưu trong `.vqeaf` (`menuButton` / `fpsBadge`).
 
-Từ V3.7.3 preview khung máy khớp frame VXPQeaf: FPS nằm dưới dải Network LED trong khung; badge góc phải là Shot (vẫn dùng component `fpsBadge`).
+Từ V3.7.3–3.7.4: FPS nằm dưới dải Network LED trong khung; badge góc phải là **Shot** (vẫn dùng component `fpsBadge`); MENU/Shot không còn chồng nhau.
 
+## Template ảnh nền + nút
 
-## V3.5 — MENU/FPS isolated style fix
+- **Comic Bang** (`themes/comic_bang.vqeaf`): ảnh comic làm frame/keypad background + nút pop (viền đen dày).
+- **Classic Sheet** (`themes/classic_sheet.vqeaf`): ảnh sheet classic làm background mềm + nút classic pill.
+- Regenerate: `tools/gen_image_button_templates.py`.
 
-MENU Bubble và FPS Badge dùng style độc lập; chỉnh màu, border, glow, bo góc hoặc typography không còn làm đổi keypad. Bản này cũng thêm cache-busting để trình duyệt luôn tải đúng JavaScript mới sau khi nâng phiên bản.
+## Theme Việt (V3.7.7)
 
+| ID | Tên | Bảng màu |
+|----|-----|----------|
+| `tet` | Tết | Đỏ đào `#8B1217` + vàng mai `#FFD166` |
+| `trung_thu` | Trung Thu | Đêm indigo `#1B2A5B` + trăng `#FFD93D` + đèn `#FF6B35` |
+| `hanoi_night` | Hà Nội Night | Xanh đêm `#0B1C2E` + đèn phố `#FFC857` + đỏ `#FF4D4D` |
+
+File: `tools/gen_vn_themes.py`. Button presets: Tết Red/Gold, Peach Blossom, Mai Yellow, Moon Gold, Lantern Red, Hanoi Steel/Lamp/Night.
+
+## Chụp khung Nokia (V3.7.8)
+
+Nút **📷 Chụp khung** trên topbar render preview (shell gradient, ảnh nền, LCD, keypad `keyStyle_*`, badge MENU/Shot) ra PNG và tải về `<themeId>-frame.png`. Hỗ trợ portrait/landscape.
 
 ## V3.7 — Button Builder
 
-Tab **Tạo nút** cho phép dựng keycap kiểu glossy/candy/fantasy tương tự UI game mobile: gradient nhiều lớp, gloss highlight, shadow/glow, outline chữ và decoration ở hai mép. Có thể áp cho một phím hoặc hàng loạt nhóm điều hướng / bàn phím số / toàn bộ keypad. Style riêng được lưu trực tiếp trong `.vqeaf` bằng các component `keyStyle_*`.
+Tab **Tạo nút** cho phép dựng keycap kiểu glossy/candy/fantasy: gradient nhiều lớp, gloss, shadow/glow, outline chữ, decoration hai mép. Áp cho một phím hoặc nhóm điều hướng / số / toàn bộ keypad. Style lưu trong `.vqeaf` bằng `keyStyle_*`.
 
 ## V3.6 — Tên theme tự động 8 số + style
 
-Tên theme có thể được tạo tự động theo dạng:
-
 ```text
-58310427 Matrix Rain
+58310427 Trung Thu
 94627130 Pixel Arcade
-73140528 Halloween
+73140528 Tết
 ```
 
 - Mỗi mã gồm đúng **8 chữ số không lặp trong cùng mã**.
-- Studio ghi nhớ các mã đã sinh trong trình duyệt để hạn chế trùng lại.
-- Chọn preset sẽ sinh mã mới nhưng giữ đúng tên style/preset.
-- Nút **🎲 Tên** chỉ đổi mã và giữ phần tên style hiện tại.
-- Nút **🎲 Ngẫu nhiên** sinh cả style lẫn mã mới.
+- Chọn preset sinh mã mới nhưng giữ tên style/preset.
+- **🎲 Tên** chỉ đổi mã; **🎲 Ngẫu nhiên** sinh cả style lẫn mã.
 
 ## Credits
 

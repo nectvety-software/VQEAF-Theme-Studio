@@ -101,6 +101,8 @@ State chuẩn: `normal`, `pressed`, `focused`, `selected`, `disabled`, `checked`
 </resource>
 ```
 
+Tương tự `keypad_background`. Badge UI dùng component `menuButton` / `fpsBadge` (type `badge`); nút riêng từng phím dùng `keyStyle_*` (type `button-style`). Xem `docs/README.md` và `docs/prompts/PROMPT_02_NOKIA_FRAME_INTEGRATION.md`.
+
 ## Pipeline runtime
 
 ```text

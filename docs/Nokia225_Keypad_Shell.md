@@ -153,8 +153,11 @@ Chạm màn: map tọa độ pixel → `controller.onTouchEvent(1/2, x, y)` (pen
 | Thành phần | Vị trí | Chức năng |
 |------------|--------|-----------|
 | **EmuMenuBubble** | TopStart, kéo thả được | Menu: Xoay, Chạy lại, Dừng, Lưu/Tải nhanh, Tua, Log, Hex, Âm, Ngôn ngữ, **Nạp VXP**, Chính sách, Điều khoản |
-| **FpsBadge** | TopEnd, cùng hàng | `59 FPS` · `2x`; chấm vàng nếu &lt; 30 FPS |
+| **ShotBadge** | TopEnd, cùng hàng | Nút chụp framebuffer → `Pictures/VXPCoreKotlin`. Style theo component VQEAF **`fpsBadge`** |
+| **FPS text** | Bên trong khung, dưới Network LED | `NN FPS`; đổi vàng khi &lt; 30 FPS (`fpsWarn` / `fpsOkDot`) |
 | **EngineStoppedOverlay** | Center | Lỗi ENGINE_ABORT → Thử lại |
+
+> **Lưu ý VQEAF:** component `fpsBadge` trong `.vqeaf` / Theme Studio style **Shot badge** (TopEnd), không phải dải FPS text.
 
 Bong bóng menu: vị trí lưu trong `ui_prefs` (Room), mặc định `(10, 2)` dp.
 
@@ -183,6 +186,8 @@ Bong bóng menu: vị trí lưu trong `ui_prefs` (Room), mặc định `(10, 2)`
 ```
 
 Nhãn phụ T9 (`abc`, `def`…) hiển thị **dưới** chữ số chính, cỡ ~7sp×scale.
+
+**Preview Theme Studio** (sheet classic V3.7.4) hiển thị softkey dạng `—`, giữa hàng 2 là Call/End kiểu ☎, số `0` nhãn `_`. Mapping key ID không đổi (`left`/`right` vẫn LEFT/RIGHT).
 
 ### 3.2. Kích thước theo `scale`
 

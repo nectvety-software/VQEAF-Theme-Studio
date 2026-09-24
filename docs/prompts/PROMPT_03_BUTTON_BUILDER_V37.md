@@ -8,7 +8,7 @@ Yêu cầu:
 - State: normal, pressed, disabled; pressed có scale/fill/glow/shadow riêng; disabled có opacity/saturation/text/border riêng.
 - Có duplicate/copy/paste/reset; apply cho current/navigation/digits/all.
 - Preview realtime: single key, D-pad, number row, full keypad.
-- Preset: Candy, Fantasy, Pixel, Arcade, Cloud, Sakura, Slime, Treasure, Gem, RPG.
+- Preset: Candy, Fantasy, Pixel, Arcade, Cloud, Sakura, Slime, Treasure, Gem, RPG, Classic Soft/Pearl/Warm/Slate, Pop Red/Blue/Yellow/Purple, Comic Orange/Cream, Tết Red/Gold, Peach Blossom, Mai Yellow, Moon Gold, Lantern Red, Hanoi Steel/Lamp/Night.
 - Layer key: base -> gradient -> texture -> innerShadow -> gloss -> decoration -> border -> glow -> text/icon.
 - Export/import `.vqeaf` phải khôi phục 100% `keyStyle_*`.
 - Undo/Redo/Autosave cho mọi thao tác.
