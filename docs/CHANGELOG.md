@@ -1,5 +1,18 @@
 # Changelog
 
+## Docs — PROMPT.md + SKILLS.md ở gốc repo
+
+- Thêm **`PROMPT.md`** — scope sản phẩm (nguồn sự thật): sản phẩm, yêu cầu gốc,
+  7 ràng buộc cứng, tính năng V3.7.11, non-goals, acceptance checks.
+- Thêm **`SKILLS.md`** — quy ước cho người và AI agent, gồm 10 mục `## Skill:`:
+  format `.vqeaf` · hình dạng nút (shape + bevel) · **bẫy DOM `data-key`** ·
+  giới hạn studio · verify không đoán · môi trường máy · **cảnh báo auto-commit xoá theme** ·
+  git & push (repo public) · cách thêm kiểu dáng/preset mới · prompt tái sử dụng.
+  Kèm file map và Definition of done.
+- Cập nhật `docs/prompts/PROMPT_03` (thêm hệ hình dạng 10 kiểu) và `PROMPT_04`
+  (ưu tiên mới + đọc PROMPT.md/SKILLS.md trước).
+- `tools/check_frame_update.mjs` thêm 7 gate cho `PROMPT.md`/`SKILLS.md`.
+
 ## V3.7.11 — Thư viện hình dạng nút (10 kiểu, gồm đa giác)
 
 - `Kiểu dáng` trong nhóm **Hình dạng nút** giờ có **10 lựa chọn** thay vì 3:

@@ -63,6 +63,8 @@ Geometry chuẩn: portrait ~`268×600`, landscape ~`594×334`, `fontScale=1`.
 
 ```text
 VQEAF-Theme-Studio/
+├── PROMPT.md            # scope sản phẩm (nguồn sự thật)
+├── SKILLS.md            # quy ước + kỹ thuật + bẫy cho người & AI agent
 ├── index.html
 ├── rub.bat              # launcher Windows
 ├── run.bat              # alias gọi rub.bat

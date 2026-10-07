@@ -5,6 +5,8 @@ const vqeaf = readFileSync("src/vqeaf.js", "utf8");
 const html = readFileSync("index.html", "utf8");
 const css = readFileSync("styles.css", "utf8");
 const log = readFileSync("docs/CHANGELOG.md", "utf8");
+const prompt = readFileSync("PROMPT.md", "utf8");
+const skills = readFileSync("SKILLS.md", "utf8");
 
 const checks = {
   "html badge-dock": html.includes("badge-dock"),
@@ -35,6 +37,14 @@ const checks = {
   "js clip-path cho da giac": js.includes("keyClipPath") && js.includes("polygon("),
   "js drop-shadow cho hinh bi clip": js.includes("keyFilter") && js.includes("drop-shadow("),
   "changelog 3.7.11": log.includes("V3.7.11"),
+  // PROMPT.md + SKILLS.md ở gốc repo (quy ước mọi project)
+  "PROMPT.md ton tai + co version": prompt.includes("V3.7.11") && prompt.includes("Ràng buộc cứng"),
+  "PROMPT.md co 10 kieu dang": prompt.includes("rhombus") && prompt.includes("star"),
+  "SKILLS.md ton tai": skills.includes("Definition of done"),
+  "SKILLS.md co bay DOM data-key": skills.includes("#keypad .key[data-key="),
+  "SKILLS.md co canh bao auto-commit": skills.includes("AUTO-COMMIT"),
+  "SKILLS.md co luat clip-path + drop-shadow": skills.includes("clip-path") && skills.includes("drop-shadow"),
+  "SKILLS.md co luat git add -A": skills.includes("KHÔNG `git add -A`"),
 };
 
 let fail = 0;
