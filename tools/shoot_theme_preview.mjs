@@ -13,8 +13,12 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
+// Dung CHROME that, KHONG dung Chromium cua ms-playwright: ban chromium-901522
+// la Chrome 93, thieu `structuredClone` -> app.js nem ReferenceError ngay trong
+// freshState() va studio ra TRANG TRANG (khong co #presetGrid), nen tool timeout
+// o "preset grid" chu khong bao loi ro rang. Xem SKILLS.md § Moi truong may.
 const CHROME = process.env.CHROME ||
-  join(process.env.USERPROFILE || process.env.HOME, "AppData/Local/ms-playwright/chromium-901522/chrome-win/chrome.exe");
+  "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const STUDIO = "http://127.0.0.1:8099/";
 const PORT = 9222;
 const ids = process.argv.slice(2);

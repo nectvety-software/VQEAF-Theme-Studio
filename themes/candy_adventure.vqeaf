@@ -119,7 +119,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -154,7 +154,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "flower" right: "flower" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -189,7 +189,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "flower" right: "flower" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -224,7 +224,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "cloud" right: "cloud" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -259,7 +259,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "cloud" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -294,7 +294,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "star" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -329,7 +329,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -364,7 +364,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "flower" right: "cloud" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -399,7 +399,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "flower" right: "flower" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -434,7 +434,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "none" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -469,7 +469,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -539,7 +539,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "cloud" right: "cloud" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -574,7 +574,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "star" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -609,7 +609,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "cloud" right: "star" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -644,7 +644,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -679,7 +679,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "leaf" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -714,7 +714,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "star" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }
@@ -749,7 +749,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "leaf" right: "flower" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#0A0F19", "#070A11" ] }
             transform { scale: 0.96 }

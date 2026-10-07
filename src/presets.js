@@ -525,20 +525,22 @@ export const presets = [
   }
 ];
 
+// `icon` la TEN icon trong src/icons.js (do tools/import_vpe_icons.mjs sinh ra tu
+// pixel art cua VPEPixel), KHONG phai emoji. Render bang iconUri().
 export const draggableComponents = [
-  { type:'pumpkin', label:'Bí ngô', icon:'🎃' },
-  { type:'bat', label:'Dơi', icon:'🦇' },
-  { type:'web', label:'Mạng nhện', icon:'🕸️' },
-  { type:'ghost', label:'Ma', icon:'👻' },
-  { type:'star', label:'Ngôi sao', icon:'⭐' },
-  { type:'flower', label:'Hoa', icon:'🌸' },
-  { type:'leaf', label:'Lá', icon:'🌿' },
-  { type:'cloud', label:'Mây', icon:'☁️' },
-  { type:'gem', label:'Ngọc', icon:'💎' },
-  { type:'sparkle', label:'Lấp lánh', icon:'✨' },
-  { type:'chest', label:'Rương', icon:'🧰' },
-  { type:'slime', label:'Slime', icon:'💧' },
-  { type:'badge', label:'Badge', icon:'●' }
+  { type:'pumpkin', label:'Bí ngô', icon:'pumpkin' },
+  { type:'bat', label:'Dơi', icon:'bat' },
+  { type:'web', label:'Mạng nhện', icon:'web' },
+  { type:'ghost', label:'Ma', icon:'ghost' },
+  { type:'star', label:'Ngôi sao', icon:'star' },
+  { type:'flower', label:'Hoa', icon:'flower' },
+  { type:'leaf', label:'Lá', icon:'leaf' },
+  { type:'cloud', label:'Mây', icon:'cloud' },
+  { type:'gem', label:'Ngọc', icon:'gem' },
+  { type:'sparkle', label:'Lấp lánh', icon:'sparkle' },
+  { type:'chest', label:'Rương', icon:'chest' },
+  { type:'slime', label:'Slime', icon:'slime' },
+  { type:'badge', label:'Badge', icon:'badge' }
 ];
 
 export const buttonPresets = [
@@ -602,6 +604,9 @@ export const buttonPresets = [
   { id:'keycap', name:'Keycap bóng (theo theme)', swatch:'#2A2030', style:{ presetId:'keycap', shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#584C60', colorB:'#3A2F42', colorC:'#241C2B', pressedA:'#1C1522', pressedB:'#0E0A12', border:'#6F6474', borderWidth:0, text:'#FFFFFF', textOutline:'#000000', textOutlineWidth:0, radius:6, shadow:'#00000066', shadowBlur:6, shadowY:3, glow:'#241C2B', glowRadius:0, gloss:true, glossOpacity:.34, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.25 } }
 ];
 
+// [gia tri luu trong .vqeaf, ten hien thi]. Gia tri chinh la TEN icon trong
+// src/icons.js; 'none' khong co icon nen iconUri('none') tra ve chuoi rong.
 export const buttonDecorations = [
-  ['none','Không'], ['leaf','🌿'], ['flower','🌸'], ['cloud','☁️'], ['star','⭐'], ['gem','💎'], ['sparkle','✨']
+  ['none','Không'], ['leaf','Lá'], ['flower','Hoa'], ['cloud','Mây'],
+  ['star','Sao'], ['gem','Ngọc'], ['sparkle','Lấp lánh']
 ];

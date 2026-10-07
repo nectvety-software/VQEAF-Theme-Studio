@@ -41,6 +41,11 @@ Các yêu cầu nối tiếp:
 
 → Thư viện **10 kiểu dáng**.
 
+> không dùng emoji mà vẽ bằng `D:\desktop-webapps\VPEPixel`
+
+→ **Mọi** icon (trang trí phím, ký hiệu keypad, biểu tượng toolbar/panel) là
+pixel art **12×12** vẽ trong VPEPixel rồi nhúng vào studio; không còn emoji/glyph.
+
 ---
 
 ## 3. Ràng buộc cứng
@@ -55,10 +60,29 @@ Các yêu cầu nối tiếp:
 | 6 | 19 phím phải round-trip export → new → import đủ. |
 | 7 | `themes/` phải luôn đủ **66** file (repo có auto-commit từng xoá nhầm). |
 | 8 | **Chữ trắng trên nút phải đạt WCAG AA** (≥ 4.5:1) — `KEYCAP_MAX_LUM` lo việc này. |
+| 9 | **Không dùng emoji/glyph làm icon.** Icon là pixel art sinh từ `.vpe` của VPEPixel — sửa icon thì sửa trong VPEPixel rồi chạy lại 2 lệnh, **không sửa tay** `src/icons.js`. |
+| 10 | **Không để mất dữ liệu theme.** Mọi tool ghi lại `themes/*.vqeaf` phải **giữ nguyên** những gì nó không hiểu (đặc biệt `decoration` trong `keyStyle_*`) + có self-check fail cứng nếu số lượng giảm. |
 
 ---
 
-## 4. Tính năng — V3.7.12
+## 4. Tính năng — V3.7.13
+
+### Icon pixel art thay emoji (V3.7.13)
+
+Yêu cầu gốc: *"không dùng emoji mà vẽ bằng `D:\desktop-webapps\VPEPixel`"* — áp
+cho **cả 3 nhóm**: trang trí phím · ký hiệu keypad điện thoại · UI studio.
+
+- **46 icon 12×12**, nguồn sự thật là `.vpe` (VPE565) do
+  `D:\desktop-webapps\VPEPixel\tools\make_vqeaf_studio_icons.py` sinh ra.
+  Quy trình: `python tools/make_vqeaf_studio_icons.py` → `node tools/import_vpe_icons.mjs`.
+- `src/icons.js` **auto-generated**, nhúng data-URI PNG (chạy được cả qua `file://`).
+- Ba chế độ render: `img.icon` (đủ màu) · `.icon-glyph` (`mask-image` +
+  `currentColor`) · `.icon-tinted` (`mask-image` + màu chỉ định).
+- Trang trí phím **tô phẳng theo `tint`** (SRC_IN) → control **Màu** mới có tác dụng.
+- Export `.vqeaf` phát `<resource type="image">` + data-URI **của chính bộ icon**
+  (bỏ `vectorFor()` 13 path SVG viết tay) → preview và export **không còn lệch**.
+- Export PNG: `await preloadIcons()` trước khi vẽ (nếu không, `drawImage` bỏ qua
+  icon chưa nạp và ảnh ra thiếu hình).
 
 ### Vật liệu nút — "keycap bóng" (V3.7.12)
 
@@ -107,13 +131,15 @@ bóng**, **không viền ngoài**, **chữ trắng**, **bevel mềm**, ảnh tex
 
 ### Trang trí & layer
 - Decoration kéo thả: xóa, xoay, lật ngang/dọc, floating animation.
+- **13 loại trang trí**, mỗi loại là pixel art: `leaf` `flower` `cloud` `star`
+  `gem` `sparkle` `chest` `slime` `pumpkin` `bat` `web` `ghost` `badge`.
 - Layer Stack: Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED,
   `menuButton` / `fpsBadge`.
 
 ### Khác
 - Panel phải hiển thị **ID component `.vqeaf`** khi chọn thành phần
   (`phoneShell`, `keyStyle_ok`, `menuButton`, `decoration_…`).
-- Nút **📷 Chụp khung** trên topbar → xuất preview khung Nokia ra PNG.
+- Nút **Chụp khung** trên topbar (icon `camera`) → xuất preview khung Nokia ra PNG.
 - Ảnh raster tối ưu rồi nhúng Data URI vào chính file `.vqeaf`.
 
 ---
@@ -125,6 +151,7 @@ bóng**, **không viền ngoài**, **chữ trắng**, **bevel mềm**, ảnh tex
 - Không convert `.vqeaf` sang XML/JSON trung gian.
 - Không phụ thuộc mạng/CDN lúc chạy.
 - Không parse theme trong `onDraw`/mỗi frame (ràng buộc cho phía engine).
+- Không tự vẽ icon bằng code JS/Canvas — icon phải đến từ `.vpe` của VPEPixel.
 
 ---
 
@@ -132,18 +159,23 @@ bóng**, **không viền ngoài**, **chữ trắng**, **bevel mềm**, ảnh tex
 
 ```bash
 node tools/check_frame_update.mjs     # gate tĩnh: version + tính năng phải còn
+node tools/verify_pixel_icons.mjs     # 39 check: hết emoji + icon pixel art + export
 node tools/verify_photo_themes.mjs    # parse bằng parseVqeaf THẬT + round-trip
+node tools/verify_keycap_style.mjs    # 44 check: keycap + WCAG cho 66 theme
 node tools/verify_key_shape_ui.mjs    # UI thật, Chrome headless (~47 assert)
+node tools/verify_pixel_icons_ui.mjs  # 27 check: icon trong Chrome thật + PNG export
 ```
 
-Hai tool UI cần server tĩnh ở `http://127.0.0.1:8099/`. Chi tiết + mẹo ở `SKILLS.md`
-§ Verify.
+Ba tool UI cần server tĩnh ở `http://127.0.0.1:8099/`. Chi tiết + mẹo ở `SKILLS.md`
+§ Verify và § Môi trường máy (Chrome phải là bản thật, **không** dùng
+`ms-playwright/chromium-901522` — Chrome 93 thiếu `structuredClone`).
 
 ---
 
 ## 7. Tên sản phẩm & phiên bản
 
-**VQEAF Theme Studio** — phiên bản hiện tại **V3.7.12**.
+**VQEAF Theme Studio** — phiên bản hiện tại **V3.7.13**.
 
-Cache-buster `?v=3.7.12` đặt ở `index.html` và 2 dòng import đầu `src/app.js`.
-Sửa `src/app.js` hoặc `src/presets.js` thì **phải bump** (xem `SKILLS.md`).
+Cache-buster `?v=3.7.13` đặt ở `index.html` (stylesheet + script) và **3 dòng
+import đầu** `src/app.js`. Sửa `src/app.js` hoặc `src/presets.js` thì **phải bump**
+(xem `SKILLS.md`). Sửa icon thì bump **và** chạy lại pipeline VPEPixel.

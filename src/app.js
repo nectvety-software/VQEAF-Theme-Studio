@@ -1,17 +1,170 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.12';
-import { serializeTheme, parseVqeaf, keycapPalette, keycapButtonStyle } from './vqeaf.js?v=3.7.12';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.13';
+import { serializeTheme, parseVqeaf, keycapPalette, keycapButtonStyle } from './vqeaf.js?v=3.7.13';
+import { iconUri, ICONS, ICON_SIZE } from './icons.js?v=3.7.13';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
+// `icon` la ten icon trong src/icons.js (pixel art ve bang VPEPixel), khong con
+// la glyph ▧ ▣ ▤ ⌨ ✦ ● ◉ nhu truoc.
 const LAYER_META = {
-  frameBackground: { label:'Nền khung máy', icon:'▧', component:'phoneShell' },
-  frameFx: { label:'Khung / Frame FX', icon:'▣', component:'phoneShell' },
-  screen: { label:'LCD Screen', icon:'▤', component:'screen' },
-  keypad: { label:'Keypad', icon:'⌨', component:'keypad' },
-  decorations: { label:'Decoration', icon:'✦', component:'decoration' },
-  network: { label:'Network LED', icon:'●', component:'networkLed' },
-  badges: { label:'menuButton / fpsBadge', icon:'◉', component:'menuButton' }
+  frameBackground: { label:'Nền khung máy', icon:'keypadbg', component:'phoneShell' },
+  frameFx: { label:'Khung / Frame FX', icon:'frame', component:'phoneShell' },
+  screen: { label:'LCD Screen', icon:'screen', component:'screen' },
+  keypad: { label:'Keypad', icon:'keypad', component:'keypad' },
+  decorations: { label:'Decoration', icon:'decoration', component:'decoration' },
+  network: { label:'Network LED', icon:'led', component:'networkLed' },
+  badges: { label:'menuButton / fpsBadge', icon:'badge', component:'menuButton' }
 };
+
+/**
+ * Tra ve the <img> cho mot icon pixel art, hoac null neu khong co.
+ * Dung chung cho moi cho thay emoji/glyph truoc day.
+ */
+function iconImg(name, cls='icon') {
+  const uri = iconUri(name);
+  if (!uri) return null;
+  const img = document.createElement('img');
+  img.className = cls;
+  img.src = uri;
+  img.alt = '';
+  img.setAttribute('aria-hidden', 'true');
+  img.draggable = false;
+  return img;
+}
+/** Nhu iconImg nhung tra ve HTML string (cho innerHTML). */
+function iconHtml(name, cls='icon') {
+  const uri = iconUri(name);
+  return uri ? `<img class="${cls}" src="${uri}" alt="" aria-hidden="true" draggable="false">` : '';
+}
+
+/**
+ * Glyph UI to bang `currentColor` (mask), nen tu an theo mau chu cua vung chua
+ * no — phim doi mau theo theme thi mui ten cung doi theo, khong bi lech mau.
+ * Dung cho nhan phim, nut thanh cong cu, danh sach lop.
+ */
+function glyphIconHtml(name, cls='icon icon-glyph') {
+  const uri = iconUri(name);
+  if (!uri) return '';
+  return `<span class="${cls}" style="-webkit-mask-image:url('${uri}');mask-image:url('${uri}')"></span>`;
+}
+function glyphIconEl(name, cls='icon icon-glyph') {
+  const uri = iconUri(name);
+  if (!uri) return null;
+  const el = document.createElement('span');
+  el.className = cls;
+  el.style.webkitMaskImage = `url("${uri}")`;
+  el.style.maskImage = `url("${uri}")`;
+  return el;
+}
+
+/**
+ * Glyph ky hieu -> ten icon pixel art.
+ * Truoc day day la cac glyph chu: ▲ ▼ ◀ ▶ ← ☎ ∞ ⇧ — ☰ 📷 ▮.
+ */
+const GLYPH_ICON = {
+  '▲':'tri_up', '▼':'tri_down', '◀':'tri_left', '▶':'tri_right',
+  '←':'arrow_left', '→':'arrow_right', '☎':'call', '∞':'infinity',
+  '⇧':'shift', '—':'dash', '_':'dash', '+':'plus', '×':'close',
+  '☰':'menu_lines', '📷':'camera', '▮':'battery',
+};
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+/** HTML cho mot nhan: glyph da biet -> icon, con lai giu nguyen chu. */
+function labelHtml(text, cls='icon icon-glyph') {
+  const name = GLYPH_ICON[text];
+  return name ? glyphIconHtml(name, cls) : escapeHtml(text);
+}
+/**
+ * index.html khong the import icons.js, nen no dung <i data-icon="ten"> (anh du
+ * mau) hoac <i data-glyph="ten"> (glyph an theo mau chu) lam cho. Ham nay dien
+ * noi dung cho tat ca cho do luc khoi dong.
+ */
+function hydrateIcons(root=document) {
+  root.querySelectorAll('[data-icon]').forEach((el) => {
+    const img = iconImg(el.dataset.icon, el.className || 'icon');
+    if (!img) return;
+    if (el.title) img.title = el.title;
+    el.replaceWith(img);
+  });
+  root.querySelectorAll('[data-glyph]').forEach((el) => {
+    const span = glyphIconEl(el.dataset.glyph, el.className || 'icon icon-glyph');
+    if (!span) return;
+    if (el.title) span.title = el.title;
+    el.replaceWith(span);
+  });
+}
+
+// --- Trang tri: icon pixel art to phang theo mau `tint` ---------------------
+// .vqeaf khai bao `icon { source: @pumpkin size: 48dp tint: "#FF7A18" }` — tint
+// nghia la THAY mau icon bang mau nay (kieu SRC_IN), khong phai phu lop. Emoji
+// truoc day khong doi mau duoc nen o "Mau" gan nhu vo tac dung; pixel art thi
+// to duoc, va 2 theme dang dung (halloween_trick, web_hero) giu nguyen y nghia.
+
+/** <span> hien icon pixel art da to phang mau `tint` (bang CSS mask). */
+function tintedIconEl(name, sizePx, tint, cls='icon-tinted') {
+  const uri = iconUri(name);
+  if (!uri) return null;
+  const el = document.createElement('span');
+  el.className = cls;
+  el.style.width = `${sizePx}px`;
+  el.style.height = `${sizePx}px`;
+  const mask = `url("${uri}")`;
+  el.style.webkitMaskImage = mask;
+  el.style.maskImage = mask;
+  el.style.backgroundColor = tint || '#FFB13B';
+  return el;
+}
+
+const _iconCache = new Map();
+const _tintedCache = new Map();
+
+/** Image cho mot icon; cache lai de khong tao lai moi lan ve. */
+function loadIcon(name) {
+  const uri = iconUri(name);
+  if (!uri) return null;
+  if (!_iconCache.has(name)) {
+    const img = new Image();
+    img.src = uri;
+    _iconCache.set(name, img);
+  }
+  return _iconCache.get(name);
+}
+
+/** Canvas 12x12 cua icon da to phang mau tint, hoac null neu anh chua san sang. */
+function tintedIconCanvas(name, tint) {
+  const key = `${name}|${tint || ''}`;
+  if (_tintedCache.has(key)) return _tintedCache.get(key);
+  const img = loadIcon(name);
+  if (!img || !img.complete || !img.naturalWidth) return null;
+  const off = document.createElement('canvas');
+  off.width = ICON_SIZE; off.height = ICON_SIZE;
+  const octx = off.getContext('2d');
+  octx.imageSmoothingEnabled = false;
+  octx.drawImage(img, 0, 0, ICON_SIZE, ICON_SIZE);
+  octx.globalCompositeOperation = 'source-in';   // giu alpha, thay mau
+  octx.fillStyle = tint || '#FFB13B';
+  octx.fillRect(0, 0, ICON_SIZE, ICON_SIZE);
+  _tintedCache.set(key, off);
+  return off;
+}
+
+/** Cho tat ca icon load xong — goi truoc khi xuat PNG de khong bi thieu hinh. */
+async function preloadIcons() {
+  await Promise.all(Object.keys(ICONS).map(async (name) => {
+    const img = loadIcon(name);
+    if (img && !img.complete) { try { await img.decode(); } catch { /* bo qua */ } }
+  }));
+}
+
+/** Ve icon pixel art da to mau len canvas. Tra ve false neu chua load kip. */
+function drawTintedIcon(ctx, name, cx, cy, size, tint) {
+  const off = tintedIconCanvas(name, tint);
+  if (!off) return false;
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(off, Math.round(cx - size / 2), Math.round(cy - size / 2), Math.round(size), Math.round(size));
+  return true;
+}
 
 const ALL_KEY_IDS = ['menu','up','rsk','left','ok','right','down','1','2','3','4','5','6','7','8','9','*','0','#'];
 const KEY_GROUPS = {
@@ -19,7 +172,8 @@ const KEY_GROUPS = {
   digits:['1','2','3','4','5','6','7','8','9','*','0','#'],
   all:ALL_KEY_IDS
 };
-const DECOR_EMOJI = Object.fromEntries(buttonDecorations);
+// buttonDecorations = [['leaf','Lá'], ...] — gia tri chinh la TEN icon trong
+// src/icons.js, duoc giai ma bang decorationIconUri()/iconUri().
 function cloneButtonPreset(id='candy_green') {
   const p=buttonPresets.find(x=>x.id===id) || buttonPresets[0];
   return { presetId:p.id, ...structuredClone(p.style) };
@@ -142,7 +296,7 @@ for (let r=0;r<4;r++) {
     b.className='key num key-pill selectable';
     b.dataset.component='key';
     b.dataset.key=n;
-    b.innerHTML=`<span>${n}</span><span class="sub">${s}</span>`;
+    b.innerHTML=`<span>${n}</span><span class="sub">${labelHtml(s, 'icon icon-glyph sub-glyph')}</span>`;
     row.appendChild(b);
   });
   document.querySelector('#numberRows').appendChild(row);
@@ -363,9 +517,26 @@ function applyBadgeStyle(el, style, kind) {
 }
 
 
-function keyLabelForId(id) {
-  const map={menu:'MENU',up:'▲',rsk:'←',left:'◀',ok:'OK',right:'▶',down:'▼','*':'*','#':'#'};
-  return map[id] || id;
+// Nhan phim: `text` de hien trong <option>/tieu de (<option> khong nhung duoc
+// anh), `icon` de ve bang pixel art trong giao dien va tren canvas.
+// Truoc day day la mot map glyph: {up:'▲', rsk:'←', left:'◀', right:'▶', down:'▼'}.
+const KEY_LABELS = {
+  menu:  { text:'MENU',  icon:null },
+  up:    { text:'Lên',   icon:'tri_up' },
+  rsk:   { text:'RSK',   icon:'arrow_left' },
+  left:  { text:'Trái',  icon:'tri_left' },
+  ok:    { text:'OK',    icon:null },
+  right: { text:'Phải',  icon:'tri_right' },
+  down:  { text:'Xuống', icon:'tri_down' },
+  '*':   { text:'*',     icon:null },
+  '#':   { text:'#',     icon:null },
+};
+function keyLabelForId(id) { return KEY_LABELS[id]?.text ?? id; }
+/** Nhan phim dang HTML: co icon thi ve icon, khong thi ve chu. */
+function keyLabelHtml(id) {
+  const e = KEY_LABELS[id];
+  if (!e) return escapeHtml(id);
+  return e.icon ? glyphIconHtml(e.icon) : escapeHtml(e.text);
 }
 function targetKeys(target=state.buttonBuilder?.target || 'selected') {
   if(target==='selected') return [state.selectedKey || 'ok'];
@@ -375,8 +546,9 @@ function ensureButtonStyle(key=state.selectedKey || 'ok') {
   if(!state.buttonStyles[key]) state.buttonStyles[key]=cloneButtonPreset(state.buttonBuilder?.presetId || 'candy_green');
   return state.buttonStyles[key];
 }
-function decorationEmoji(name) {
-  return (!name || name==='none') ? '' : (DECOR_EMOJI[name] || '✨');
+/** Ten trang tri -> data-URI icon pixel art ('' neu khong co). */
+function decorationIconUri(name) {
+  return (!name || name==='none') ? '' : iconUri(name);
 }
 function clearKeyCustomStyle(el) {
   el.classList.remove('custom-key','custom-disabled','custom-preview-pressed');
@@ -541,9 +713,11 @@ function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
   el.style.setProperty('--custom-disabled-saturation',String(Number(style.disabledSaturation ?? .25)));
   el.style.setProperty('--custom-gloss-opacity',style.gloss===false ? '0' : String(Number(style.glossOpacity ?? .45)));
   el.style.setProperty('--custom-gloss-color','#FFFFFF');
-  const left=decorationEmoji(style.decorLeft), right=decorationEmoji(style.decorRight);
-  if(left){ const s=document.createElement('span'); s.className='key-decoration key-decoration-left'; s.textContent=left; el.appendChild(s); }
-  if(right){ const s=document.createElement('span'); s.className='key-decoration key-decoration-right'; s.textContent=right; el.appendChild(s); }
+  // Trang tri phim: truoc day la <span> chua emoji (font-size 8px). Nay la <img>
+  // tro thang toi pixel art 12x12 cua VPEPixel, ve 1:1 bang image-rendering:pixelated.
+  const left=decorationIconUri(style.decorLeft), right=decorationIconUri(style.decorRight);
+  if(left){ const s=document.createElement('img'); s.className='key-decoration key-decoration-left'; s.src=left; s.alt=''; s.setAttribute('aria-hidden','true'); el.appendChild(s); }
+  if(right){ const s=document.createElement('img'); s.className='key-decoration key-decoration-right'; s.src=right; s.alt=''; s.setAttribute('aria-hidden','true'); el.appendChild(s); }
   if(previewState==='pressed') el.classList.add('custom-preview-pressed');
   if(previewState==='disabled') el.classList.add('custom-disabled');
 }
@@ -575,20 +749,20 @@ function renderButtonBuilderPreview() {
   const key=state.selectedKey || 'ok';
   preview.dataset.key=key;
   const main=preview.querySelector('.builder-preview-label');
-  if(main) main.textContent=keyLabelForId(key);
+  if(main) main.innerHTML=keyLabelHtml(key);
   // Chua dat style rieng cho phim nay => phim THAT dang dung vat lieu keycap
   // (CSS .key + --cap*), nen nut xem truoc cung phai hien keycap. Truoc day lay
   // candy_green -> preview noi doi so voi ban that.
   applyStyleToKeyElement(preview,state.buttonStyles[key] || keycapButtonStyle(state.theme),key,state.buttonBuilder.previewState || 'normal');
   let label=preview.querySelector('.builder-preview-label');
-  if(!label){ label=document.createElement('span'); label.className='builder-preview-label'; label.textContent=keyLabelForId(key); preview.appendChild(label); }
+  if(!label){ label=document.createElement('span'); label.className='builder-preview-label'; label.innerHTML=keyLabelHtml(key); preview.appendChild(label); }
 }
 function renderButtonBuilder() {
   if(!els.buttonBuilder) return;
   els.buttonBuilder.innerHTML='';
   const selectedKey=state.selectedKey || 'ok';
   const head=document.createElement('div'); head.className='builder-head';
-  head.innerHTML=`<div><span class="eyebrow">Đang chỉnh</span><strong>${keyLabelForId(selectedKey)}</strong></div><span class="badge subtle">${selectedKey}</span>`;
+  head.innerHTML=`<div><span class="eyebrow">Đang chỉnh</span><strong>${keyLabelHtml(selectedKey)}</strong></div><span class="badge subtle">${selectedKey}</span>`;
   els.buttonBuilder.appendChild(head);
 
   const keySelect=selectField('Chọn phím',selectedKey,ALL_KEY_IDS.map(k=>[k,keyLabelForId(k)]),v=>{
@@ -612,7 +786,7 @@ function renderButtonBuilder() {
 
   const actionRow=document.createElement('div'); actionRow.className='button-row builder-actions';
   const apply=document.createElement('button'); apply.className='primary-lite'; apply.textContent='Áp preset'; apply.onclick=()=>commit(()=>applyPresetToTarget(state.buttonBuilder.presetId));
-  const copy=document.createElement('button'); copy.className='ghost'; copy.textContent='Sao chép → nhóm'; copy.onclick=()=>commit(()=>copyCurrentStyleToTarget());
+  const copy=document.createElement('button'); copy.className='ghost'; copy.innerHTML=`Sao chép ${glyphIconHtml('arrow_right')} nhóm`; copy.onclick=()=>commit(()=>copyCurrentStyleToTarget());
   const clear=document.createElement('button'); clear.className='ghost danger'; clear.textContent='Xóa style'; clear.onclick=()=>commit(()=>removeButtonStyleTarget());
   actionRow.append(apply,copy,clear); els.buttonBuilder.appendChild(actionRow);
 
@@ -643,8 +817,8 @@ function renderButtonBuilder() {
     field('Gloss opacity','btnGlossOpacity','range',s.glossOpacity,set('glossOpacity',Number),0,.8,.02),
     field('Cỡ chữ','btnFontSize','range',s.fontSize,set('fontSize',Number),9,20),
     field('Đậm chữ','btnFontWeight','range',s.fontWeight,set('fontWeight',Number),400,900,100),
-    selectField('Trang trí trái',s.decorLeft,buttonDecorations,set('decorLeft')),
-    selectField('Trang trí phải',s.decorRight,buttonDecorations,set('decorRight')),
+    decorationField('Trang trí trái',s.decorLeft,set('decorLeft')),
+    decorationField('Trang trí phải',s.decorRight,set('decorRight')),
     field('Opacity khi tắt','btnDisabledOpacity','range',s.disabledOpacity,set('disabledOpacity',Number),.1,1,.05)
   );
   els.buttonBuilder.appendChild(edit);
@@ -710,7 +884,7 @@ function renderPalette() {
   draggableComponents.forEach(c=>{
     const d=document.createElement('div');
     d.className='palette-item'; d.draggable=true; d.dataset.type=c.type;
-    d.innerHTML=`<span class="palette-icon">${c.icon}</span><div><strong>${c.label}</strong><div class="muted">Kéo vào khung máy</div></div>`;
+    d.innerHTML=`<span class="palette-icon">${iconHtml(c.icon, 'icon icon-24')}</span><div><strong>${c.label}</strong><div class="muted">Kéo vào khung máy</div></div>`;
     d.addEventListener('dragstart',e=>e.dataTransfer.setData('text/vqeaf-component',c.type));
     els.componentPalette.appendChild(d);
   });
@@ -724,8 +898,9 @@ function renderDecorations() {
     el.className='decoration';
     if (d.floating) el.classList.add('is-floating');
     el.dataset.id=d.id;
-    el.textContent=draggableComponents.find(x=>x.type===d.type)?.icon || '✦';
-    el.style.left=`${d.x}px`; el.style.top=`${d.y}px`; el.style.fontSize=`${d.size}px`; el.style.opacity=d.opacity; el.style.color=d.color;
+    const decIcon = tintedIconEl(d.type, d.size, d.color);
+    if (decIcon) el.append(decIcon);
+    el.style.left=`${d.x}px`; el.style.top=`${d.y}px`; el.style.opacity=d.opacity;
     el.style.transform=`rotate(${d.rotation}deg) scaleX(${d.flipX?-1:1}) scaleY(${d.flipY?-1:1})`; el.style.zIndex=String(index+1);
     el.style.setProperty('--decFloatAmp',`${d.floatAmplitude}px`); el.style.setProperty('--decFloatDuration',`${d.floatDuration}ms`);
     el.onclick=e=>{e.stopPropagation();selectDecoration(d.id);};
@@ -737,9 +912,9 @@ function renderDecorations() {
 function renderLayerList() {
   els.layerList.innerHTML='';
   state.layerOrder.forEach((id,index)=>{
-    const meta=LAYER_META[id] || {label:id,icon:'□'};
+    const meta=LAYER_META[id] || {label:id,icon:'frame'};
     const row=document.createElement('div'); row.className='layer-item';
-    row.innerHTML=`<div class="layer-main"><span class="layer-dot"></span><span>${meta.icon}</span><span class="layer-label">${meta.label}</span></div><div class="layer-actions"><button title="Xuống dưới">↓</button><button title="Lên trên">↑</button></div>`;
+    row.innerHTML=`<div class="layer-main"><span class="layer-dot"></span>${glyphIconHtml(meta.icon)}<span class="layer-label">${meta.label}</span></div><div class="layer-actions"><button title="Xuống dưới">${glyphIconHtml('move_down')}</button><button title="Lên trên">${glyphIconHtml('move_up')}</button></div>`;
     row.querySelector('.layer-main').onclick=()=>{
       if (meta.component==='decoration' && state.decorations.length) selectDecoration(state.decorations.at(-1).id);
       else { state.selected=meta.component || 'phoneShell'; state.selectedDecoration=null; renderSelection(); renderInspector(); }
@@ -751,7 +926,7 @@ function renderLayerList() {
 
   const internal=document.createElement('div');
   internal.className='layer-item internal';
-  internal.innerHTML=`<div class="layer-main"><span class="layer-dot"></span><span>▧</span><span class="layer-label">Nền keypad · ${state.keypadBackground.position==='above'?'Trên phím':'Dưới phím'}</span></div><div class="layer-actions"><button title="Dưới phím">↓</button><button title="Trên phím">↑</button></div>`;
+  internal.innerHTML=`<div class="layer-main"><span class="layer-dot"></span>${glyphIconHtml('keypadbg')}<span class="layer-label">Nền keypad · ${state.keypadBackground.position==='above'?'Trên phím':'Dưới phím'}</span></div><div class="layer-actions"><button title="Dưới phím">${glyphIconHtml('move_down')}</button><button title="Trên phím">${glyphIconHtml('move_up')}</button></div>`;
   const [below,above]=internal.querySelectorAll('button');
   below.onclick=()=>commit(()=>state.keypadBackground.position='below');
   above.onclick=()=>commit(()=>state.keypadBackground.position='above');
@@ -761,8 +936,10 @@ function renderLayerList() {
   els.decorationLayerList.innerHTML='';
   state.decorations.forEach((d,index)=>{
     const row=document.createElement('div'); row.className='layer-item';
-    const icon=draggableComponents.find(x=>x.type===d.type)?.icon || '✦';
-    row.innerHTML=`<div class="layer-main"><span>${icon}</span><span class="layer-label">${d.type} #${d.id}${d.floating?' · float':''}</span></div><div class="layer-actions wide"><button title="Xuống">↓</button><button title="Lên">↑</button><button class="icon-action" title="Xoay trái 90°">↺</button><button class="icon-action" title="Xoay phải 90°">↻</button><button class="icon-action" title="Lật ngang">⇋</button><button class="icon-action" title="Lật dọc">⇅</button><button class="danger" title="Xóa">×</button></div>`;
+    const icon=draggableComponents.find(x=>x.type===d.type)?.icon || d.type;
+    // Trong danh sach thi hien icon GOC (du mau) de de nhan dien; tren khung ve
+    // moi to theo tint, dung nhu `icon { tint: ... }` trong .vqeaf.
+    row.innerHTML=`<div class="layer-main">${iconHtml(icon)}<span class="layer-label">${d.type} #${d.id}${d.floating?' · float':''}</span></div><div class="layer-actions wide"><button title="Xuống">${glyphIconHtml('move_down')}</button><button title="Lên">${glyphIconHtml('move_up')}</button><button class="icon-action" title="Xoay trái 90°">${glyphIconHtml('rotate_ccw')}</button><button class="icon-action" title="Xoay phải 90°">${glyphIconHtml('rotate_cw')}</button><button class="icon-action" title="Lật ngang">${glyphIconHtml('flip_h')}</button><button class="icon-action" title="Lật dọc">${glyphIconHtml('flip_v')}</button><button class="danger" title="Xóa">${glyphIconHtml('close')}</button></div>`;
     row.querySelector('.layer-main').onclick=()=>selectDecoration(d.id);
     const [down,up,rotL,rotR,flipX,flipY,del]=row.querySelectorAll('button');
     down.onclick=()=>moveDecoration(index,-1); up.onclick=()=>moveDecoration(index,1);
@@ -874,11 +1051,13 @@ function renderInspector() {
     const d=state.decorations.find(x=>x.id===state.selectedDecoration); if(!d) return;
     const group=inspectorGroup('Decoration');
     const tools=document.createElement('div'); tools.className='transform-toolbar';
-    const toolDefs=[['↺','Xoay trái 90°',()=>d.rotation=((d.rotation-90)%360+360)%360],['↻','Xoay phải 90°',()=>d.rotation=(d.rotation+90)%360],['⇋','Lật ngang',()=>d.flipX=!d.flipX],['⇅','Lật dọc',()=>d.flipY=!d.flipY],['🗑','Xóa',()=>{state.decorations=state.decorations.filter(x=>x.id!==d.id);state.selectedDecoration=null;state.selected='phoneShell';}]];
-    toolDefs.forEach(([txt,title,fn])=>{const b=document.createElement('button');b.textContent=txt;b.title=title;b.onclick=()=>commit(fn);tools.appendChild(b);});
+    const toolDefs=[['rotate_ccw','Xoay trái 90°',()=>d.rotation=((d.rotation-90)%360+360)%360],['rotate_cw','Xoay phải 90°',()=>d.rotation=(d.rotation+90)%360],['flip_h','Lật ngang',()=>d.flipX=!d.flipX],['flip_v','Lật dọc',()=>d.flipY=!d.flipY],['trash','Xóa',()=>{state.decorations=state.decorations.filter(x=>x.id!==d.id);state.selectedDecoration=null;state.selected='phoneShell';}]];
+    toolDefs.forEach(([ic,title,fn])=>{const b=document.createElement('button');b.innerHTML=glyphIconHtml(ic);b.title=title;b.onclick=()=>commit(fn);tools.appendChild(b);});
     group.append(tools);
     group.append(
-      field('Màu','color','color',d.color,v=>{d.color=v;renderAll(false);}),
+      // Day la TINT: icon bi thay han mau, dung nhu `icon { tint: ... }` trong
+      // .vqeaf. Emoji truoc day khong doi mau duoc nen o nay gan nhu vo dung.
+      field('Màu phủ (tint)','color','color',d.color,v=>{d.color=v;renderAll(false);}),
       field('Kích thước','size','range',d.size,v=>{d.size=+v;renderAll(false);},10,100),
       field('Xoay','rotation','range',d.rotation,v=>{d.rotation=+v;renderAll(false);},-180,180),
       field('Độ mờ','opacity','range',d.opacity,v=>{d.opacity=+v;renderAll(false);},0,1,.05),
@@ -995,6 +1174,35 @@ function selectField(label,value,options,onchange) {
   let before=null; s.onfocus=()=>before=snapshot(); s.onchange=()=>{onchange(s.value);pushUndoSnapshot(before);before=null;};
   wrap.append(s); return wrap;
 }
+/**
+ * Chon trang tri phim bang icon that.
+ *
+ * Khong dung selectField duoc: <option> khong render duoc <img>, nen truoc day
+ * dropdown buoc phai hien emoji lam nhan. Hang nut nay hien dung pixel art.
+ */
+function decorationField(label,value,onchange) {
+  const wrap=document.createElement('label'); wrap.className='field';
+  wrap.innerHTML=`<span>${label}</span>`;
+  const row=document.createElement('div'); row.className='icon-picker';
+  const current=value||'none';
+  buttonDecorations.forEach(([name,text])=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='icon-pick'+(name===current?' active':'');
+    b.dataset.value=name; b.title=text;
+    const img=iconImg(name,'icon icon-16');
+    if(img) b.append(img); else b.textContent=text;   // 'none' -> chu "Không"
+    b.onclick=()=>{
+      const before=snapshot();
+      onchange(name);
+      pushUndoSnapshot(before);
+      scheduleAutosave();
+      row.querySelectorAll('.icon-pick').forEach(x=>x.classList.toggle('active',x.dataset.value===name));
+    };
+    row.append(b);
+  });
+  wrap.append(row); return wrap;
+}
 function toggleField(label,value,onchange) {
   const wrap=document.createElement('label'); wrap.className='toggle field-toggle';
   const i=document.createElement('input'); i.type='checkbox'; i.checked=Boolean(value); const s=document.createElement('span');s.textContent=label;
@@ -1027,13 +1235,13 @@ function buildBackgroundGroup() {
 function backgroundTransformToolbar(bg) {
   const tools=document.createElement('div'); tools.className='transform-toolbar';
   const actions=[
-    ['↺','Xoay trái 90°',()=>bg.rotation=((Number(bg.rotation||0)-90)%360+360)%360],
-    ['↻','Xoay phải 90°',()=>bg.rotation=(Number(bg.rotation||0)+90)%360],
-    ['⇋','Lật ngang',()=>bg.flipX=!bg.flipX],
-    ['⇅','Lật dọc',()=>bg.flipY=!bg.flipY],
-    ['⟳','Reset transform',()=>Object.assign(bg,{rotation:0,flipX:false,flipY:false,scale:1,offsetX:0,offsetY:0})]
+    ['rotate_ccw','Xoay trái 90°',()=>bg.rotation=((Number(bg.rotation||0)-90)%360+360)%360],
+    ['rotate_cw','Xoay phải 90°',()=>bg.rotation=(Number(bg.rotation||0)+90)%360],
+    ['flip_h','Lật ngang',()=>bg.flipX=!bg.flipX],
+    ['flip_v','Lật dọc',()=>bg.flipY=!bg.flipY],
+    ['reset','Reset transform',()=>Object.assign(bg,{rotation:0,flipX:false,flipY:false,scale:1,offsetX:0,offsetY:0})]
   ];
-  actions.forEach(([txt,title,fn])=>{const b=document.createElement('button');b.textContent=txt;b.title=title;b.onclick=()=>commit(fn);tools.appendChild(b);});
+  actions.forEach(([ic,title,fn])=>{const b=document.createElement('button');b.innerHTML=glyphIconHtml(ic);b.title=title;b.onclick=()=>commit(fn);tools.appendChild(b);});
   return tools;
 }
 
@@ -1057,7 +1265,7 @@ function buildFrameBackgroundGroup() {
     field('Blur','frameBgBlur','range',bg.blur,v=>{bg.blur=+v;renderAll(false);},0,12,.5),
     toggleField('Hiệu ứng nổi / emboss nhẹ',bg.raised,v=>{bg.raised=v;renderAll(false);})
   );
-  const note=document.createElement('div'); note.className='mini-help'; note.textContent='Thứ tự trên/dưới của nền frame được điều khiển trong tab Lớp → “Nền khung máy”.'; g.append(note);
+  const note=document.createElement('div'); note.className='mini-help'; note.textContent='Thứ tự trên/dưới của nền frame được điều khiển trong tab Lớp, mục “Nền khung máy”.'; g.append(note);
   return g;
 }
 
@@ -1402,6 +1610,9 @@ async function captureNokiaFrame() {
 }
 
 async function renderNokiaFramePng() {
+  // Icon pixel art phai load xong truoc khi ve, neu khong drawImage se im lang
+  // bo qua va PNG xuat ra thieu trang tri / mui ten / pin.
+  await preloadIcons();
   const t = state.theme;
   const landscape = state.orientation === 'landscape';
   const designW = landscape ? 594 : 268;
@@ -1473,28 +1684,41 @@ async function renderNokiaFramePng() {
   }
 
   // badge MENU / SHOT phía trên
-  drawBadge(ctx, phoneX + 4, badgePad - 28, state.menuStyle, '☰ MENU', 'menu');
-  const shotText = '📷 Shot';
-  drawBadge(ctx, phoneX + designW - 4 - measureBadgeW(ctx, state.fpsStyle, shotText), badgePad - 28, state.fpsStyle, shotText, 'shot');
+  drawBadge(ctx, phoneX + 4, badgePad - 28, state.menuStyle, 'MENU', 'menu', 'menu_lines');
+  const shotText = 'Shot';
+  drawBadge(ctx, phoneX + designW - 4 - measureBadgeW(ctx, state.fpsStyle, shotText, 'camera'), badgePad - 28, state.fpsStyle, shotText, 'shot', 'camera');
 
-  // decorations
+  // decorations — icon pixel art to phang theo `tint` (d.color), dung y nghia
+  // `icon { source: @<type> size: Ndp tint: "#..." }` trong .vqeaf.
   for (const d of state.decorations || []) {
     ctx.save();
     ctx.globalAlpha = Number(d.opacity ?? 1);
     ctx.translate(phoneX + (d.x || 0) + (d.size || 28) / 2, phoneY + (d.y || 0) + (d.size || 28) / 2);
     ctx.rotate(((d.rotation || 0) * Math.PI) / 180);
     ctx.scale(d.flipX ? -1 : 1, d.flipY ? -1 : 1);
-    ctx.fillStyle = d.color || '#FFB13B';
-    ctx.font = `${d.size || 28}px serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(decorationGlyph(d.type), 0, 0);
+    drawTintedIcon(ctx, d.type, 0, 0, Number(d.size || 28), d.color || '#FFB13B');
     ctx.restore();
   }
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('Không tạo được PNG'))), 'image/png');
   });
+}
+
+/**
+ * Ve nhan cua mot phim len canvas: glyph da biet (▲ ☎ ∞ ⇧ …) thi ve bang icon
+ * pixel art to theo mau chu, con lai ve bang chu nhu cu.
+ * `ctx.font` phai duoc set truoc khi goi (dung cho nhanh ve chu).
+ */
+function drawKeyText(ctx, text, cx, cy, size, color) {
+  const icon = GLYPH_ICON[text];
+  if (icon) {
+    // icon 12x12 hoi nho so voi co chu, phong 1.25x cho can doi quang chan
+    drawTintedIcon(ctx, icon, cx, cy, size * 1.25, color);
+    return;
+  }
+  ctx.fillStyle = color;
+  ctx.fillText(text, cx, cy);
 }
 
 async function drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius) {
@@ -1532,8 +1756,8 @@ async function drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius) {
   ctx.font = '8px system-ui, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText('4G VoLTE', sx + 10, sy + 14);
-  ctx.textAlign = 'right';
-  ctx.fillText('▮', sx + sw - 10, sy + 14);
+  // pin: truoc day la glyph '▮', nay la icon pixel art to bang mau chu tren LCD
+  drawTintedIcon(ctx, 'battery', sx + sw - 16, sy + 14, 12, '#c8d0d8');
   ctx.textAlign = 'center';
   ctx.fillStyle = '#e8eef4';
   ctx.font = '700 28px system-ui, sans-serif';
@@ -1604,17 +1828,16 @@ async function drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius) {
       ctx.stroke();
     }
     // text
-    ctx.fillStyle = s.text || '#FFFFFF';
+    const textColor = s.text || '#FFFFFF';
     ctx.font = `800 ${s.fontSize || (isOk ? 12 : sub ? 13 : 11)}px system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if (sub) {
-      ctx.fillText(label, x + w / 2, yy + h / 2 - 5);
-      ctx.fillStyle = cap.sub;
+      drawKeyText(ctx, label, x + w / 2, yy + h / 2 - 5, s.fontSize || 13, textColor);
       ctx.font = '500 7px system-ui, sans-serif';
-      ctx.fillText(sub, x + w / 2, yy + h / 2 + 8);
+      drawKeyText(ctx, sub, x + w / 2, yy + h / 2 + 8, 8, cap.sub);
     } else {
-      ctx.fillText(label, x + w / 2, yy + h / 2);
+      drawKeyText(ctx, label, x + w / 2, yy + h / 2, s.fontSize || (isOk ? 12 : 11), textColor);
     }
   };
 
@@ -1700,23 +1923,28 @@ async function drawLandscapeContent(ctx, phoneX, phoneY, designW, designH, t, ke
       ctx.strokeStyle = '#0000007A';
       ctx.beginPath(); ctx.moveTo(x, ky + h - 1.5); ctx.lineTo(x + keyW, ky + h - 1.5); ctx.stroke();
       ctx.restore();
-      ctx.fillStyle = '#FFFFFF';
       ctx.font = `800 ${ri < 3 ? 10 : 11}px system-ui, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(label, x + keyW / 2, ky + h / 2);
+      drawKeyText(ctx, label, x + keyW / 2, ky + h / 2, ri < 3 ? 11 : 12, '#FFFFFF');
     });
     ky += (ri < 3 ? softH : numH) + g;
   });
 }
 
-function drawBadge(ctx, x, y, style, text, kind) {
+function drawBadge(ctx, x, y, style, text, kind, iconName) {
   const s = style || {};
   const padX = Number(s.paddingX ?? 12), padY = Number(s.paddingY ?? 8);
-  ctx.font = `800 ${Number(s.fontSize ?? 11)}px system-ui, sans-serif`;
+  const fontSize = Number(s.fontSize ?? 11);
+  ctx.font = `800 ${fontSize}px system-ui, sans-serif`;
   const tw = ctx.measureText(text).width;
-  const w = tw + padX * 2 + (s.dotSize ? Number(s.dotSize) + 6 : 0);
-  const h = Number(s.fontSize ?? 11) + padY * 2;
+  // Badge truoc day ghep glyph vao chuoi ('☰ MENU', '📷 Shot'). Nay chu tach khoi
+  // icon: icon pixel art to bang chinh mau chu cua badge.
+  const dotLead = s.dotSize ? Number(s.dotSize) + 6 : 0;
+  const iconSize = iconName ? fontSize + 2 : 0;
+  const iconLead = iconName ? iconSize + 5 : 0;
+  const w = tw + padX * 2 + dotLead + iconLead;
+  const h = fontSize + padY * 2;
   const r = Number(s.radius ?? 16);
   roundRect(ctx, x, y, w, h, r);
   ctx.fillStyle = s.background || '#151f2e';
@@ -1731,24 +1959,25 @@ function drawBadge(ctx, x, y, style, text, kind) {
     ctx.fillStyle = s.accent || '#65DC96';
     ctx.fill();
   }
+  if (iconName) {
+    drawTintedIcon(ctx, iconName, x + padX + dotLead + iconSize / 2, y + h / 2, iconSize, s.text || '#FFFFFF');
+  }
   ctx.fillStyle = s.text || '#FFFFFF';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, x + padX + (s.dotSize ? Number(s.dotSize) + 6 : 0), y + h / 2);
+  ctx.fillText(text, x + padX + dotLead + iconLead, y + h / 2);
 }
 
-function measureBadgeW(ctx, style, text) {
+function measureBadgeW(ctx, style, text, iconName) {
   const s = style || {};
-  ctx.font = `800 ${Number(s.fontSize ?? 11)}px system-ui, sans-serif`;
-  return ctx.measureText(text).width + Number(s.paddingX ?? 12) * 2 + (s.dotSize ? Number(s.dotSize) + 6 : 0);
+  const fontSize = Number(s.fontSize ?? 11);
+  ctx.font = `800 ${fontSize}px system-ui, sans-serif`;
+  const dotLead = s.dotSize ? Number(s.dotSize) + 6 : 0;
+  const iconLead = iconName ? fontSize + 2 + 5 : 0;
+  return ctx.measureText(text).width + Number(s.paddingX ?? 12) * 2 + dotLead + iconLead;
 }
 
-function decorationGlyph(type) {
-  return ({ star:'⭐', flower:'🌸', leaf:'🌿', cloud:'☁️', gem:'💎', sparkle:'✨', chest:'🧰', slime:'💧', pumpkin:'🎃', bat:'🦇', web:'🕸️', ghost:'👻', badge:'●' })[type] || '⭐';
-}
-
-function blendToComposite(blend) {
-  const map = { normal:'source-over', overlay:'overlay', 'soft-light':'soft-light', multiply:'multiply', screen:'screen' };
+function blendToComposite(blend) {  const map = { normal:'source-over', overlay:'overlay', 'soft-light':'soft-light', multiply:'multiply', screen:'screen' };
   return map[blend] || 'source-over';
 }
 
@@ -1821,6 +2050,10 @@ document.addEventListener('keydown',e=>{
 });
 
 async function init() {
+  // index.html dung <i data-icon="ten"> lam cho; dien src truoc khi render de
+  // khong nhap nhay. Icon cung duoc load san cho canvas export.
+  hydrateIcons();
+  preloadIcons();
   renderPresets(); renderPalette();
   const saved=await readStore('autosave');
   if(saved) {

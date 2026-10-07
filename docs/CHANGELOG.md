@@ -1,5 +1,106 @@
 # Changelog
 
+## V3.7.13 — Bỏ hẳn emoji: toàn bộ icon là pixel art vẽ bằng VPEPixel
+
+Yêu cầu: *"không dùng emoji mà vẽ bằng `D:\desktop-webapps\VPEPixel`"*.
+Phạm vi: **cả 3 nhóm** — trang trí phím, ký hiệu trên keypad điện thoại, và
+biểu tượng thanh công cụ / panel của chính studio.
+
+Trước V3.7.13 studio vẽ icon bằng **emoji** (🕸️ 🎃 📷 ↺) và **glyph hình học**
+(▲ ◀ ☎ ▮ ∞). Ba vấn đề thật của cách đó: emoji hiện **khác nhau trên từng OS /
+browser**, **không đổi được màu** (nên control "Màu" của trang trí vô nghĩa), và
+không phải pixel art.
+
+- **Nguồn sự thật là `.vpe`, không phải JS.** 46 icon **12×12** được vẽ trong
+  VPEPixel rồi sinh lại bằng 2 lệnh:
+  ```
+  python tools/make_vqeaf_studio_icons.py      # -> Documents/VPE Pixel/tile/vqeaf_studio/<ten>_12.vpe
+                                               #    Documents/VPE Pixel/exports/vqeaf_studio/<ten>.png
+  node tools/import_vpe_icons.mjs              # -> src/icons.js (data-URI, nhúng thẳng)
+  ```
+  Nhúng data-URI để studio chạy được cả khi mở `index.html` qua `file://`
+  (không fetch file rời). `tools/import_vpe_icons.mjs` **fail cứng** nếu thiếu
+  PNG, PNG rỗng, hoặc **không đúng 12×12** — một icon thiếu không thể âm thầm
+  thành ô trống. `--dry` so `src/icons.js` với PNG hiện tại.
+- **Ba chế độ render**, mỗi chế độ có class riêng:
+  | Class | Cách vẽ | Dùng cho |
+  |---|---|---|
+  | `img.icon` | `<img>` đủ màu | biểu tượng toolbar / Layers (`dice`, `undo`, `trash`, `keypadbg`…) |
+  | `.icon-glyph` | `mask-image` + `background-color: currentColor` | ký hiệu keypad cần **theo màu chữ** (`tri_up`, `call`, `dash`…) |
+  | `.icon-tinted` | `mask-image` + màu chỉ định | trang trí phím (theo `tint`) |
+  Mọi icon đều có `image-rendering: pixelated` — thiếu dòng này thì art 12×12 bị
+  làm mờ thành khối nhòe khi phóng lên 16–24px.
+- **Trang trí phím: tô phẳng theo `tint` (SRC_IN)** — icon bị **thay** bằng màu
+  trong `icon { tint: … }`, đúng ngữ nghĩa mà format `.vqeaf` vốn đã khai báo.
+  Nhờ vậy control **Màu** của trang trí lần đầu tiên **thật sự hoạt động** (emoji
+  thì không thể đổi màu), và 2 theme đã đặt sẵn tint vẫn giữ nguyên hành vi.
+- **Export PNG dùng đúng pixel art như preview**: `serializeTheme()` bỏ hẳn
+  `vectorFor()` (13 path SVG 24×24 viết tay, màu hardcode `#FF7A18`/`#FFD45A`/…)
+  và thay bằng `decorationResource()` phát ra `<resource id="…" type="image">` +
+  data-URI **của chính bộ icon**. Trước đây theme export ra hình **khác** với
+  hình đang thấy trong studio.
+- **Canvas cũng dùng icon**: badge `MENU`/`Shot` có icon trước chữ
+  (`drawBadge(..., 'menu_lines' | 'camera')`), cột pin thay `fillText('▮')` bằng
+  `drawTintedIcon(ctx,'battery',…)`, trang trí vẽ qua `drawTintedIcon()`.
+  `renderNokiaFramePng()` **`await preloadIcons()`** trước khi vẽ — không có
+  bước này `drawImage` **im lặng bỏ qua** icon chưa nạp và PNG xuất ra thiếu hình.
+- **Sửa lỗi mất dữ liệu (nặng nhất của bản này)**: `tools/gen_keycap_themes.mjs`
+  của V3.7.12 ghi lại **cả 266 khối `keyStyle_*`** nhưng `keycapButtonStyle()`
+  **không trả về** `decorLeft`/`decorRight`, nên mọi khối bị ghi thành
+  `decoration { left: "none" right: "none" }` → **xoá sạch trang trí phím**.
+  - Khôi phục bằng `tools/restore_key_decorations.mjs` (đọc bản backup, khớp
+    theo **tên phím**, chỉ sửa đúng dòng `decoration`, giữ nguyên từng byte còn lại).
+  - Sửa gốc: vòng lặp nay **đọc lại `decoration` của khối cũ** rồi truyền vào
+    style, kèm **self-check** `process.exit(1)` nếu số trang trí giảm.
+  - Kiểm chứng: chạy lại báo `0 file / 0 khoi keyStyle_* da doi` (idempotent) và
+    `165 (truoc khi chay: 165)`. Đã **falsify**: bản sao đã gỡ bản vá in
+    `FAIL: mat 165 trang tri phim` và thoát 1.
+- **Con số đúng của trang trí phím** (dùng cho gate, lấy từ backup và đối chiếu
+  lại **từng khối**): **266** khối `keyStyle_*` · **119** khối có trang trí ·
+  **165** slot khác `"none"` · **8** theme · phân bố
+  `cloud=7 flower=26 gem=3 leaf=21 sparkle=18 star=90`.
+  (Con số `119` hay bị đọc nhầm là *số trang trí* — thật ra nó là **số dòng đổi**
+  trong `git diff --stat`, tức **số khối** có trang trí. Quét `decoration {…}`
+  bằng regex trên **toàn file** cũng sai: khi một khối *không* có `decoration`,
+  match không tham sẽ **lấn sang khối kế tiếp**. Gate nay cắt theo từng
+  `<component id="keyStyle_*">` trước rồi mới tìm `decoration`.)
+- **Tool mới**:
+  - `tools/import_vpe_icons.mjs` — `.vpe`/PNG → `src/icons.js` (data-URI).
+  - `tools/verify_pixel_icons.mjs` — **39 check**, 5 nhóm: nguồn icon · phủ song
+    tên trang trí · hết glyph · mọi đường render đi qua hàm giải mã · export ra
+    pixel art. Đã falsify 3 kiểu: chèn lại emoji → FAIL; đổi 1 trang trí thành
+    tên không có icon → FAIL (3 check); sửa tay `src/icons.js` → FAIL.
+  - `tools/restore_key_decorations.mjs` — khôi phục `decoration` từ backup.
+  - `tools/inspect_art.py` (phía VPEPixel) — render **contact sheet phóng to có
+    nhãn** để soi pixel art bằng mắt; đọc ASCII để review art là không đáng tin.
+  - `tools/verify_pixel_icons_ui.mjs` — **27 check trong Chrome thật**, chạy
+    **2 phiên**: phiên A kiểm DOM (không emoji, mọi `<img class="icon">` decode ra
+    12×12, mọi `.icon-glyph` có mask resolve, **cả 46 data-URI decode được trong
+    browser**, 35 ảnh trang trí phím, bộ chọn trang trí 7 lựa chọn). Phiên B vô
+    hiệu hoá `new Image()` rồi xuất PNG lần nữa → **so từng pixel**: 2 PNG khác
+    nhau **2 520 px** (648 px trong dải badge = icon MENU/Shot, 1 872 px ở keypad
+    + dải LED = icon pin và mũi tên trên phím). Đây là bằng chứng bản export
+    **thật sự vẽ icon**. Đã **falsify**: thêm `return false;` vào đầu
+    `drawTintedIcon` → 0 px khác → 3 check đỏ.
+    *(Ghi chú trung thực: phép so này **không** kiểm chứng riêng dòng
+    `await preloadIcons()` — bỏ dòng đó ra test vẫn xanh vì icon data-URI kịp
+    decode trong lúc boot; dòng `await` là lưới an toàn cho lượt bấm đầu tiên khi
+    cache còn lạnh, và được ghim bằng gate tĩnh.)*
+- **Sửa lỗi có sẵn (không liên quan icon, nhưng chặn đường kiểm chứng)**:
+  `tools/shoot_theme_preview.mjs` mặc định trỏ vào **Chromium của ms-playwright
+  (`chromium-901522`) = Chrome 93**. Bản này **thiếu `structuredClone`** →
+  `app.js` ném `ReferenceError` trong `freshState()` → studio **trắng trang**, và
+  tool chỉ báo `timeout: preset grid` (không hề nhắc tới nguyên nhân thật).
+  `verify_key_shape_ui.mjs` và `shoot_shape_gallery.mjs` đã được sửa từ trước,
+  riêng file này bị bỏ sót. Nay cả 4 tool UI đều dùng Chrome thật, và
+  `check_frame_update.mjs` có **2 gate** chặn việc quay lại (`chromium-901522`
+  không được xuất hiện trong code — gate bỏ comment trước khi kiểm để ghi chú
+  giải thích không tự làm đỏ chính nó).
+- **Gate**: `tools/check_frame_update.mjs` thêm 8 check cho V3.7.13 (tổng 67).
+- **Cache-buster** `?v=3.7.12` → **`?v=3.7.13`** ở `index.html` (2 chỗ) và
+  `src/app.js` (3 dòng import). `verify_keycap_style.mjs` bỏ ghim version trong
+  regex import để lần bump sau không làm đỏ test.
+
 ## V3.7.12 — Vật liệu "keycap bóng" cho TOÀN BỘ 66 theme
 
 Yêu cầu: *"các nút như hình"* (mockup Spooky Vibes) — nút là **nhựa tối bóng**,

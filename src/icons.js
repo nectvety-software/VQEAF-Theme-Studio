@@ -1,0 +1,85 @@
+// AUTO-GENERATED — dung sua tay file nay.
+//
+// Nguon: D:\desktop-webapps\VPEPixel\tools\make_vqeaf_studio_icons.py
+// Sinh lai: python tools/make_vqeaf_studio_icons.py  &&  node tools/import_vpe_icons.mjs
+// 46 icon 12x12, 4.8 KB PNG nhung thang duoi dang data-URI.
+
+export const ICON_SIZE = 12;
+
+/** ten icon -> data-URI PNG (RGBA, nen trong da duoc key). */
+export const ICONS = {
+  arrow_left: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAHklEQVR42mNgGDDw/9u7/yA8FBUTwuRrINlJg0cTABavi8l6ePgnAAAAAElFTkSuQmCC',
+  arrow_right: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAIElEQVR42mNgoDv4/+3dfxAeSppggoQw+Rqo5o+BUwwAi36LycFFaSsAAAAASUVORK5CYII=',
+  badge: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMElEQVR42mNgoBv4/+3df3wYQ/HZc/fwYhRNw0EDIU0YivFpwqkYmyaCitEjEZscAOVbGWQNvJ0kAAAAAElFTkSuQmCC',
+  bat: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAATElEQVR42mNgoAv4/+3dfxAmSh7EWBJ7D4yxacKQRxaACSJjdDkMDfgwigYvlWKsipDFsfoD2VkYpuPzHKHAQNEEU4DOx6kJH59kAABMgPKxH3xWygAAAABJRU5ErkJggg==',
+  battery: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMklEQVR42mNgGLzg/7d3//FhDMVnz93Di1E0wTRoahiCMTobpgGuiWwNRDuJZE8PLgAAkIDEPapyx44AAAAASUVORK5CYII=',
+  call: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAANUlEQVR42mNgoBv4/+3df2RMULHXIS8UjFcTLg04NWHTQH1bkD1Okk1kBQI2TQQ1kBw3uAAAf0CiX6+2+M8AAAAASUVORK5CYII=',
+  camera: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAO0lEQVR42mNgoCv4/+3df2RMkmKcmnApxGkAiDh77h5RGEMDNhMJavC6hcBEa5ConUK8BpKcRLSnScEAIMSFRexDJUYAAAAASUVORK5CYII=',
+  chest: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAQElEQVR42mNgoAT8//buPzaMU/G3U3OwYgxN+BRj1USSBlzuxusfEKM7UhMvxnASiuQlSzCmnQaCTiLG82SnBgBr1yqmLI2L9wAAAABJRU5ErkJggg==',
+  close: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMklEQVR42mNgoAv4/+3dfxAmSh7GIUYDUZpwymGTIGg7sgKSFJPlHLI8TFATufGEFwAAb+7CJYyH3QoAAAAASUVORK5CYII=',
+  cloud: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAO0lEQVR42mNgoDv4/+3df2RMUOHZc/dQMFaN2BRi00ieBmIUo2giWQPMlu6JS8AYXRFMHKvH8WH6RSwAPhkIoJPC0pgAAAAASUVORK5CYII=',
+  dash: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGElEQVR42mNgGAUkgP/f3v3HhynXMIQBAHqhPiHIjwnYAAAAAElFTkSuQmCC',
+  decoration: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAKElEQVR42mNgoAb4/+3dfxAeYA3IinCxsWrAhYlWSLZGyv1A33jABwDe68Ilm2dC1QAAAABJRU5ErkJggg==',
+  dice: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAOElEQVR42mNgoBv4/+3df3wYQ/HZc/fwYhRNMA2aGoYYCmFiWDWQbAOyqei2UccG2vmB5HggBQAAsxYrApYjoHYAAAAASUVORK5CYII=',
+  flip_h: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAN0lEQVR42mNgoBb4/+3df5Ik0cVQ+CAOPgUY8jABdEU45ZEFYILINHU1kOQkkjxNUrCSHHGkAADeR8Il7hztNgAAAABJRU5ErkJggg==',
+  flip_v: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAALUlEQVR42mNgIAf8//buPzGYJE0k2USS80jyE05JUmjSbaDID1QJUrIiDVkTAAlUAFRZD//KAAAAAElFTkSuQmCC',
+  flower: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAO0lEQVR42mNgIBf8//buPwgTJQ4S+Ja4F4yRJXGJk64B3WpcbJz++H/JEoJJUkyWJmIUE+UH+gcrPnEAnZsD6E8yafUAAAAASUVORK5CYII=',
+  frame: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAALElEQVR42mNgIBX8//buPykYrIEUw+EaCJqMTQNek4eIBpI8TVKwkhRxpAIAdv/4gfbaNjcAAAAASUVORK5CYII=',
+  gem: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAT0lEQVR42mNgoBT8//buPzImqNDrFirGqhGbQmwYrhGmQaJ2CoYimBiKLcg2IGtCZuN1FkghXsW4nIXVObg0EVSMzRa8itE1EaUYWRMuOQC87O1RkLmUBAAAAABJRU5ErkJggg==',
+  ghost: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAQ0lEQVR42mNgoBT8//buPzImqPDsuXsoGKtGbAqxacTQICAgAcYwRch86mgg2UnYTCZKA8k2EK0BmcYmhhEXyDQuMQB8FkPGScQjowAAAABJRU5ErkJggg==',
+  infinity: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAK0lEQVR42mNgoCv4/+3dfxDGxceqGJsGDE3IErg0oGgahBpI9jRZwUozAADxFcnpdN3xxgAAAABJRU5ErkJggg==',
+  keyboard: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAOElEQVR42mNgoAv4/+3df2IwXPHZc/eIwmBNMA2aGoZgjI+NomEQ2gDDMBORTcargaANJMcDqQAA8K1XdGWV+44AAAAASUVORK5CYII=',
+  keypad: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGklEQVR42mNgoBv4/+3dfxDGxx7VQHsNNAMAGda6Yea2roUAAAAASUVORK5CYII=',
+  keypadbg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAALUlEQVR42mNgoAv4/+3df2IwXLGmhiFRGKwJpuHsuXtgjI+NomFE2UByPJAKANR+ELj/Y8TbAAAAAElFTkSuQmCC',
+  leaf: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAPklEQVR42mNgoAb4/+3dfxAmWrHXIS8wJqgJWTFBTciKJSo18WvCpxirJpgGXIop10CyH8gKJfRIIyny8AEAiWG9p+0CKqIAAAAASUVORK5CYII=',
+  led: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAANElEQVR42mNgoDv4/+3df2RMUOHZc/dQMFaNyAqxaYKJY2jApRinBnyYMg0ke5qsYKUZAACGU+jFhVnaGgAAAABJRU5ErkJggg==',
+  menu_lines: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGElEQVR42mNgGHzg/7d3/0nBo04aHE4CADKFi8kFcRDtAAAAAElFTkSuQmCC',
+  move_down: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAJ0lEQVR42mNgGBDw/9u7/yA8lDTAFBDCJGkiySai3E+Sx0kOJXwAAIHSk43UBrNVAAAAAElFTkSuQmCC',
+  move_up: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAK0lEQVR42mNgGBDw/9u7/yBMkmKiNKErxqsJl2KsmggpJug8kjw9SDXgAwA95JON8avO3QAAAABJRU5ErkJggg==',
+  plus: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAIElEQVR42mNgGBDw/9u7/yA8wBpginBhyjUMQk/TDAAA5VBsue3hMbIAAAAASUVORK5CYII=',
+  pumpkin: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAW0lEQVR42mNgoAb4/+3dfxAmWrFEpSYY49UEM/X/TE1UjM02rAqxaMSqeG8nB1Y2XBOyBgwF6OLoGkD4aKwAVjZWDRgK0MWw+QOnDVhDCohBipAxwUiExwcOhQBj2xjY30m1AQAAAABJRU5ErkJggg==',
+  redo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMUlEQVR42mNgGFrg/7d3/0GYZA1YNSFL4sIkKYZrwmctQdOJ9vTZc/dICw2CIUIJAABTA57JPrfDVwAAAABJRU5ErkJggg==',
+  reset: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMElEQVR42mNgoBT8//buPzImqJAocbwmoashRjGKJqprwBoI+DThlMMXStSJB5oBAP/abLmFDOOjAAAAAElFTkSuQmCC',
+  rotate_ccw: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMklEQVR42mNgIBf8//buP4xGxng1YFOEVSMh01Dk8VqLxcl00ECsJqI9TlLwEutc6gIAoRd0fQCNIsEAAAAASUVORK5CYII=',
+  rotate_cw: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMElEQVR42mNgoBT8//buPzKGieFUiEszQcU45fEpRNdEJw3EaiLa44QCBGs80BcAAAXHdH20rgIIAAAAAElFTkSuQmCC',
+  screen: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMklEQVR42mNgoAv4/+3df2IwXLGmhiFRGKwJpuHsuXt48QBoINoPJIcSoSAmOy7IjmQAa18dfh9ErLsAAAAASUVORK5CYII=',
+  shift: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMElEQVR42mNgGBDw/9u7/yBMkmKiNKErxqsJl2KsmggpRtFErGKcziPJ0/TRQAgAANgw0a26S8zyAAAAAElFTkSuQmCC',
+  slime: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAASElEQVR42mNgGPzg/7d3/5ExQYVeh7xQMFaNyArnvIrC0ATTSLRiFE3YnEGUBolKTZwKYXIYGrBpQhZH8QdMAhfGGlL4MEwdAFKb8THpLSWsAAAAAElFTkSuQmCC',
+  sparkle: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAKUlEQVR42mNgoAb4/+3dfxAeYA3IinCxsWrAhYlWSLkNZPuBvvGADwAATPS6YfyTfnoAAAAASUVORK5CYII=',
+  star: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAPklEQVR42mNgoAb4/+3dfxCmjQaYYrya0BX9v2SJirFpxqkYSRNum4hRTLIGbB7F6Xl8oYJVjlC4kxyRyAAAY5TOEd/MmnEAAAAASUVORK5CYII=',
+  trash: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAM0lEQVR42mNgoBT8//buPzImWiFejSCBs+fu4cVYNRFtA7ItmhqGWGmczhrqGkgKJWIBAJGdEw8qepIfAAAAAElFTkSuQmCC',
+  tri_down: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAIklEQVR42mNgGHzg/7d3/0nBJGkiySaSnEeSn0gKCIahAQBbbaMVJIwm9wAAAABJRU5ErkJggg==',
+  tri_left: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMklEQVR42mNgoAX4/+3df5IUE60BppgoDciKCWpAV4xTAzaF1LWBbD+QFUpkxQO2mAYAIRCPq2cv/zcAAAAASUVORK5CYII=',
+  tri_right: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAL0lEQVR42mNgIBf8//buP8kaSNIE00C0JmQNRGlC10BQEzYNeDVSbAPtQonqMQ0AcVCPq9ytwRsAAAAASUVORK5CYII=',
+  tri_up: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAK0lEQVR42mNgGBrg/7d3/0GYJMVEaUJXjFcTLsVYNRFSjKKJWMUkBQR9AQBSVaMVj7oDdgAAAABJRU5ErkJggg==',
+  undo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAMUlEQVR42mNgGNzg/7d3/0GYJMVEaUBWjAuTpBirzficRFATRf4DgbPn7pEeGGTHFQA5HJ7Jh2C8FAAAAABJRU5ErkJggg==',
+  web: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAQUlEQVR42mNgwAL+f3v3H4QZCAF0hXg14jMRQw4mADMRHWNoQteAzUlwcXQFOBXC2CRrINlJZHma5GAlK+KITRoAyGPZcafIPiIAAAAASUVORK5CYII=',
+};
+
+/** Nhom "decoration" — 13 icon. */
+export const DECORATION_ICONS = [
+  'leaf', 'flower', 'cloud', 'star', 'gem', 'sparkle', 'chest', 'slime', 'pumpkin', 'bat', 'web', 'ghost', 'badge',
+];
+
+/** Nhom "keypad" — 10 icon. */
+export const KEYPAD_ICONS = [
+  'tri_up', 'tri_down', 'tri_left', 'tri_right', 'call', 'menu_lines', 'camera', 'dash', 'infinity', 'shift',
+];
+
+/** Nhom "ui" — 16 icon. */
+export const UI_ICONS = [
+  'dice', 'undo', 'redo', 'trash', 'rotate_ccw', 'rotate_cw', 'flip_h', 'flip_v', 'move_up', 'move_down', 'close', 'arrow_left', 'arrow_right', 'plus', 'reset', 'battery',
+];
+
+/** Nhom "layer" — 7 icon. */
+export const LAYER_ICONS = [
+  'keyboard', 'frame', 'screen', 'keypad', 'keypadbg', 'led', 'decoration',
+];
+
+/** Tra ve data-URI cua icon, hoac chuoi rong neu khong co. */
+export function iconUri(name) {
+  return (name && ICONS[name]) || '';
+}
+
+/** Tat ca ten icon, da sap xep. */
+export const ICON_NAMES = Object.keys(ICONS);

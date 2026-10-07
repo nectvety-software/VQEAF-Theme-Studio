@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3.7.12
+# VQEAF Theme Studio V3.7.13
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Classic 240×320 / VXPQeaf.
 
@@ -42,6 +42,13 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Chỉnh opacity, blend, brightness, contrast, saturation, blur, scale, offset, rotate/flip.
 - Decoration kéo thả có xóa, xoay, lật ngang/dọc và floating animation.
 - Layer Stack: Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED, `menuButton / fpsBadge`.
+- **Icon pixel art thay emoji (V3.7.13)** — **không còn emoji/glyph** ở bất kỳ đâu.
+  46 icon **12×12** vẽ trong **VPEPixel** (`D:\desktop-webapps\VPEPixel`), nhúng
+  thẳng vào `src/icons.js` dạng data-URI. Ba chế độ render: đủ màu (`img.icon`),
+  theo màu chữ (`.icon-glyph`), và tô theo `tint` (`.icon-tinted`). Nhờ đó control
+  **Màu** của trang trí mới thật sự có tác dụng — emoji thì không đổi màu được.
+  Export `.vqeaf` phát ra `<resource type="image">` + **chính** bộ icon đó nên bản
+  xem trước và bản export **không còn lệch nhau**.
 - **Vật liệu nút "keycap bóng" (V3.7.12)** — mặc định cho **cả 66 theme**: nhựa tối
   bóng, **không viền ngoài**, chữ trắng, bevel mềm, ảnh texture hiện **mờ** bên trong.
   Màu **suy ra từ palette từng theme** (`keycapPalette()`), thân nút bị kéo tối để
@@ -49,7 +56,7 @@ Sau đó mở `http://127.0.0.1:8080/`.
   nhóm *Hình dạng nút*: *Vật liệu keycap (theo theme)* / *Keycap cho phím này*.
 - **Button Builder (Tạo nút)**: keycap glossy/candy/fantasy + 50+ preset nút (candy, pop, classic, Tết, Trung Thu, Hà Nội…).
 - Panel phải hiển thị **ID component `.vqeaf`** khi chọn thành phần (`phoneShell`, `keyStyle_ok`, `menuButton`, `decoration_…`).
-- Nút **📷 Chụp khung** trên topbar: xuất preview khung Nokia ra PNG.
+- Nút **Chụp khung** trên topbar (icon `camera`): xuất preview khung Nokia ra PNG.
 - Ảnh raster được tối ưu rồi nhúng Data URI vào chính file `.vqeaf`.
 
 ## Khung preview (khớp VXPQeaf)
@@ -59,7 +66,7 @@ Sau đó mở `http://127.0.0.1:8080/`.
 | Badge dock | MENU (trái) / Shot (phải) — component `menuButton` / `fpsBadge` |
 | Network LED + FPS strip | Bên trong khung, dưới đỉnh máy |
 | LCD | 240×320 portrait / 320×240 landscape; idle UI + softkey `Menu` / `Contacts` |
-| Keypad | 234px; softkey `—`, D-pad OK, Call/End kiểu ☎; T9 `1∞`, `0 _`, `#⇧` |
+| Keypad | 234px; softkey `dash`, D-pad OK, Call/End dùng icon `call`; T9 `1`+`infinity`, `0`+`dash`, `#`+`shift` |
 | Nhấn phím | scale `0.94` (khớp Compose `pressScale`) |
 
 Geometry chuẩn: portrait ~`268×600`, landscape ~`594×334`, `fontScale=1`.
@@ -78,11 +85,17 @@ VQEAF-Theme-Studio/
 ├── src/
 │   ├── app.js
 │   ├── presets.js
+│   ├── icons.js         # AUTO-GENERATED — 46 icon 12×12 data-URI (đừng sửa tay)
 │   └── vqeaf.js
 ├── assets/              # ảnh nền / tham chiếu (comic_bang_bg, classic_sheet_bg, spooky_vibes_bg, pika_arcade_bg, pika_honey_bg, …)
-├── themes/              # file .vqeaf mẫu (trùng với preset id)
+├── themes/              # file .vqeaf mẫu (trùng với preset id) — phải luôn đủ 66
 ├── tools/               # script sinh theme / kiểm tra / chụp preview
 │   ├── gen_photo_bg_themes.py      # sinh 3 theme "ảnh vào nút nhấn"
+│   ├── gen_keycap_themes.mjs       # đồng bộ keyStyle_* sang vật liệu keycap
+│   ├── import_vpe_icons.mjs        # PNG của VPEPixel -> src/icons.js
+│   ├── restore_key_decorations.mjs # khôi phục decoration từ backup %TEMP%
+│   ├── verify_pixel_icons.mjs      # 39 check: hết emoji + icon pixel art + export
+│   ├── verify_pixel_icons_ui.mjs   # 27 check trong Chrome thật (2 phiên, so từng pixel)
 │   ├── verify_photo_themes.mjs     # assert bằng parseVqeaf thật
 │   ├── verify_key_shape_ui.mjs     # test UI hình dạng nút (Chrome headless)
 │   ├── check_frame_update.mjs      # gate tĩnh: version + tính năng phải còn
@@ -247,9 +260,57 @@ Cùng bộ control cũng có trong tab **Tạo nút** (panel trái) — hai ch�
 
 Theme cũ không có `shape` / `bevel` → mặc định `capsule` + `bevel 0`, render y như trước.
 
+## Icon pixel art (V3.7.13)
+
+**Không còn emoji/glyph** trong studio. 46 icon **12×12** được vẽ trong
+**VPEPixel** (`D:\desktop-webapps\VPEPixel`) rồi nhúng vào repo:
+
+```bash
+# 1) trong D:\desktop-webapps\VPEPixel
+python tools/make_vqeaf_studio_icons.py   # -> Documents/VPE Pixel/{tile,exports}/vqeaf_studio/
+# 2) trong repo này
+node tools/import_vpe_icons.mjs           # -> src/icons.js  (data-URI, auto-generated)
+node tools/import_vpe_icons.mjs --dry     # chỉ kiểm tra, exit 1 nếu lệch
+```
+
+`src/icons.js` là **file sinh tự động** — đừng sửa tay (`verify_pixel_icons.mjs`
+so *nội dung sinh ra* với file nên sẽ bắt được).
+
+| Nhóm | Số icon | Ví dụ |
+|---|---|---|
+| `decoration` | 13 | `leaf` `flower` `cloud` `star` `gem` `sparkle` `chest` `slime` `pumpkin` `bat` `web` `ghost` `badge` |
+| `keypad` | 10 | `tri_up` `tri_down` `tri_left` `tri_right` `call` `menu_lines` `camera` `dash` `infinity` `shift` |
+| `ui` | 16 | `dice` `undo` `redo` `trash` `rotate_ccw` `rotate_cw` `flip_h` `flip_v` `move_up` `move_down` `close` `arrow_left` `arrow_right` `plus` `reset` `battery` |
+| `layer` | 7 | `keyboard` `frame` `screen` `keypad` `keypadbg` `led` `decoration` |
+
+**Ba chế độ render** — chọn đúng cái:
+
+| Class | Cách vẽ | Dùng cho |
+|---|---|---|
+| `img.icon` | `<img>` đủ màu | biểu tượng toolbar / Layers |
+| `.icon-glyph` | `mask-image` + `background-color: currentColor` | ký hiệu keypad theo màu chữ |
+| `.icon-tinted` | `mask-image` + màu chỉ định | trang trí phím theo `tint` |
+
+- Trang trí phím **tô phẳng theo `tint`** (SRC_IN): icon bị *thay* bằng màu trong
+  `icon { tint: … }` — đúng ngữ nghĩa format đã khai báo, nên control **Màu** mới
+  có tác dụng thật.
+- Mọi icon có `image-rendering: pixelated`; thiếu dòng này art 12×12 bị nội suy
+  thành khối nhòe khi phóng lên 16–24px.
+- Export `.vqeaf` phát `<resource id="…" type="image">` + data-URI của chính bộ
+  icon (thay `vectorFor()` 13 path SVG viết tay) → preview và export khớp nhau.
+- Export PNG `await preloadIcons()` trước khi vẽ — nếu không, `drawImage` **im lặng
+  bỏ qua** icon chưa nạp và ảnh ra thiếu hình.
+
+Kiểm tra: `node tools/verify_pixel_icons.mjs` — **39 check** (nguồn icon · phủ sóng
+tên trang trí · hết glyph · mọi đường render đi qua hàm giải mã · export ra pixel art).
+Và `node tools/verify_pixel_icons_ui.mjs` — **27 check trong Chrome thật**: chạy 2
+phiên, phiên thứ hai vô hiệu hoá `new Image()`, rồi **so từng pixel** 2 file PNG
+xuất ra để chứng minh bản export **thật sự vẽ icon** (chứ không phải "trông có vẻ
+đúng").
+
 ## Chụp khung Nokia (V3.7.8)
 
-Nút **📷 Chụp khung** trên topbar render preview (shell gradient, ảnh nền, LCD, keypad `keyStyle_*`, badge MENU/Shot) ra PNG và tải về `<themeId>-frame.png`. Hỗ trợ portrait/landscape.
+Nút **Chụp khung** (icon `camera`) trên topbar render preview (shell gradient, ảnh nền, LCD, keypad `keyStyle_*`, badge MENU/Shot) ra PNG và tải về `<themeId>-frame.png`. Hỗ trợ portrait/landscape.
 
 ## V3.7 — Button Builder
 
@@ -265,7 +326,7 @@ Tab **Tạo nút** cho phép dựng keycap kiểu glossy/candy/fantasy: gradient
 
 - Mỗi mã gồm đúng **8 chữ số không lặp trong cùng mã**.
 - Chọn preset sinh mã mới nhưng giữ tên style/preset.
-- **🎲 Tên** chỉ đổi mã; **🎲 Ngẫu nhiên** sinh cả style lẫn mã.
+- **Tên** (icon `dice`) chỉ đổi mã; **Ngẫu nhiên** sinh cả style lẫn mã.
 
 ## Credits
 

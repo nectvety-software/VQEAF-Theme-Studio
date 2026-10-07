@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>VQEAF Theme Studio</title>
-  <link rel="stylesheet" href="./styles.css?v=3.7.12" />
+  <link rel="stylesheet" href="./styles.css?v=3.7.13" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -24,12 +24,12 @@
         <div id="autosaveStatus" class="autosave-status"><i></i><span>Tự động lưu</span></div>
         <div class="toolbar">
           <button data-action="new" title="Tạo theme mới">Mới</button>
-          <button data-action="random" title="Tạo chủ đề ngẫu nhiên">🎲 Ngẫu nhiên</button>
-          <button data-action="undo" title="Undo (Ctrl+Z)">↶</button>
-          <button data-action="redo" title="Redo (Ctrl+Y)">↷</button>
+          <button data-action="random" title="Tạo chủ đề ngẫu nhiên"><i class="icon" data-icon="dice"></i> Ngẫu nhiên</button>
+          <button data-action="undo" title="Undo (Ctrl+Z)"><i class="icon" data-icon="undo"></i></button>
+          <button data-action="redo" title="Redo (Ctrl+Y)"><i class="icon" data-icon="redo"></i></button>
           <button data-action="save">Lưu bản</button>
           <button data-action="import">Nhập .vqeaf</button>
-          <button data-action="screenshot" title="Chụp ảnh khung Nokia preview (PNG)">📷 Chụp khung</button>
+          <button data-action="screenshot" title="Chụp ảnh khung Nokia preview (PNG)"><i class="icon" data-icon="camera"></i> Chụp khung</button>
           <button class="primary" data-action="export">Xuất .vqeaf</button>
           <input id="fileInput" type="file" accept=".vqeaf,text/plain" hidden />
           <input id="backgroundFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
@@ -55,7 +55,7 @@
         <div class="divider"></div>
         <div class="section-title-row">
           <h2>Thông tin chủ đề</h2>
-          <button id="randomName" class="ghost compact">🎲 Tên</button>
+          <button id="randomName" class="ghost compact"><i class="icon" data-icon="dice"></i> Tên</button>
         </div>
         <label class="field">
           <span>Tên chủ đề</span>
@@ -84,7 +84,7 @@
         </div>
         <p class="muted">Nhập PNG/JPG/WebP. Ảnh được tối ưu và nhúng vào theme, có thể đặt dưới hoặc phủ trên các phím.</p>
         <div class="button-row">
-          <button id="importBackground" class="primary-lite">＋ Nhập background</button>
+          <button id="importBackground" class="primary-lite"><i class="icon" data-icon="plus"></i> Nhập background</button>
           <button id="removeBackground" class="ghost danger">Xóa</button>
         </div>
         <div id="backgroundQuickControls" class="quick-controls"></div>
@@ -96,7 +96,7 @@
         </div>
         <p class="muted">Lồng ảnh/texture vào vỏ máy classic. Ảnh được clip theo bo góc và có thể đặt dưới nội dung hoặc làm lớp phủ phía trên.</p>
         <div class="button-row">
-          <button id="importFrameBackground" class="primary-lite">＋ Nhập background</button>
+          <button id="importFrameBackground" class="primary-lite"><i class="icon" data-icon="plus"></i> Nhập background</button>
           <button id="removeFrameBackground" class="ghost danger">Xóa</button>
         </div>
         <div id="frameBackgroundQuickControls" class="quick-controls"></div>
@@ -116,7 +116,7 @@
           <h2>Layer Stack</h2>
           <button id="resetLayerOrder" class="ghost compact">Reset</button>
         </div>
-        <p class="muted">Dùng ↑ ↓ để đưa lớp khung, LCD, keypad, decoration hoặc badge lên trên / xuống dưới.</p>
+        <p class="muted">Dùng <i class="icon icon-glyph" data-glyph="move_up"></i> <i class="icon icon-glyph" data-glyph="move_down"></i> để đưa lớp khung, LCD, keypad, decoration hoặc badge lên trên / xuống dưới.</p>
         <div id="layerList" class="layer-list"></div>
         <div class="divider"></div>
         <div class="section-title-row">
@@ -163,7 +163,7 @@
               <div class="screen-content">
                 <div class="screen-status-row">
                   <span>4G VoLTE</span>
-                  <span class="battery">▮</span>
+                  <span class="battery"><i class="icon icon-glyph" data-glyph="battery"></i></span>
                 </div>
                 <div class="screen-clock">10:30</div>
                 <div class="screen-date">Mon 12 May</div>
@@ -181,26 +181,26 @@
             <div class="keypad selectable" data-component="keypad" id="keypad" data-layer="keypad">
               <div id="keypadBackgroundLayer" class="keypad-background-layer" aria-hidden="true"></div>
               <div class="key-row nav-row">
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="menu" aria-label="LSK"><span class="key-dash">—</span></button>
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="up"><span>▲</span></button>
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="rsk" aria-label="RSK"><span class="key-dash">—</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="menu" aria-label="LSK"><span class="key-dash"><i class="icon icon-glyph" data-glyph="dash"></i></span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="up"><span><i class="icon icon-glyph" data-glyph="tri_up"></i></span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="rsk" aria-label="RSK"><span class="key-dash"><i class="icon icon-glyph" data-glyph="dash"></i></span></button>
               </div>
               <div class="key-row nav-row dpad-mid">
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="left" aria-label="Call"><span class="key-icon icon-call">☎</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="left" aria-label="Call"><span class="key-icon icon-call"><i class="icon icon-glyph" data-glyph="call"></i></span></button>
                 <button class="key key-soft key-ok selectable" data-component="key" data-key="ok"><span>OK</span></button>
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="right" aria-label="End"><span class="key-icon icon-end">☎</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="right" aria-label="End"><span class="key-icon icon-end"><i class="icon icon-glyph" data-glyph="call"></i></span></button>
               </div>
               <div class="key-row nav-row dpad-bottom">
                 <span></span>
-                <button class="key key-soft key-pill selectable" data-component="key" data-key="down"><span>▼</span></button>
+                <button class="key key-soft key-pill selectable" data-component="key" data-key="down"><span><i class="icon icon-glyph" data-glyph="tri_down"></i></span></button>
                 <span></span>
               </div>
               <div id="numberRows"></div>
             </div>
 
             <div class="badge-dock">
-              <div class="floating-badge menu-badge selectable" data-component="menuButton" data-layer="badges">☰ MENU <i></i></div>
-              <div class="floating-badge shot-badge selectable" data-component="fpsBadge" data-layer="badges" title="Shot / fpsBadge">📷 Shot</div>
+              <div class="floating-badge menu-badge selectable" data-component="menuButton" data-layer="badges"><i class="icon icon-glyph" data-glyph="menu_lines"></i> MENU <i></i></div>
+              <div class="floating-badge shot-badge selectable" data-component="fpsBadge" data-layer="badges" title="Shot / fpsBadge"><i class="icon icon-glyph" data-glyph="camera"></i> Shot</div>
             </div>
             <div id="decorationLayer" class="decoration-layer" data-layer="decorations"></div>
           </div>
@@ -228,6 +228,6 @@
     </aside>
   </div>
 
-  <script type="module" src="./src/app.js?v=3.7.12"></script>
+  <script type="module" src="./src/app.js?v=3.7.13"></script>
 </body>
 </html>

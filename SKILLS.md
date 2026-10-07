@@ -15,8 +15,8 @@ Quy ước cho **người và AI agent** khi sửa repo này.
 | Format | VQEAF 1.0 (`.vqeaf`) — `docs/VQEAF_1_0_SPEC.md` |
 | Theme mẫu | `themes/*.vqeaf` — **phải luôn đủ 66 file** |
 | Chạy | nhấp đúp `rub.bat` |
-| Cache-buster | `?v=<version>` ở `index.html` + 2 import đầu `src/app.js` |
-| Version hiện tại | **3.7.12** |
+| Cache-buster | `?v=<version>` ở `index.html` (stylesheet + script) + **3 import đầu** `src/app.js` |
+| Version hiện tại | **3.7.13** |
 
 ---
 
@@ -113,6 +113,83 @@ Yêu cầu gốc: *"các nút như hình"* (mockup Spooky Vibes) → nhựa **t�
 
 ---
 
+## Skill: Icon pixel art từ VPEPixel (V3.7.13)
+
+**When:** thêm/đổi bất kỳ biểu tượng nào, hoặc thấy emoji/glyph quay lại trong UI.
+
+Yêu cầu gốc: *"không dùng emoji mà vẽ bằng `D:\desktop-webapps\VPEPixel`"* — áp
+cho **cả 3 nhóm**: trang trí phím · ký hiệu keypad · UI studio.
+
+- **Nguồn sự thật là `.vpe`, KHÔNG phải `src/icons.js`.** Pipeline 2 lệnh:
+  ```bash
+  # trong D:\desktop-webapps\VPEPixel
+  python tools/make_vqeaf_studio_icons.py   # -> Documents/VPE Pixel/{tile,exports}/vqeaf_studio/
+  # trong repo này
+  node tools/import_vpe_icons.mjs           # -> src/icons.js (data-URI, auto-generated)
+  node tools/import_vpe_icons.mjs --dry     # chi kiem tra, exit 1 neu lech
+  ```
+  Sửa tay `src/icons.js` sẽ bị `verify_pixel_icons.mjs` bắt (so **nội dung sinh ra**).
+- **VPE565**: `b"VPE565"` + u16 version + u16 w + u16 h + u32 payload = `16 + w*h*2`
+  byte, RGB565 little-endian, **không alpha** → `0xFFFF` là khoá trong suốt.
+  Trắng `#FFFFFF` pack ra đúng `0xFFFF` nên **không dùng được làm mực**; dùng
+  `#FFF6E8` (→ `0xFFBD`). `validate_no_white()` trong generator chặn việc này.
+- **3 chế độ render** — chọn đúng cái, đừng trộn:
+  | Class | Cách vẽ | Khi nào |
+  |---|---|---|
+  | `img.icon` | `<img>` đủ màu | icon nhiều màu (toolbar, Layers) |
+  | `.icon-glyph` | `mask-image` + `background-color: currentColor` | ký hiệu phải theo màu chữ (keypad) |
+  | `.icon-tinted` | `mask-image` + màu chỉ định | trang trí phím theo `tint` |
+- **`image-rendering: pixelated` là bắt buộc** trên mọi icon. Thiếu nó thì art
+  12×12 phóng lên 16–24px bị **nội suy thành khối nhòe** — trông như lỗi.
+- **`?v=` phải bump khi thêm icon**: `index.html` cache cả `styles.css` lẫn
+  `app.js`; đổi icon mà không bump là trình duyệt phục vụ bản cũ.
+- **Export PNG phải `await preloadIcons()` trước khi vẽ.** `drawImage` với
+  `Image` chưa `decode()` xong **không báo lỗi** — nó chỉ **im lặng bỏ qua**, và
+  bạn nhận được PNG thiếu hình mà console sạch.
+- **Trang trí tô phẳng theo `tint` (SRC_IN)**: icon bị *thay* bằng màu trong
+  `icon { tint: … }` — đúng ngữ nghĩa format đã khai báo. Canvas làm bằng
+  offscreen 12×12 + `globalCompositeOperation = 'source-in'` + `fillRect`.
+- **Đọc ASCII để review pixel art là KHÔNG đáng tin.** Dùng
+  `python tools/inspect_art.py <module> <scale>` (phía VPEPixel) để render contact
+  sheet phóng to **có nhãn** — nó đã phát hiện ~12 lỗi art mà đọc chữ không thấy.
+- **Kiểm chứng bản export PNG**: `node tools/verify_pixel_icons_ui.mjs` chạy 2
+  phiên Chrome rồi **so từng pixel** 2 file PNG. Muốn so pixel thì phải so **byte**,
+  đừng đếm "pixel có mực" (alpha > 8): badge là **hình chữ nhật đặc** nên vẽ icon
+  lên trên **không** làm tăng số pixel đục — cách đếm đó cho ra 0 chênh lệch và
+  khiến bạn tưởng icon không được vẽ.
+- Thêm icon mới: vẽ trong `make_vqeaf_studio_icons.py` → thêm tên vào đúng nhóm
+  trong `GROUPS` của `import_vpe_icons.mjs` → chạy lại 2 lệnh → chạy
+  `verify_pixel_icons.mjs`. **Thiếu tên trong `GROUPS` thì icon không được nhúng;
+  thừa tên thì script báo lỗi.**
+
+---
+
+## ⚠️ Skill: Tool ghi lại `themes/*.vqeaf` phải GIỮ thứ nó không hiểu
+
+**When:** viết/sửa bất kỳ tool nào ghi đè `themes/*.vqeaf`.
+
+V3.7.12 `tools/gen_keycap_themes.mjs` đã **xoá sạch trang trí phím**: nó ghi lại
+**cả 266 khối `keyStyle_*`** nhưng `keycapButtonStyle()` **không trả về**
+`decorLeft`/`decorRight`, nên mọi khối thành `decoration { left: "none" right: "none" }`.
+
+- **Số đúng** (lấy từ backup, đã đối chiếu **từng khối**):
+  **266** khối `keyStyle_*` · **119** khối có trang trí · **165** slot khác `"none"`
+  · **8** theme · phân bố `cloud=7 flower=26 gem=3 leaf=21 sparkle=18 star=90`.
+- **Đừng nhầm `119` với số trang trí.** `119` là **số dòng đổi** trong
+  `git diff --stat`, tức **số khối** có trang trí; tổng slot là **165**.
+- **Đừng quét `decoration {…}` bằng regex trên toàn file.** Khi một khối *không*
+  có `decoration`, match không tham (`[\s\S]*?`) sẽ **lấn sang khối kế tiếp** và
+  cho ra con số vô nghĩa. Phải **cắt theo từng `<component id="keyStyle_*">`**
+  trước rồi mới tìm `decoration` bên trong.
+- **Quy tắc**: mọi tool ghi đè phải **đọc lại field cũ rồi mang theo**, và có
+  **self-check fail cứng** (`process.exit(1)`) nếu số lượng giảm. Đã falsify:
+  bản sao gỡ bản vá in `FAIL: mat 165 trang tri phim` và thoát 1.
+- Có sẵn `node tools/restore_key_decorations.mjs` — khôi phục từ backup mới nhất
+  trong `%TEMP%` (hoặc `--from <dir>`), khớp theo **tên phím**, chỉ sửa dòng
+  `decoration`, giữ nguyên từng byte còn lại (kể cả CRLF/LF).
+
+---
+
 ## Skill: Bẫy DOM — nút preview Button Builder trùng `data-key`
 
 **When:** viết selector `.key[data-key=...]`, sửa `renderSelection()`,
@@ -199,6 +276,11 @@ python tools/make_shape_sheet.py               # → bảng có nhãn shape_gall
 - Chrome: dùng `C:/Program Files/Google/Chrome/Application/chrome.exe`.
   **Chromium trong `ms-playwright/chromium-901522` là Chrome 93 → thiếu
   `structuredClone`, studio trắng trang.**
+  - Triệu chứng rất dễ đoán nhầm: tool chỉ in **`timeout: preset grid`**, không hề
+    nhắc tới JS. Muốn thấy nguyên nhân thật phải `Runtime.enable` rồi đọc
+    `Runtime.exceptionThrown` (`structuredClone is not defined` trong `freshState`).
+  - Cả 4 tool UI phải trỏ Chrome thật; `check_frame_update.mjs` có 2 gate chặn
+    `chromium-901522` quay lại (gate bỏ comment trước khi kiểm).
 - Máy có `http_proxy=127.0.0.1:60018` → `curl`/Chrome gọi localhost phải
   `--noproxy '*'` / `--no-proxy-server --proxy-bypass-list=*`.
 - Server phải chạy **`run_in_background`**, không thì bị kill khi hết lệnh bash.
@@ -298,20 +380,25 @@ Verify bằng git rev-parse HEAD origin/main.
 ## File map (quick)
 
 ```
-index.html            # entry, cache-buster ?v=3.7.12
+index.html            # entry, cache-buster ?v=3.7.13 + placeholder <i data-icon>/<i data-glyph>
 styles.css            # toàn bộ CSS (.key = keycap bóng; LCD chữ sáng hardcode ở đây)
 rub.bat / run.bat     # launcher portable (tự tìm cổng 8080-8099)
 server.ps1            # fallback khi máy không có Python
 src/
-  app.js              # editor chính: state, render, inspector, KEY_SHAPE_DEFS
+  app.js              # editor chính: state, render, inspector, KEY_SHAPE_DEFS, GLYPH_ICON
   presets.js          # 64 preset theme + 54 buttonPreset (gồm 'keycap')
-  vqeaf.js            # serializeTheme / parseVqeaf / keycapPalette / keycapButtonStyle
+  vqeaf.js            # serializeTheme / parseVqeaf / keycapPalette / decorationResource
+  icons.js            # AUTO-GENERATED: 46 icon 12x12 data-URI — DUNG SUA TAY
 themes/               # 66 file .vqeaf   ← PHẢI LUÔN ĐỦ 66
 assets/               # ảnh nguồn (input của gen_photo_bg_themes.py)
 tools/
   gen_photo_bg_themes.py     # sinh 3 theme "ảnh vào nút" (CHẠY TRƯỚC)
   gen_keycap_themes.mjs      # đồng bộ keyStyle_* sang vật liệu keycap (CHẠY SAU)
+  import_vpe_icons.mjs       # PNG cua VPEPixel -> src/icons.js (--dry de kiem tra)
+  restore_key_decorations.mjs# khoi phuc decoration tu backup %TEMP%
   check_frame_update.mjs     # gate tĩnh: version + tính năng
+  verify_pixel_icons.mjs     # 39 check: het emoji + icon pixel art + export
+  verify_pixel_icons_ui.mjs  # 27 check trong Chrome that (2 phien, so tung pixel)
   verify_photo_themes.mjs    # parse thật + round-trip
   verify_keycap_style.mjs    # 44 check vật liệu keycap (66 theme, WCAG, 266 khối)
   verify_key_shape_ui.mjs    # test UI hình dạng nút + keycap (Chrome thật)
@@ -326,16 +413,24 @@ PROMPT.md             # scope sản phẩm
 SKILLS.md             # ← file này
 ```
 
+Bộ icon nằm **ngoài repo này**: `D:\desktop-webapps\VPEPixel` —
+`tools/make_vqeaf_studio_icons.py` (vẽ) + `tools/inspect_art.py` (soi contact sheet).
+
 ---
 
 ## Definition of done
 
 - [ ] `ls themes | wc -l` = **66** (auto-commit không xoá mất file nào)
 - [ ] `node tools/check_frame_update.mjs` xanh
+- [ ] `node tools/verify_pixel_icons.mjs` PASS (hết emoji, icon khớp PNG VPEPixel)
+- [ ] `node tools/verify_pixel_icons_ui.mjs` PASS (cần server `:8099`) — bản export
+      PNG thật sự vẽ icon (so từng pixel giữa 2 phiên)
 - [ ] `node tools/verify_photo_themes.mjs` PASS
+- [ ] `node tools/verify_keycap_style.mjs` PASS
 - [ ] `node tools/verify_key_shape_ui.mjs` PASS (cần server `:8099`)
 - [ ] Theme cũ vẫn render y như trước (tương thích ngược `shape`/`bevel`)
 - [ ] `.vqeaf` export → new → import round-trip đủ 19 phím
-- [ ] `?v=` đã bump nếu sửa `app.js` / `presets.js`
+- [ ] Không còn emoji/glyph render trực tiếp; icon mới đến từ `.vpe`
+- [ ] `?v=` đã bump nếu sửa `app.js` / `presets.js` / thêm icon
 - [ ] Docs cập nhật nếu hành vi người dùng thay đổi
 - [ ] Không có `tools/_*` hay `.workbuddy-ai/` bị stage

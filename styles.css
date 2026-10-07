@@ -70,6 +70,49 @@ h2 { font-size:14px; margin: 0 0 10px; }
 .component-palette { display:grid; gap:8px; }
 .palette-item { display:flex; align-items:center; gap:10px; padding:10px; border:1px dashed #31445f; border-radius:12px; background:#0b121d; cursor:grab; }
 .palette-icon { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:#172336; font-size:19px; }
+
+/* --- Icon pixel art (ve bang VPEPixel) --------------------------------------
+   Truoc day giao dien dung emoji va glyph chu (🕸️ 📷 ↺ ▲ ☎ ▮ ...). Nay la PNG
+   12x12 nguon tu VPEPixel, nhung thang duoi dang data-URI (src/icons.js).
+
+   Ba loai, khac nhau o cach to mau:
+     img.icon       - <img>, giu nguyen mau goc cua pixel art
+     .icon-glyph    - <span> mask + background:currentColor, tu an theo mau chu
+     .icon-tinted   - <span> mask + mau tuong minh (trang tri phim, theo `tint`)
+   Tat ca deu ve 1:1, khong noi suy — noi suy se lam pixel art bi mo. */
+img.icon, .icon-glyph, .icon-tinted, .palette-icon img, .icon-pick img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}
+img.icon { width:12px; height:12px; vertical-align:-2px; }
+.icon-glyph, .icon-tinted {
+  display:inline-block; width:12px; height:12px; vertical-align:-2px;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center; mask-position:center;
+  -webkit-mask-size:100% 100%; mask-size:100% 100%;
+}
+.icon-glyph { background-color: currentColor; }
+.icon-10 { width:10px!important; height:10px!important; }
+.icon-12 { width:12px!important; height:12px!important; }
+.icon-16 { width:16px!important; height:16px!important; }
+.icon-24 { width:24px!important; height:24px!important; }
+/* nhan phu cua phim so (∞ + _ ⇧) nho hon nhan chinh */
+.sub-glyph { width:9px!important; height:9px!important; vertical-align:0; }
+/* glyph trong nut cua keypad (▲ ▼ ☎ —) */
+.key-icon .icon-glyph, .key-dash .icon-glyph { width:13px; height:13px; vertical-align:middle; }
+.palette-icon img { width:24px; height:24px; }
+
+/* Bo chon trang tri: <option> khong nhung duoc <img> nen phai lam hang nut. */
+.icon-picker { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.icon-pick {
+  width:26px; height:26px; padding:0; display:grid; place-items:center;
+  border:1px solid #2b3b52; border-radius:7px; background:#111a28;
+  color:#c9d4e6; font-size:10px; cursor:pointer;
+}
+.icon-pick:hover { border-color:#3d5474; }
+.icon-pick.active { border-color:#5aa2ff; background:#17263c; box-shadow:0 0 0 1px #5aa2ff55; }
+.icon-pick img { width:16px; height:16px; }
+
 .layer-list { display:grid; gap:6px; }
 .layer-item { padding:8px 9px; border-radius:9px; border:1px solid #223149; background:#0c121d; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:11px; }
 .layer-item .layer-main { min-width:0; display:flex; align-items:center; gap:7px; }
@@ -348,7 +391,9 @@ details summary { cursor:pointer; color:#c4d2e6; font-size:12px; margin-bottom:8
 }
 .custom-key > span:not(.key-decoration) { position:relative; z-index:4; }
 .custom-key .sub { position:relative; z-index:4; }
-.key-decoration { position:absolute!important; z-index:3!important; font-size:8px!important; line-height:1; pointer-events:none; filter:drop-shadow(0 1px 1px #0004); text-shadow:none!important; }
+/* Trang tri phim: truoc day la <span> chua emoji (font-size:8px). Nay la <img>
+   10x10 pixel art, khong phu thuoc font cua OS nua. */
+.key-decoration { position:absolute!important; z-index:3!important; width:10px; height:10px; pointer-events:none; filter:drop-shadow(0 1px 1px #0004); text-shadow:none!important; image-rendering:pixelated; }
 .key-decoration-left { left:2px; bottom:1px; }
 .key-decoration-right { right:2px; bottom:1px; }
 .phone-shell.force-pressed .custom-key,
@@ -366,7 +411,7 @@ details summary { cursor:pointer; color:#c4d2e6; font-size:12px; margin-bottom:8
 .builder-head strong { display:block; font-size:15px; margin-top:2px; }
 .button-builder-preview { height:86px; display:grid; place-items:center; margin:10px 0 8px; border-radius:14px; border:1px dashed #29415f; background:radial-gradient(circle at 50% 40%,#17243a,#090f18 70%); overflow:hidden; }
 .builder-preview-key { width:150px!important; height:48px!important; font-size:20px!important; }
-.builder-preview-key .key-decoration { font-size:16px!important; bottom:3px; }
+.builder-preview-key .key-decoration { width:16px; height:16px; bottom:3px; }
 .builder-state-toolbar { grid-template-columns:repeat(3,1fr); }
 .compact-title { margin-top:12px; }
 .button-preset-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:7px; margin:8px 0 10px; }

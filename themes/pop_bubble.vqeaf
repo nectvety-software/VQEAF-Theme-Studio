@@ -154,7 +154,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -189,7 +189,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -224,7 +224,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -259,7 +259,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -329,7 +329,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -364,7 +364,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -399,7 +399,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -434,7 +434,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -469,7 +469,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -504,7 +504,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -539,7 +539,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -574,7 +574,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -644,7 +644,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -679,7 +679,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -714,7 +714,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }
@@ -749,7 +749,7 @@
             size: 14sp
             weight: 900
         }
-        decoration { left: "none" right: "none" }
+        decoration { left: "star" right: "none" }
         <state name="pressed">
             fill { type: linear angle: 180deg colors: [ "#100816", "#0B060F" ] }
             transform { scale: 0.96 }

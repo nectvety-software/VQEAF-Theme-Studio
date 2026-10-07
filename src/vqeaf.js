@@ -1,3 +1,5 @@
+import { iconUri, ICON_SIZE } from './icons.js';
+
 const q = v => `"${String(v ?? '').replaceAll('\\','\\\\').replaceAll('"','\\"').replaceAll('\n','\\n')}"`;
 const color = v => q(String(v || '#000000').toUpperCase());
 const bool = v => v ? 'true' : 'false';
@@ -13,8 +15,8 @@ export function serializeTheme(state) {
   const buttonStyles = state.buttonStyles || {};
   const buttonStyleBlock = Object.entries(buttonStyles).map(([id,s])=>buttonStyleComponent(id,s)).join('\n\n');
   const layerOrder = state.layerOrder || [];
-  const vectorIds = [...new Set(decorations.map(d => d.type))];
-  const vectorBlock = vectorIds.map(id => vectorFor(id)).join('\n\n');
+  const decorationIds = [...new Set(decorations.map(d => d.type))];
+  const vectorBlock = decorationIds.map(id => decorationResource(id)).join('\n\n');
   const imageBlock = [bg.dataUrl ? imageResource(bg) : '', frameBg.dataUrl ? frameImageResource(frameBg) : ''].filter(Boolean).join('\n\n');
   const decorationAnimations = decorations.filter(d => d.floating).map(d => decorationFloatAnimation(d)).join('\n\n');
   const frameAnimation = effects.floatEnabled ? frameFloatAnimation(effects) : '';
@@ -443,28 +445,33 @@ function decorationFloatAnimation(d) {
     </animation>`;
 }
 
-function vectorFor(id) {
-  const paths = {
-    pumpkin: '<path fill="#FF7A18" data="M12,4 C7,4 4,8 4,13 C4,18 7,21 12,21 C17,21 20,18 20,13 C20,8 17,4 12,4 Z"></path>',
-    bat: '<path fill="#151018" data="M2,9 L7,6 L10,9 L12,6 L14,9 L17,6 L22,9 L18,15 L14,13 L12,18 L10,13 L6,15 Z"></path>',
-    web: '<path stroke="#DCC6FF" strokeWidth=1 fill="#00000000" data="M0,0 L24,24 M12,0 L12,24 M0,12 L24,12 M2,2 C9,8 15,8 22,2"></path>',
-    ghost: '<path fill="#FFFFFF" data="M6,20 V10 C6,5 9,3 12,3 C16,3 18,6 18,10 V20 L15,18 L12,20 L9,18 Z"></path>',
-    star: '<path fill="#FFD45A" data="M12,2 L15,9 L22,9 L16,13 L18,21 L12,16 L6,21 L8,13 L2,9 L9,9 Z"></path>',
-    badge: '<path fill="#65DC96" data="M12,3 A9,9 0 1,0 12,21 A9,9 0 1,0 12,3"></path>',
-    flower: '<path fill="#FF9BC5" data="M12,4 C10,4 9,6 9,8 C7,8 5,9 5,11 C5,13 7,14 9,14 C9,16 10,18 12,18 C14,18 15,16 15,14 C17,14 19,13 19,11 C19,9 17,8 15,8 C15,6 14,4 12,4 Z"></path>',
-    leaf: '<path fill="#6EDB91" data="M5,19 C5,11 11,5 19,5 C19,13 13,19 5,19 Z"></path>',
-    cloud: '<path fill="#D8F5FF" data="M7,18 C4,18 3,16 3,14 C3,12 5,11 6,11 C7,8 9,7 12,7 C15,7 17,9 17,11 C19,11 21,12 21,14 C21,16 20,18 17,18 Z"></path>',
-    gem: '<path fill="#B04BFF" data="M8,4 L16,4 L20,9 L12,20 L4,9 Z"></path>',
-    sparkle: '<path fill="#FFF3B0" data="M12,3 L13,10 L20,12 L13,14 L12,21 L11,14 L4,12 L11,10 Z"></path>',
-    chest: '<path fill="#C87942" data="M4,10 L20,10 L20,18 L4,18 Z"></path>',
-    slime: '<path fill="#50DCC8" data="M7,20 C5,16 6,12 8,10 C10,6 14,6 16,10 C18,12 19,16 17,20 Z"></path>'
-  };
+/**
+ * Nguon hinh cho mot trang tri.
+ *
+ * Truoc day cho nay la `<vector>` 24x24 voi 13 path SVG viet tay — nghia la ban
+ * export dung hinh VE KHAC voi ban xem truoc trong studio, va khong lien quan gi
+ * toi bo pixel art. Nay dung chinh PNG cua VPEPixel, khai bao theo dung kieu
+ * `<resource type="image">` nhu keypad_background, nen xem truoc va file xuat ra
+ * luon khop nhau.
+ */
+function decorationResource(id) {
+  const uri = iconUri(id);
+  if (uri) {
+    return `    <resource id="${id}" type="image">
+        name: "${id}.png"
+        mime: "image/png"
+        encoding: "data-uri"
+        size: ${ICON_SIZE}
+        data: ${q(uri)}
+    </resource>`;
+  }
+  // Trang tri khong co trong bo icon: van phai khai bao mot nguon de file hop le.
   return `    <vector id="${id}">
         width: 24dp
         height: 24dp
         viewportWidth: 24
         viewportHeight: 24
-        ${paths[id] || paths.star}
+        <path fill="#FFFFFF" data="M12,3 A9,9 0 1,0 12,21 A9,9 0 1,0 12,3"></path>
     </vector>`;
 }
 

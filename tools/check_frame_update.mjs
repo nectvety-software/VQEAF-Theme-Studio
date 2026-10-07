@@ -10,6 +10,18 @@ const skills = readFileSync("SKILLS.md", "utf8");
 const presets = readFileSync("src/presets.js", "utf8");
 const exists = (p) => existsSync(p);
 
+/** Tool nao mo studio trong trinh duyet that. */
+const UI_TOOLS = [
+  "tools/shoot_theme_preview.mjs",
+  "tools/shoot_shape_gallery.mjs",
+  "tools/verify_key_shape_ui.mjs",
+  "tools/verify_pixel_icons_ui.mjs",
+];
+/** Noi dung file da bo comment — de ghi chu giai thich khong tu lam do gate. */
+const codeOnly = (p) => readFileSync(p, "utf8")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .split(/\r?\n/).filter((l) => !/^\s*\/\//.test(l)).join("\n");
+
 const checks = {
   "html badge-dock": html.includes("badge-dock"),
   "html menu-badge": html.includes("menu-badge"),
@@ -23,8 +35,8 @@ const checks = {
   "css key-pill": css.includes(".key-pill"),
   "css icon-end": css.includes(".icon-end"),
   "js 0 underscore": js.includes("['0','_']"),
-  "js v=3.7.12": js.includes("3.7.12"),
-  "html v=3.7.12": html.includes("3.7.12"),
+  "js v=3.7.13": js.includes("3.7.13"),
+  "html v=3.7.13": html.includes("3.7.13"),
   "changelog 3.7.4": log.includes("V3.7.4"),
   // V3.7.10 — tùy chỉnh hình dạng nút (keycap) ở panel phải
   "js nhom 'Hình dạng nút'": js.includes("Hình dạng nút"),
@@ -52,6 +64,34 @@ const checks = {
   "tool gen_keycap_themes": exists("tools/gen_keycap_themes.mjs"),
   "tool verify_keycap_style": exists("tools/verify_keycap_style.mjs"),
   "changelog 3.7.12": log.includes("V3.7.12"),
+  // V3.7.13 — bỏ hẳn emoji, toàn bộ icon là pixel art vẽ bằng VPEPixel
+  "tool import_vpe_icons": exists("tools/import_vpe_icons.mjs"),
+  "tool verify_pixel_icons": exists("tools/verify_pixel_icons.mjs"),
+  "tool restore_key_decorations": exists("tools/restore_key_decorations.mjs"),
+  "src/icons.js la data-URI PNG": exists("src/icons.js") && readFileSync("src/icons.js", "utf8").includes("data:image/png;base64,"),
+  "js import icons.js": js.includes("from './icons.js?"),
+  "js GLYPH_ICON (glyph -> ten icon)": js.includes("const GLYPH_ICON = {"),
+  "js hydrateIcons + preloadIcons": js.includes("function hydrateIcons(") && js.includes("function preloadIcons("),
+  "js drawTintedIcon cho canvas": js.includes("function drawTintedIcon("),
+  "js await preloadIcons truoc khi ve PNG": js.includes("await preloadIcons()"),
+  "vqeaf decorationResource (bo vectorFor)": vqeaf.includes("function decorationResource(") && !vqeaf.includes("function vectorFor("),
+  "vqeaf import icons.js": vqeaf.includes("from './icons.js'"),
+  "css image-rendering pixelated": css.includes("image-rendering: pixelated"),
+  "css .icon-glyph + .icon-tinted": css.includes(".icon-glyph") && css.includes(".icon-tinted"),
+  "css .icon-picker cho chon trang tri": css.includes(".icon-picker"),
+  "presets icon la ten icon (khong emoji)": presets.includes("icon:'pumpkin'") && presets.includes("['none','Không']"),
+  "html data-icon placeholder": html.includes('data-icon="dice"'),
+  "html data-glyph placeholder": html.includes('data-glyph="tri_up"'),
+  "changelog 3.7.13": log.includes("V3.7.13"),
+  // Tool UI phai dung Chrome THAT. Chromium trong ms-playwright (chromium-901522)
+  // la Chrome 93 -> thieu structuredClone -> app.js nem ReferenceError trong
+  // freshState() va studio ra TRANG TRANG; tool timeout o "preset grid" chu khong
+  // bao loi ro rang (rat kho doan nguyen nhan).
+  // Bo comment truoc khi kiem: chinh ghi chu giai thich loi lai nhac ten ban
+  // chromium hong, khong duoc de no tu lam do gate.
+  "tool UI khong dung chromium-901522": UI_TOOLS.every((f) => !codeOnly(f).includes("chromium-901522")),
+  "tool UI tro toi Chrome that": UI_TOOLS.every((f) => codeOnly(f).includes("Google/Chrome/Application/chrome.exe")),
+  "tool verify_pixel_icons_ui": exists("tools/verify_pixel_icons_ui.mjs"),
   // PROMPT.md + SKILLS.md ở gốc repo (quy ước mọi project)
   "PROMPT.md ton tai + co version": prompt.includes("V3.7.12") && prompt.includes("Ràng buộc cứng"),
   "PROMPT.md co keycap": prompt.includes("keycap"),

@@ -48,7 +48,9 @@ head('2. app.js: dat bien --cap* tu palette');
   for (const v of ['--capTop', '--capMid', '--capBot', '--capHi', '--capEdge', '--capSub']) {
     ok(APP_SRC.includes(`'${v}'`), `applyTheme() set ${v}`);
   }
-  ok(/import \{[^}]*keycapPalette[^}]*\} from '\.\/vqeaf\.js\?v=3\.7\.12'/.test(APP_SRC), 'app.js import keycapPalette tu vqeaf.js?v=3.7.12');
+  // Khong ghim so version: cache-buster doi moi lan bump, ghim vao day chi lam
+  // test do oan. Chi can dung module + co tham so ?v= la du.
+  ok(/import \{[^}]*keycapPalette[^}]*\} from '\.\/vqeaf\.js\?v=[\d.]+'/.test(APP_SRC), 'app.js import keycapPalette tu vqeaf.js (co cache-buster)');
   ok(/function applyKeycapMaterial/.test(APP_SRC), 'co applyKeycapMaterial() de ap vat lieu keycap');
   ok(/id='applyKeycapAll'/.test(APP_SRC), 'panel phai co nut "Vat lieu keycap (theo theme)"');
 }
