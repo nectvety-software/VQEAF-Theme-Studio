@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3.7.8
+# VQEAF Theme Studio V3.7.11
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Classic 240×320 / VXPQeaf.
 
@@ -30,11 +30,12 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Autosave bằng IndexedDB, fallback localStorage.
 - Undo/Redo 100 bước (`Ctrl+Z`, `Ctrl+Y`, `Ctrl+Shift+Z`).
 - Preview Classic 240×320 dọc/ngang và zoom — khớp frame VXPQeaf / sheet Nokia classic.
-- **61 preset** (đã gộp trùng), trong đó có nhóm Việt:
+- **64 preset** (đã gộp trùng), trong đó có nhóm Việt:
   - **Tết** — đỏ đào + vàng mai (thay Lunar New Year)
   - **Trung Thu** — trăng rằm + đèn ông sao
   - **Hà Nội Night** — phố đêm + đèn vàng
   - **Comic Bang** / **Classic Sheet** — dùng ảnh làm background + bộ nút pop/classic
+  - **Spooky Vibes** / **Pika Arcade** / **Pika Honey** — ảnh đi vào **từng phím** (giữ frame cũ)
 - Import/export `.vqeaf` một file.
 - Import background riêng cho **keypad** và **PhoneShellFrame** (clip theo bo góc, Layer Stack).
 - Chế độ **Trên phím → Texture từng phím** (`per-key-texture`), giữ số/nhãn/viền rõ nét.
@@ -71,9 +72,17 @@ VQEAF-Theme-Studio/
 │   ├── app.js
 │   ├── presets.js
 │   └── vqeaf.js
-├── assets/              # ảnh nền / tham chiếu (comic_bang_bg, classic_sheet_bg, …)
+├── assets/              # ảnh nền / tham chiếu (comic_bang_bg, classic_sheet_bg, spooky_vibes_bg, pika_arcade_bg, pika_honey_bg, …)
 ├── themes/              # file .vqeaf mẫu (trùng với preset id)
-├── tools/               # script sinh theme / kiểm tra
+├── tools/               # script sinh theme / kiểm tra / chụp preview
+│   ├── gen_photo_bg_themes.py      # sinh 3 theme "ảnh vào nút nhấn"
+│   ├── verify_photo_themes.mjs     # assert bằng parseVqeaf thật
+│   ├── verify_key_shape_ui.mjs     # test UI hình dạng nút (Chrome headless)
+│   ├── check_frame_update.mjs      # gate tĩnh: version + tính năng phải còn
+│   ├── shoot_theme_preview.mjs     # chụp preview qua headless Chrome
+│   ├── shoot_shape_gallery.mjs     # chụp 10 hình dạng nút
+│   ├── make_shape_sheet.py         # ghép bảng hình dạng có nhãn
+│   └── shots/                      # ảnh preview đã chụp
 └── docs/
     ├── README.md
     ├── CHANGELOG.md
@@ -129,6 +138,45 @@ Từ V3.7.3–3.7.4: FPS nằm dưới dải Network LED trong khung; badge góc
 - **Classic Sheet** (`themes/classic_sheet.vqeaf`): ảnh sheet classic làm background mềm + nút classic pill.
 - Regenerate: `tools/gen_image_button_templates.py`.
 
+## Ảnh vào nút nhấn (V3.7.9)
+
+Khác nhóm trên: ảnh **không** đắp lên frame — frame Nokia giữ nguyên (block
+`<component id="phoneShell">` giống hệt các theme khác, `frame_background = null`).
+Ảnh chỉ đi vào **từng phím** qua `keypad` background:
+
+```vqeaf
+<component id="keypad" type="container">
+    background {
+        source: @keypad_background
+        position: "above"              // texture nằm TRÊN phím
+        renderMode: "per-key-texture"  // mỗi phím một miếng ảnh
+        textureMode: "per-key"
+        opacity: 0.50
+        blend: "normal"
+        readabilityAssist: true        // thêm bóng chữ cho dễ đọc
+    }
+</component>
+```
+
+| ID | Tên | Ảnh (assets/) | Bảng màu |
+|----|-----|---------------|----------|
+| `spooky_vibes` | Spooky Vibes | `spooky_vibes_bg.jpg` | Tím `#4B2B58` + vàng đồng `#C9A227` + hồng `#F2A0B8` |
+| `pika_arcade` | Pika Arcade | `pika_arcade_bg.jpg` | Đỏ `#E23A50` + vàng `#FFD23F` + teal `#3BB273` |
+| `pika_honey` | Pika Honey | `pika_honey_bg.jpg` | Vàng mật `#FFC93C` + nâu `#6B4226` + đỏ pokéball `#E8443C` |
+
+Lưu ý: LCD của studio luôn vẽ chữ sáng (`#c8d0d8` / `#e8eef4`) nên `palette.screen`
+phải là màu tối — `pika_honey` dùng nâu mật `#241505` thay vì màu kem của ảnh gốc.
+
+⚠️ `pika_arcade` / `pika_honey` dùng ảnh do người dùng cung cấp có yếu tố thương hiệu
+bên thứ ba. Xem mục **Trademark Notice** — chỉ phát hành khi bạn có quyền với ảnh.
+
+- Regenerate: `tools/gen_photo_bg_themes.py`
+- Kiểm tra: `tools/verify_photo_themes.mjs` (parse bằng chính `parseVqeaf`, assert
+  texture webp thật, `frame_background = null`, 19 `keyStyle_*`, preset trỏ đúng buttonPreset)
+- Chụp preview thật: `tools/shoot_theme_preview.mjs <themeId>` → `tools/shots/<themeId>.png`
+  (mở studio bằng headless Chrome, **nhập** file `.vqeaf` qua ô "Nhập .vqeaf" rồi chụp `#phone`)
+
+
 ## Theme Việt (V3.7.7)
 
 | ID | Tên | Bảng màu |
@@ -138,6 +186,59 @@ Từ V3.7.3–3.7.4: FPS nằm dưới dải Network LED trong khung; badge góc
 | `hanoi_night` | Hà Nội Night | Xanh đêm `#0B1C2E` + đèn phố `#FFC857` + đỏ `#FF4D4D` |
 
 File: `tools/gen_vn_themes.py`. Button presets: Tết Red/Gold, Peach Blossom, Mai Yellow, Moon Gold, Lantern Red, Hanoi Steel/Lamp/Night.
+
+## Hình dạng nút (V3.7.11)
+
+Chọn một phím trên preview → panel **phải** hiện nhóm **Hình dạng nút**:
+
+| Control | Field `.vqeaf` | Ghi chú |
+|---------|----------------|---------|
+| Kiểu dáng | `shape.type` | 10 kiểu — xem bảng dưới |
+| Bo góc | `shape.radius` | 0–24dp; `square` tự kẹp ≤ 6dp; **đa giác bỏ qua** |
+| Viền nổi | `bevel.size` | 0–6dp — inset highlight trên + inset bóng dưới |
+| Màu viền nổi | `bevel.color` | màu highlight của keycap |
+| Độ mềm viền nổi | `bevel.blur` | 0–8dp |
+
+### 10 kiểu dáng
+
+| `shape.type` | Tên | Cách vẽ |
+|--------------|-----|---------|
+| `capsule` | Capsule | `border-radius` = thanh trượt (mặc định, theme cũ) |
+| `pill` | Tròn hết | `border-radius: 999px` |
+| `square` | Vuông keycap | `border-radius` kẹp ≤ 6px |
+| `circle` | Tròn / bầu dục | `border-radius: 50%` |
+| `rhombus` | **Hình thoi** | `clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%)` |
+| `hexagon` | Lục giác | `clip-path` 6 điểm |
+| `octagon` | Bát giác | `clip-path` 8 điểm |
+| `triangle` | Tam giác | `clip-path` 3 điểm |
+| `parallelogram` | Bình hành | `clip-path` 4 điểm (lệch) |
+| `star` | Ngôi sao | `clip-path` 10 điểm |
+
+Ba nút áp nhanh: **Áp cho cả bàn phím** / **Áp nhóm điều hướng** / **Áp nhóm số**.
+Cùng bộ control cũng có trong tab **Tạo nút** (panel trái) — hai chỗ sửa cùng một state.
+
+> **Vì sao đa giác phải dùng `clip-path`?** `border-radius` chỉ bo được góc, không tạo
+> được hình thoi/lục giác. Hệ quả: (1) shadow/glow **ngoài** bị `clip-path` cắt nên phải
+> chuyển sang `filter: drop-shadow()` — vì nền nút là màu đặc nên bóng chỉ bám theo
+> silhouette của hình, chữ không bị bóng đôi; (2) thanh **Bo góc** không có tác dụng.
+> Thêm kiểu mới chỉ cần thêm 1 dòng vào `KEY_SHAPE_DEFS` trong `src/app.js` — dropdown
+> tự sinh từ bảng đó.
+
+```vqeaf
+<component id="keyStyle_ok" type="button-style">
+    target: "ok"
+    shape {
+        type: "square"
+        radius: 6dp
+        fill { type: linear angle: 180deg colors: [ "#FFF0A8", "#FFD23F", "#E0A800" ] }
+        stroke { width: 2dp color: "#2A1A00" }
+    }
+    bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+    ...
+</component>
+```
+
+Theme cũ không có `shape` / `bevel` → mặc định `capsule` + `bevel 0`, render y như trước.
 
 ## Chụp khung Nokia (V3.7.8)
 

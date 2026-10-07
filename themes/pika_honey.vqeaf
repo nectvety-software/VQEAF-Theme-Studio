@@ -21,7 +21,7 @@
         shellTop: "#FFD24A"
         shellBottom: "#E0901E"
         shellBorder: "#6B4226"
-        screen: "#FFF8E4"
+        screen: "#241505"
         key: "#F7B733"
         keyPressed: "#E09A18"
         keyBorder: "#6B4226"
@@ -98,8 +98,8 @@
         target: "menu"
         preset: "honey_cream"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -107,6 +107,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFF3C4" radius: 4dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -132,8 +133,8 @@
         target: "up"
         preset: "honey_yellow"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -141,6 +142,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFE07A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -166,8 +168,8 @@
         target: "rsk"
         preset: "honey_cream"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -175,6 +177,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFF3C4" radius: 4dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -200,8 +203,8 @@
         target: "left"
         preset: "honey_red"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -209,6 +212,7 @@
             }
             stroke { width: 2dp color: "#3A0A08" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FF6B60" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -234,8 +238,8 @@
         target: "ok"
         preset: "honey_yellow"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -243,6 +247,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFE07A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -268,8 +273,8 @@
         target: "right"
         preset: "honey_amber"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -277,6 +282,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC46A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -302,8 +308,8 @@
         target: "down"
         preset: "honey_brown"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -311,6 +317,7 @@
             }
             stroke { width: 2dp color: "#FFC93C" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC93C" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -336,8 +343,8 @@
         target: "1"
         preset: "honey_red"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -345,6 +352,7 @@
             }
             stroke { width: 2dp color: "#3A0A08" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FF6B60" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -370,8 +378,8 @@
         target: "2"
         preset: "honey_yellow"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -379,6 +387,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFE07A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -404,8 +413,8 @@
         target: "3"
         preset: "honey_amber"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -413,6 +422,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC46A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -438,8 +448,8 @@
         target: "4"
         preset: "honey_cream"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -447,6 +457,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFF3C4" radius: 4dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -472,8 +483,8 @@
         target: "5"
         preset: "honey_amber"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -481,6 +492,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC46A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -506,8 +518,8 @@
         target: "6"
         preset: "honey_yellow"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -515,6 +527,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFE07A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -540,8 +553,8 @@
         target: "7"
         preset: "honey_brown"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -549,6 +562,7 @@
             }
             stroke { width: 2dp color: "#FFC93C" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC93C" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -574,8 +588,8 @@
         target: "8"
         preset: "honey_red"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -583,6 +597,7 @@
             }
             stroke { width: 2dp color: "#3A0A08" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FF6B60" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -608,8 +623,8 @@
         target: "9"
         preset: "honey_cream"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -617,6 +632,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFF3C4" radius: 4dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -642,8 +658,8 @@
         target: "*"
         preset: "honey_amber"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -651,6 +667,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC46A" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -676,8 +693,8 @@
         target: "0"
         preset: "honey_cream"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -685,6 +702,7 @@
             }
             stroke { width: 2dp color: "#6B4226" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFF3C4" radius: 4dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -710,8 +728,8 @@
         target: "#"
         preset: "honey_brown"
         shape {
-            type: "capsule"
-            radius: 10dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
@@ -719,6 +737,7 @@
             }
             stroke { width: 2dp color: "#FFC93C" }
         }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
         shadow { color: "#00000066" y: 4dp blur: 8dp }
         glow { color: "#FFC93C" radius: 5dp }
         gloss { enabled: true opacity: 0.32 style: "top-arc" }
@@ -743,15 +762,15 @@
     <component id="keypad" type="container">
         background {
             source: @keypad_background
-            opacity: 0.68
+            opacity: 0.50
             fit: "cover"
-            blend: "overlay"
+            blend: "normal"
             position: "above"
             renderMode: "per-key-texture"
             textureMode: "per-key"
-            brightness: 1.03
-            contrast: 1.06
-            saturation: 1.08
+            brightness: 1.04
+            contrast: 1.10
+            saturation: 1.12
             readabilityAssist: false
             rotation: 0deg
             scaleX: 1

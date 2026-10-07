@@ -1,5 +1,65 @@
 # Changelog
 
+## V3.7.11 — Thư viện hình dạng nút (10 kiểu, gồm đa giác)
+
+- `Kiểu dáng` trong nhóm **Hình dạng nút** giờ có **10 lựa chọn** thay vì 3:
+  `capsule` · `pill` · `square` (vuông keycap) · `circle` (tròn/bầu dục) ·
+  `rhombus` (**hình thoi**) · `hexagon` (lục giác) · `octagon` (bát giác) ·
+  `triangle` (tam giác) · `parallelogram` (bình hành) · `star` (ngôi sao).
+- Gom về một bảng khai báo duy nhất `KEY_SHAPE_DEFS` trong `app.js`; dropdown tự
+  sinh từ bảng này nên thêm kiểu mới chỉ cần thêm 1 dòng.
+- Hình **đa giác** không thể làm bằng `border-radius` → dùng `clip-path: polygon(...)`.
+  Hệ quả kỹ thuật đã xử lý:
+  - `border-radius` trả về `0px` cho đa giác; thanh **Bo góc** không có tác dụng
+    (đã ghi rõ trong dòng trợ giúp của panel).
+  - Shadow/glow **ngoài** bị `clip-path` cắt mất nếu để trong `box-shadow` →
+    chuyển sang `filter: drop-shadow()` (`keyFilter()`). Vì nền nút là màu **đặc**
+    (gradient hex 6 số) nên `drop-shadow` chỉ bám theo **silhouette** của hình đã
+    cắt — chữ và texture không sinh bóng riêng.
+  - Viền trong mỏng `inset 0 0 0 1px` bị bỏ với đa giác (nếu giữ sẽ thành những
+    đoạn gạch thừa ở mép hộp); vẫn giữ 2 lớp bevel trên/dưới để có khối nổi.
+- Không đổi format `.vqeaf`: `shape.type` vốn là chuỗi tự do, theme cũ đọc lên
+  vẫn là `capsule`/`square` như trước (tương thích ngược hoàn toàn).
+
+## V3.7.10 — Tùy chỉnh hình dạng nút (keycap) ở panel phải
+
+- Panel phải có nhóm **Hình dạng nút** khi chọn một phím (`state.selected === 'key'`):
+  **Kiểu dáng** / **Bo góc** / **Viền nổi** / **Màu viền nổi** / **Độ mềm viền nổi**
+  + 3 nút áp nhanh: *Áp cho cả bàn phím*, *Áp nhóm điều hướng*, *Áp nhóm số*.
+- `keyStyle_*` có thêm `shape.type` (`capsule` mặc định · `pill` · `square` keycap)
+  và block mới `bevel { size blur color }` → `box-shadow` inset tạo viền nổi kiểu keycap.
+- Cùng bộ control này cũng nằm trong tab **Tạo nút** (panel trái), dùng chung helper
+  `keyShapeFields()` — hai chỗ sửa cùng một state, không lệch nhau.
+- `serializeTheme` ghi `shape.type` + `bevel`, `parseVqeaf` đọc lại (round-trip giữ nguyên).
+- 3 theme `spooky_vibes` / `pika_arcade` / `pika_honey` + 15 buttonPreset mới chuyển sang
+  dạng keycap: `shape: "square"`, `radius: 6dp`, `bevel: 2dp`.
+- Tương thích ngược: theme cũ không có `shape`/`bevel` → mặc định `capsule`, `bevel 0`,
+  render y như trước.
+- **Fix:** `applyKeyStyles()` và `renderSelection()` trước đây query `.key[data-key=...]`
+  không giới hạn scope. Nút **xem trước** trong tab Tạo nút cũng mang `data-key`
+  (đặt ở `renderButtonBuilderPreview()`) và đứng **trước** `#keypad` trong DOM, nên
+  `querySelector` luôn bắt trúng nó: bấm một phím trên điện thoại thì phím đó **không
+  được tô sáng** (`is-selected` rơi vào nút preview). Nay cả hai đã scope vào `#keypad`;
+  nút preview do `renderButtonBuilderPreview()` vẽ riêng nên vẫn giữ đúng
+  `previewState` (normal/pressed/disabled).
+- Test: `tools/verify_key_shape_ui.mjs` (15 assert, Chrome headless) — import `.vqeaf`
+  thật, bấm phím, đổi kiểu dáng, áp cho cả bàn phím, và kiểm tra regression cho cả 3 theme.
+
+## V3.7.9 — 3 theme "ảnh vào nút nhấn" (giữ frame cũ)
+
+- Thêm **Spooky Vibes**, **Pika Arcade**, **Pika Honey** (`themes/*.vqeaf` + preset + buttonPreset).
+- Ảnh đi vào **từng phím**: `keypad.background` với `position: "above"` +
+  `renderMode: "per-key-texture"`, `opacity 0.50`, `blend normal`.
+- **Giữ nguyên frame cũ**: block `phoneShell` giống hệt theme khác, `frame_background = null`
+  — ảnh không đắp lên khung máy.
+- 15 buttonPreset mới: `spooky_*` (purple/gold/pink/ghost/black), `pika_*` (yellow/red/navy/teal/orange),
+  `honey_*` (yellow/cream/amber/brown/red).
+- `pika_honey` dùng `screen: "#241505"` (không phải màu kem) vì LCD studio luôn vẽ chữ sáng.
+- Tool mới: `tools/gen_photo_bg_themes.py`, `tools/verify_photo_themes.mjs`,
+  `tools/shoot_theme_preview.mjs` (chụp preview bằng headless Chrome + `DOM.setFileInputFiles`).
+- Ảnh nguồn: `assets/spooky_vibes_bg.jpg`, `assets/pika_arcade_bg.jpg`, `assets/pika_honey_bg.jpg`
+  (nhúng WebP data-uri, ≤ 720×900).
+
 ## V3.7.8 — Nút chụp khung Nokia ở topbar
 
 - Thêm nút **📷 Chụp khung** trên toolbar: render preview khung Nokia (LCD + keypad + badge MENU/Shot + background) ra **PNG** và tải về.

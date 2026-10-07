@@ -213,11 +213,15 @@ function safeKeyId(id) {
   return String(id).replace('*','star').replace('#','pound').replace(/[^A-Za-z0-9_-]/g,'_');
 }
 function buttonStyleComponent(id,s={}) {
+  const bevel=Number(s.bevel ?? 0);
+  const bevelBlock=bevel>0
+    ? `\n        bevel { size: ${bevel}dp blur: ${Number(s.bevelBlur ?? 0)}dp color: ${color(s.bevelColor || '#FFFFFF')} }`
+    : '';
   return `    <component id="keyStyle_${safeKeyId(id)}" type="button-style">
         target: ${q(id)}
         preset: ${q(s.presetId || 'custom')}
         shape {
-            type: "capsule"
+            type: ${q(s.shape || 'capsule')}
             radius: ${Number(s.radius ?? 18)}dp
             fill {
                 type: linear
@@ -225,7 +229,7 @@ function buttonStyleComponent(id,s={}) {
                 colors: [ ${color(s.colorA || '#B9F58E')}, ${color(s.colorB || '#60C95D')}, ${color(s.colorC || s.colorB || '#48A94B')} ]
             }
             stroke { width: ${Number(s.borderWidth ?? 2)}dp color: ${color(s.border || '#E8FFD9')} }
-        }
+        }${bevelBlock}
         shadow { color: ${color(s.shadow || '#00000055')} y: ${Number(s.shadowY ?? 4)}dp blur: ${Number(s.shadowBlur ?? 10)}dp }
         glow { color: ${color(s.glow || '#A8FF92')} radius: ${Number(s.glowRadius ?? 5)}dp }
         gloss { enabled: ${bool(s.gloss !== false)} opacity: ${Number(s.glossOpacity ?? .48).toFixed(2)} style: "top-arc" }
@@ -470,9 +474,14 @@ export function parseVqeaf(source) {
     const glossBlock=block.match(/gloss\s*\{([\s\S]*?)\}/)?.[1] || block;
     const decorationBlock=block.match(/decoration\s*\{([\s\S]*?)\}/)?.[1] || block;
     const disabledBlock=block.match(/<state\s+name="disabled">([\s\S]*?)<\/state>/)?.[1] || '';
+    const bevelBlock=block.match(/(?:^|\s)bevel\s*\{([\s\S]*?)\}/)?.[1] || '';
     const findColor=(b,n,fb)=>b.match(new RegExp(`${escapeRegExp(n)}\\s*:\\s*"(#[0-9A-Fa-f]{3,8})"`))?.[1] || fb;
     buttonStyles[target]={
       presetId:blockString(block,'preset','custom'),
+      shape:blockString(shapeBlock,'type','capsule'),
+      bevel:blockUnit(bevelBlock,'size',0),
+      bevelBlur:blockUnit(bevelBlock,'blur',0),
+      bevelColor:findColor(bevelBlock,'color','#FFFFFF'),
       colorA:normal[1] || '#B9F58E', colorB:normal[2] || '#60C95D', colorC:normal[3] || normal[2] || '#48A94B',
       pressedA:pressed[1] || normal[2] || '#60C95D', pressedB:pressed[2] || normal[3] || '#48A94B',
       border:findColor(strokeBlock,'color','#E8FFD9'), borderWidth:blockUnit(strokeBlock,'width',2), radius:blockUnit(shapeBlock,'radius',18),

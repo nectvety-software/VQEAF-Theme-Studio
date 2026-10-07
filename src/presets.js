@@ -430,6 +430,98 @@ export const presets = [
       7: 'classic_soft', 8: 'classic_pearl', 9: 'classic_soft',
       '*': 'classic_soft', 0: 'classic_pearl', '#': 'classic_soft'
     }
+  },
+  // --- Nhóm "ảnh vào nút nhấn" (V3.7.9): giữ nguyên frame cũ, ảnh nằm trên từng phím.
+  // File .vqeaf tương ứng: themes/spooky_vibes.vqeaf, themes/pika_arcade.vqeaf, themes/pika_honey.vqeaf
+  {
+    id: 'spooky_vibes', name: 'Spooky Vibes', subtitle: 'Nút tím + vàng đồng', p1:'#C9A227', p2:'#4B2B58',
+    theme: { shellTop:'#4B2B58', shellBottom:'#1B0D22', shellBorder:'#C9A227', screen:'#14110F', key:'#43284F', keyPressed:'#5E3A6E', keyBorder:'#C9A227', keyText:'#EDE3F7', sub:'#C9A227', accent:'#C9A227', glow:'#8A4FBF', radius:20, keyRadius:9 },
+    menuStyle: {
+      appearance:'solid', background:'#4B2B58', border:'#C9A227', text:'#EDE3F7', accent:'#C9A227', glow:'#8A4FBF',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    fpsStyle: {
+      appearance:'glass', background:'#1B0D22', border:'#C9A227', text:'#C9A227', accent:'#C9A227', glow:'#8A4FBF',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:6, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    buttonMap: {
+      menu: 'spooky_ghost', up: 'spooky_gold', rsk: 'spooky_ghost',
+      left: 'spooky_pink', ok: 'spooky_gold', right: 'spooky_purple', down: 'spooky_black',
+      1: 'spooky_purple', 2: 'spooky_gold', 3: 'spooky_pink',
+      4: 'spooky_black', 5: 'spooky_ghost', 6: 'spooky_purple',
+      7: 'spooky_gold', 8: 'spooky_black', 9: 'spooky_pink',
+      '*': 'spooky_purple', 0: 'spooky_ghost', '#': 'spooky_black'
+    },
+    decorMap: {
+      menu: ['none','none'], up: ['star','star'], rsk: ['none','none'],
+      left: ['sparkle','none'], ok: ['star','star'], right: ['none','sparkle'], down: ['gem','none'],
+      1: ['none','gem'], 2: ['star','none'], 3: ['none','none'],
+      4: ['sparkle','none'], 5: ['none','sparkle'], 6: ['none','none'],
+      7: ['star','none'], 8: ['none','star'], 9: ['none','none'],
+      '*': ['sparkle','star'], 0: ['none','none'], '#': ['star','sparkle']
+    }
+  },
+  {
+    id: 'pika_arcade', name: 'Pika Arcade', subtitle: 'Đỏ gameboy + vàng', p1:'#FFD23F', p2:'#E23A50',
+    theme: { shellTop:'#E23A50', shellBottom:'#8E0F24', shellBorder:'#FFD23F', screen:'#141428', key:'#2C2C4A', keyPressed:'#45456E', keyBorder:'#FFD23F', keyText:'#FFF6D8', sub:'#FFE07A', accent:'#3BB273', glow:'#FFD23F', radius:22, keyRadius:10 },
+    menuStyle: {
+      appearance:'solid', background:'#2C2C4A', border:'#FFD23F', text:'#FFD23F', accent:'#3BB273', glow:'#FFD23F',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    fpsStyle: {
+      appearance:'glass', background:'#8E0F24', border:'#FFD23F', text:'#FFE07A', accent:'#3BB273', glow:'#FFD23F',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:6, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    buttonMap: {
+      menu: 'pika_navy', up: 'pika_yellow', rsk: 'pika_navy',
+      left: 'pika_red', ok: 'pika_yellow', right: 'pika_teal', down: 'pika_orange',
+      1: 'pika_red', 2: 'pika_yellow', 3: 'pika_teal',
+      4: 'pika_navy', 5: 'pika_orange', 6: 'pika_yellow',
+      7: 'pika_teal', 8: 'pika_red', 9: 'pika_yellow',
+      '*': 'pika_orange', 0: 'pika_navy', '#': 'pika_red'
+    },
+    decorMap: {
+      menu: ['none','none'], up: ['star','star'], rsk: ['none','none'],
+      left: ['star','none'], ok: ['star','star'], right: ['none','star'], down: ['sparkle','none'],
+      1: ['none','star'], 2: ['star','none'], 3: ['none','none'],
+      4: ['sparkle','none'], 5: ['star','star'], 6: ['none','sparkle'],
+      7: ['none','none'], 8: ['star','none'], 9: ['none','star'],
+      '*': ['sparkle','star'], 0: ['none','none'], '#': ['star','sparkle']
+    }
+  },
+  {
+    id: 'pika_honey', name: 'Pika Honey', subtitle: 'Vàng mật ong + nâu', p1:'#FFC93C', p2:'#6B4226',
+    theme: { shellTop:'#FFD24A', shellBottom:'#E0901E', shellBorder:'#6B4226', screen:'#241505', key:'#F7B733', keyPressed:'#E09A18', keyBorder:'#6B4226', keyText:'#3A2410', sub:'#6B4226', accent:'#E8443C', glow:'#FFD966', radius:24, keyRadius:12 },
+    menuStyle: {
+      appearance:'solid', background:'#FFF1CC', border:'#6B4226', text:'#4A2E10', accent:'#E8443C', glow:'#FFD966',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:8, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    fpsStyle: {
+      appearance:'glass', background:'#E0901E', border:'#6B4226', text:'#6B4226', accent:'#E8443C', glow:'#FFD966',
+      radius:18, borderWidth:1, fontSize:11, fontWeight:800, letterSpacing:.04, opacity:1,
+      glowRadius:6, shadow:18, paddingX:13, paddingY:11, dotSize:6, dotGlow:8, uppercase:true
+    },
+    buttonMap: {
+      menu: 'honey_cream', up: 'honey_yellow', rsk: 'honey_cream',
+      left: 'honey_red', ok: 'honey_yellow', right: 'honey_amber', down: 'honey_brown',
+      1: 'honey_red', 2: 'honey_yellow', 3: 'honey_amber',
+      4: 'honey_cream', 5: 'honey_amber', 6: 'honey_yellow',
+      7: 'honey_brown', 8: 'honey_red', 9: 'honey_cream',
+      '*': 'honey_amber', 0: 'honey_cream', '#': 'honey_brown'
+    },
+    decorMap: {
+      menu: ['none','none'], up: ['star','star'], rsk: ['none','none'],
+      left: ['flower','none'], ok: ['star','star'], right: ['none','star'], down: ['leaf','none'],
+      1: ['none','star'], 2: ['star','none'], 3: ['none','flower'],
+      4: ['gem','none'], 5: ['star','star'], 6: ['none','leaf'],
+      7: ['none','none'], 8: ['flower','none'], 9: ['none','star'],
+      '*': ['sparkle','star'], 0: ['none','none'], '#': ['star','sparkle']
+    }
   }
 ];
 
@@ -487,7 +579,22 @@ export const buttonPresets = [
   { id:'lantern_red', name:'Lantern Red', swatch:'#FF6B35', style:{ colorA:'#FF9B6A', colorB:'#FF6B35', colorC:'#C43E12', pressedA:'#E85A28', pressedB:'#A3320E', border:'#FFD93D', text:'#FFF6C8', textOutline:'#8B2E0E', radius:14, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:3, glow:'#FFB703', glowRadius:6, gloss:true, glossOpacity:.35, fontSize:14, fontWeight:900, decorLeft:'sparkle', decorRight:'none', disabledOpacity:.4, disabledSaturation:.2 } },
   { id:'hanoi_steel', name:'Hanoi Steel', swatch:'#2A3D4F', style:{ colorA:'#5A7A94', colorB:'#2A3D4F', colorC:'#1A2A3A', pressedA:'#3E5568', pressedB:'#14202C', border:'#FFC857', text:'#F5E6C8', textOutline:'#0B1C2E', radius:10, borderWidth:1, shadow:'#00000077', shadowBlur:8, shadowY:3, glow:'#FFC857', glowRadius:4, gloss:true, glossOpacity:.2, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'none', disabledOpacity:.45, disabledSaturation:.2 } },
   { id:'hanoi_lamp', name:'Hanoi Lamp', swatch:'#FFC857', style:{ colorA:'#FFE3A0', colorB:'#FFC857', colorC:'#C4A020', pressedA:'#F0C048', pressedB:'#A88818', border:'#F5E6C8', text:'#1A2A3A', textOutline:'#F5E6C8', radius:12, borderWidth:1, shadow:'#00000055', shadowBlur:8, shadowY:3, glow:'#FFC857', glowRadius:7, gloss:true, glossOpacity:.35, fontSize:13, fontWeight:800, decorLeft:'star', decorRight:'none', disabledOpacity:.45, disabledSaturation:.2 } },
-  { id:'hanoi_night', name:'Hanoi Night', swatch:'#0B1C2E', style:{ colorA:'#2A3D4F', colorB:'#0B1C2E', colorC:'#061018', pressedA:'#1A2A3A', pressedB:'#040C12', border:'#C4A35A', text:'#FFC857', textOutline:'#0B1C2E', radius:10, borderWidth:1, shadow:'#00000088', shadowBlur:10, shadowY:3, glow:'#FF4D4D', glowRadius:5, gloss:false, glossOpacity:0, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'sparkle', disabledOpacity:.4, disabledSaturation:.15 } }
+  { id:'hanoi_night', name:'Hanoi Night', swatch:'#0B1C2E', style:{ colorA:'#2A3D4F', colorB:'#0B1C2E', colorC:'#061018', pressedA:'#1A2A3A', pressedB:'#040C12', border:'#C4A35A', text:'#FFC857', textOutline:'#0B1C2E', radius:10, borderWidth:1, shadow:'#00000088', shadowBlur:10, shadowY:3, glow:'#FF4D4D', glowRadius:5, gloss:false, glossOpacity:0, fontSize:13, fontWeight:800, decorLeft:'none', decorRight:'sparkle', disabledOpacity:.4, disabledSaturation:.15 } },
+  { id:'spooky_purple', name:'Spooky Purple', swatch:'#4B2B58', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#7A4E92', colorB:'#4B2B58', colorC:'#2A1330', pressedA:'#5E3A6E', pressedB:'#1E0C24', border:'#C9A227', text:'#EDE3F7', textOutline:'#2A1330', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#8A4FBF', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'sparkle', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'spooky_gold', name:'Spooky Gold', swatch:'#D9B440', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#F5DE9A', colorB:'#D9B440', colorC:'#96701A', pressedA:'#C9A227', pressedB:'#7A5A10', border:'#2A1A08', text:'#2A1A08', textOutline:'#F5DE9A', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FFE9A8', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'spooky_pink', name:'Spooky Pink', swatch:'#F2A0B8', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFD0DE', colorB:'#F2A0B8', colorC:'#B85C7E', pressedA:'#E089A4', pressedB:'#9A4568', border:'#4A1024', text:'#4A0F22', textOutline:'#FFD0DE', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FFB3CC', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'spooky_ghost', name:'Spooky Ghost', swatch:'#EDE9E4', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFFFFF', colorB:'#EDE9E4', colorC:'#B9B3AC', pressedA:'#DAD5CE', pressedB:'#948E88', border:'#141414', text:'#141414', textOutline:'#FFFFFF', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#CFE6CF', glowRadius:3, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'spooky_black', name:'Spooky Black', swatch:'#2C1834', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#5A4462', colorB:'#2C1834', colorC:'#100714', pressedA:'#402650', pressedB:'#0A040E', border:'#C9A227', text:'#C9A227', textOutline:'#100714', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#8A4FBF', glowRadius:4, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'gem', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'pika_yellow', name:'Pika Yellow', swatch:'#FFD23F', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFF0A8', colorB:'#FFD23F', colorC:'#E0A800', pressedA:'#F5C21E', pressedB:'#B8860B', border:'#2A1A00', text:'#2A1A00', textOutline:'#FFF6D8', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FFE97A', glowRadius:6, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'star', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'pika_red', name:'Pika Red', swatch:'#E23A50', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FF93A2', colorB:'#E23A50', colorC:'#8E0F24', pressedA:'#C92C42', pressedB:'#6E0A1B', border:'#2A0A12', text:'#FFF6D8', textOutline:'#6E0A1B', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FF6B80', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'pika_navy', name:'Pika Navy', swatch:'#2C2C4A', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#55558C', colorB:'#2C2C4A', colorC:'#14142A', pressedA:'#3E3E68', pressedB:'#0C0C1E', border:'#FFD23F', text:'#FFD23F', textOutline:'#14142A', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FFD23F', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'pika_teal', name:'Pika Teal', swatch:'#3BB273', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#8CE8B8', colorB:'#3BB273', colorC:'#1E7A4C', pressedA:'#2E9C60', pressedB:'#14603A', border:'#0A2A1A', text:'#062A18', textOutline:'#8CE8B8', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#6BE8B0', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'star', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'pika_orange', name:'Pika Orange', swatch:'#FF8A3D', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFC99A', colorB:'#FF8A3D', colorC:'#C4551A', pressedA:'#E8762C', pressedB:'#9E4112', border:'#2A1408', text:'#2A1408', textOutline:'#FFE0C4', radius:10, borderWidth:2, shadow:'#00000066', shadowBlur:8, shadowY:4, glow:'#FFB067', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'sparkle', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'honey_yellow', name:'Honey Yellow', swatch:'#FFC93C', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFEDA8', colorB:'#FFC93C', colorC:'#E0A800', pressedA:'#F0B824', pressedB:'#B8860B', border:'#6B4226', text:'#4A2E10', textOutline:'#FFF8E4', radius:12, borderWidth:2, shadow:'#00000044', shadowBlur:8, shadowY:4, glow:'#FFE07A', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'star', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'honey_cream', name:'Honey Cream', swatch:'#FFF1CC', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFFDF4', colorB:'#FFF1CC', colorC:'#E8D8A0', pressedA:'#F5E4B4', pressedB:'#C9B478', border:'#6B4226', text:'#4A2E10', textOutline:'#FFFDF4', radius:12, borderWidth:2, shadow:'#00000044', shadowBlur:8, shadowY:4, glow:'#FFF3C4', glowRadius:4, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'honey_amber', name:'Honey Amber', swatch:'#F5A623', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FFD79A', colorB:'#F5A623', colorC:'#C47712', pressedA:'#E0951E', pressedB:'#A05E0C', border:'#6B4226', text:'#4A2E10', textOutline:'#FFF0D4', radius:12, borderWidth:2, shadow:'#00000044', shadowBlur:8, shadowY:4, glow:'#FFC46A', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'sparkle', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'honey_brown', name:'Honey Brown', swatch:'#7A4E2C', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#B98A5C', colorB:'#7A4E2C', colorC:'#4A2C14', pressedA:'#603C20', pressedB:'#331D0C', border:'#FFC93C', text:'#FFF0C8', textOutline:'#4A2C14', radius:12, borderWidth:2, shadow:'#00000055', shadowBlur:8, shadowY:4, glow:'#FFC93C', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'none', decorRight:'leaf', disabledOpacity:.42, disabledSaturation:.2 } },
+  { id:'honey_red', name:'Honey Red', swatch:'#E8443C', style:{ shape:'square', radius:6, bevel:2, bevelBlur:2, bevelColor:'#FFFFFF', colorA:'#FF9A90', colorB:'#E8443C', colorC:'#A01810', pressedA:'#C93028', pressedB:'#7A0E08', border:'#3A0A08', text:'#FFF6DE', textOutline:'#A01810', radius:12, borderWidth:2, shadow:'#00000055', shadowBlur:8, shadowY:4, glow:'#FF6B60', glowRadius:5, gloss:true, glossOpacity:.32, fontSize:14, fontWeight:900, decorLeft:'star', decorRight:'none', disabledOpacity:.42, disabledSaturation:.2 } }
 ];
 
 export const buttonDecorations = [

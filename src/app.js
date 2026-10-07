@@ -1,5 +1,5 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.8';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.8';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.11';
+import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.11';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -374,9 +374,122 @@ function decorationEmoji(name) {
 }
 function clearKeyCustomStyle(el) {
   el.classList.remove('custom-key','custom-disabled','custom-preview-pressed');
-  for(const prop of ['background','borderColor','borderWidth','borderRadius','boxShadow','color','fontSize','fontWeight','textShadow']) el.style[prop]='';
+  for(const prop of ['background','borderColor','borderWidth','borderRadius','boxShadow','clipPath','filter','color','fontSize','fontWeight','textShadow']) el.style[prop]='';
   for(const prop of ['--custom-pressed-a','--custom-pressed-b','--custom-disabled-opacity','--custom-disabled-saturation','--custom-gloss-opacity','--custom-gloss-color']) el.style.removeProperty(prop);
   el.querySelectorAll('.key-decoration').forEach(x=>x.remove());
+}
+/** Ghep alpha hex (2 ky tu) vao mau 6-hex da normalize. */
+function withAlpha(hex,alpha='FF') { return `${normalizeColor(hex)}${alpha}`; }
+/**
+ * Thu vien hinh dang nut (V3.7.11). Gia tri luu trong keyStyle_* -> shape.type
+ *   - Hinh BO GOC  -> border-radius (`radius` px / '50%' / theo thanh truot).
+ *   - Hinh DA GIAC -> `clip` (clip-path). border-radius khong the lam hinh thoi,
+ *     luc giac... nen buoc phai cat bang clip-path.
+ * Luu y quan trong: hinh da giac bi clip-path cat nen shadow NGOAI khong the de
+ * trong box-shadow (se bi cat mat) — phai chuyen sang filter:drop-shadow(),
+ * xem keyFilter().
+ */
+const KEY_SHAPE_DEFS = {
+  capsule:       { label:'Capsule — bo theo thanh trượt' },
+  pill:          { label:'Tròn hết (pill)',      radius:999 },
+  square:        { label:'Vuông keycap',         cap:6 },
+  circle:        { label:'Tròn / bầu dục',       radius:'50%' },
+  rhombus:       { label:'Hình thoi (diamond)',  clip:'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' },
+  hexagon:       { label:'Lục giác',             clip:'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' },
+  octagon:       { label:'Bát giác',             clip:'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' },
+  triangle:      { label:'Tam giác',             clip:'polygon(50% 0%, 100% 100%, 0% 100%)' },
+  parallelogram: { label:'Bình hành',            clip:'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' },
+  star:          { label:'Ngôi sao',             clip:'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' },
+};
+/** Danh sach cho dropdown <select>, giu dung thu tu khai bao. */
+const KEY_SHAPES = Object.entries(KEY_SHAPE_DEFS).map(([v,d])=>[v,d.label]);
+function keyShapeDef(style) {
+  return KEY_SHAPE_DEFS[(style && style.shape) || 'capsule'] || KEY_SHAPE_DEFS.capsule;
+}
+/** Bo goc theo kieu dang nut. Tra ve CHUOI CSS (px hoac %). */
+function shapeRadius(style) {
+  const def=keyShapeDef(style);
+  if(def.clip) return '0px';                                    // da giac: khong bo goc
+  if(def.radius!==undefined) return typeof def.radius==='number' ? `${def.radius}px` : def.radius;
+  const r=Number(style.radius ?? 18);                            // 'capsule' theo thanh truot
+  return `${def.cap!==undefined ? Math.min(r,def.cap) : r}px`;
+}
+/** clip-path cho hinh da giac; 'none' voi hinh bo goc. */
+function keyClipPath(style) { return keyShapeDef(style).clip || 'none'; }
+/** Box-shadow cua nut: shadow + glow + vien noi (bevel) kieu keycap. */
+function keyBoxShadow(style) {
+  const clipped=!!keyShapeDef(style).clip;
+  const shadow=normalizeColor(style.shadow || '#000000');
+  const glow=normalizeColor(style.glow || '#000000');
+  const out=[];
+  // Hinh da giac: shadow/glow NGOAI phai de o filter:drop-shadow(), khong o day.
+  if(!clipped) {
+    out.push(`0 ${Number(style.shadowY ?? 4)}px ${Number(style.shadowBlur ?? 10)}px ${shadow}`);
+    if(Number(style.glowRadius ?? 0)>0) out.push(`0 0 ${Number(style.glowRadius)}px ${glow}`);
+  }
+  const bevel=Number(style.bevel ?? 0);
+  if(bevel>0) {
+    const bc=normalizeColor(style.bevelColor || '#FFFFFF');
+    const blur=Number(style.bevelBlur ?? 0);
+    out.push(`inset 0 ${bevel}px ${blur}px ${withAlpha(bc,'8C')}`);          // highlight mat tren
+    out.push(`inset 0 -${bevel}px ${blur}px #0000005A`);                     // bong mat day
+    if(!clipped) out.push(`inset 0 0 0 1px ${withAlpha(bc,'24')}`);          // vien trong mong
+  }
+  return out.length ? out.join(', ') : 'none';
+}
+/**
+ * filter cho hinh da giac. Vi nen nut la mau DAC (gradient hex 6 so) nen
+ * drop-shadow chi bam theo SILHOUETTE cua hinh da bi clip-path cat — chu va
+ * texture KHONG sinh bong rieng (alpha da = 1 khap hinh).
+ */
+function keyFilter(style) {
+  if(!keyShapeDef(style).clip) return '';
+  const parts=[];
+  const sy=Number(style.shadowY ?? 4), sb=Number(style.shadowBlur ?? 10);
+  if(sy>0 || sb>0) parts.push(`drop-shadow(0 ${sy}px ${Math.max(1,Math.round(sb/2))}px ${withAlpha(style.shadow || '#000000','99')})`);
+  const gr=Number(style.glowRadius ?? 0);
+  if(gr>0) parts.push(`drop-shadow(0 0 ${gr}px ${normalizeColor(style.glow || '#000000')})`);
+  return parts.join(' ');
+}
+/** 5 control "hinh dang nut", dung chung cho panel phai va Button Builder. */
+function keyShapeFields(style,set) {
+  return [
+    selectField('Kiểu dáng',style.shape||'capsule',KEY_SHAPES,set('shape')),
+    field('Bo góc','btnRadius','range',style.radius,set('radius',Number),0,24),
+    field('Viền nổi','btnBevel','range',style.bevel??0,set('bevel',Number),0,6,.5),
+    field('Màu viền nổi','btnBevelColor','color',style.bevelColor||'#FFFFFF',set('bevelColor')),
+    field('Độ mềm viền nổi','btnBevelBlur','range',style.bevelBlur??0,set('bevelBlur',Number),0,8,.5),
+  ];
+}
+/** Copy rieng phan hinh dang tu 1 nut sang nhieu nut khac. */
+function copyKeyShape(fromKey,toKeys) {
+  const src=state.buttonStyles[fromKey]||cloneButtonPreset(state.buttonBuilder.presetId);
+  toKeys.forEach(k=>{
+    const x=state.buttonStyles[k]||(state.buttonStyles[k]=cloneButtonPreset(state.buttonBuilder.presetId));
+    x.shape=src.shape; x.radius=src.radius;
+    x.bevel=src.bevel; x.bevelBlur=src.bevelBlur; x.bevelColor=src.bevelColor;
+  });
+}
+function buildKeyShapeGroup() {
+  const keyId=state.selectedKey || 'ok';
+  const s=state.buttonStyles[keyId] || cloneButtonPreset(state.buttonBuilder.presetId);
+  const g=inspectorGroup('Hình dạng nút');
+  const help=document.createElement('div'); help.className='mini-help';
+  const isPoly=!!keyShapeDef(s).clip;
+  help.textContent=`Dạng nút cho phím đang chọn (component keyStyle_${keyId.replace('*','star').replace('#','pound')} trong .vqeaf). Đổi ở đây không ảnh hưởng phím khác.`
+    + (isPoly ? ' Hình đa giác (thoi/lục giác/…) cắt bằng clip-path nên KHÔNG dùng thanh "Bo góc".' : '');
+  g.append(help);
+  const set=(prop,cast=v=>v)=>v=>{ const x=ensureButtonStyle(keyId); x[prop]=cast(v); renderAll(false); };
+  g.append(...keyShapeFields(s,set));
+  const row=document.createElement('div'); row.className='button-row';
+  const all=document.createElement('button'); all.className='primary-lite'; all.textContent='Áp cho cả bàn phím';
+  all.onclick=()=>commit(()=>copyKeyShape(keyId,ALL_KEY_IDS));
+  const nav=document.createElement('button'); nav.className='ghost'; nav.textContent='Áp nhóm điều hướng';
+  nav.onclick=()=>commit(()=>copyKeyShape(keyId,KEY_GROUPS.navigation));
+  const num=document.createElement('button'); num.className='ghost'; num.textContent='Áp nhóm số';
+  num.onclick=()=>commit(()=>copyKeyShape(keyId,KEY_GROUPS.digits));
+  row.append(all,nav,num); g.append(row);
+  return g;
 }
 function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
   clearKeyCustomStyle(el);
@@ -387,10 +500,10 @@ function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
   el.style.background=`linear-gradient(180deg, ${a} 0%, ${b} 58%, ${c} 100%)`;
   el.style.borderColor=normalizeColor(style.border);
   el.style.borderWidth=`${Number(style.borderWidth ?? 2)}px`;
-  el.style.borderRadius=`${Number(style.radius ?? 18)}px`;
-  const shadow=normalizeColor(style.shadow || '#000000');
-  const glow=normalizeColor(style.glow || '#000000');
-  el.style.boxShadow=`0 ${Number(style.shadowY ?? 4)}px ${Number(style.shadowBlur ?? 10)}px ${shadow}, 0 0 ${Number(style.glowRadius ?? 0)}px ${glow}`;
+  el.style.borderRadius=shapeRadius(style);
+  el.style.clipPath=keyClipPath(style);
+  el.style.boxShadow=keyBoxShadow(style);
+  el.style.filter=keyFilter(style);
   el.style.color=normalizeColor(style.text || '#FFFFFF');
   el.style.fontSize=`${Number(style.fontSize ?? 14)}px`;
   el.style.fontWeight=String(Number(style.fontWeight ?? 900));
@@ -410,7 +523,10 @@ function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
   if(previewState==='disabled') el.classList.add('custom-disabled');
 }
 function applyKeyStyles() {
-  document.querySelectorAll('.key[data-key]').forEach(el=>{
+  // Chi phim THAT trong #keypad. Nut xem truoc cua Button Builder cung mang
+  // data-key (renderButtonBuilderPreview) — no duoc ve rieng boi ham do, va
+  // phai giu dung previewState (normal/pressed/disabled), nen khong dung toi.
+  document.querySelectorAll('#keypad .key[data-key]').forEach(el=>{
     const id=el.dataset.key;
     applyStyleToKeyElement(el,state.buttonStyles[id],id,'normal');
   });
@@ -475,6 +591,12 @@ function renderButtonBuilder() {
   const edit=inspectorGroup('Style nút đang chọn');
   const s=state.buttonStyles[selectedKey] || cloneButtonPreset(state.buttonBuilder.presetId);
   const set=(prop,cast=v=>v)=>v=>{ const x=ensureButtonStyle(selectedKey); x[prop]=cast(v); renderAll(false); };
+
+  // V3.7.9 — Hình dạng nút (dùng chung helper với panel phải)
+  const shapeGroup=inspectorGroup('Hình dạng nút');
+  shapeGroup.append(...keyShapeFields(s,set));
+  els.buttonBuilder.appendChild(shapeGroup);
+
   edit.append(
     field('Màu sáng','btnColorA','color',s.colorA,set('colorA')),
     field('Màu giữa','btnColorB','color',s.colorB,set('colorB')),
@@ -484,7 +606,6 @@ function renderButtonBuilder() {
     field('Viền','btnBorder','color',s.border,set('border')),
     field('Chữ','btnText','color',s.text,set('text')),
     field('Outline chữ','btnTextOutline','color',s.textOutline,set('textOutline')),
-    field('Bo góc','btnRadius','range',s.radius,set('radius',Number),0,24),
     field('Viền dày','btnBorderWidth','range',s.borderWidth,set('borderWidth',Number),0,4,.25),
     field('Shadow blur','btnShadowBlur','range',s.shadowBlur,set('shadowBlur',Number),0,24),
     field('Shadow Y','btnShadowY','range',s.shadowY,set('shadowY',Number),0,10),
@@ -693,7 +814,9 @@ function renderSelection() {
     document.querySelector(`.decoration[data-id="${CSS.escape(state.selectedDecoration || '')}"]`)?.classList.add('is-selected');
     title='Decoration';
   } else if (state.selected==='key' && state.selectedKey) {
-    document.querySelector(`.key[data-key="${CSS.escape(state.selectedKey)}"]`)?.classList.add('is-selected');
+    // Phai scope vao #keypad: nut xem truoc trong Button Builder cung co
+    // data-key, neu khong se bi to sang thay cho phim that vua bam.
+    document.querySelector(`#keypad .key[data-key="${CSS.escape(state.selectedKey)}"]`)?.classList.add('is-selected');
     title=`Keypad Key · ${state.selectedKey}`;
   } else {
     document.querySelector(`[data-component="${state.selected}"]`)?.classList.add('is-selected');
@@ -764,6 +887,10 @@ function renderInspector() {
     );
     els.inspector.append(fx);
     els.inspector.append(buildFrameBackgroundGroup());
+  }
+  if(state.selected==='key') {
+    // V3.7.9 — tùy chỉnh hình dạng nút ngay trong panel phải
+    els.inspector.append(buildKeyShapeGroup());
   }
   if(state.selected==='keypad' || state.selected==='key') {
     els.inspector.append(buildBackgroundGroup());

@@ -1,0 +1,9 @@
+# Ghi chú làm việc của agent — KHÔNG đẩy lên repo public
+.workbuddy-ai/
+
+# File nháp/scratch trong tools/ (từng có tools/_dbg.mjs bị auto-commit đẩy lên origin)
+tools/_*.mjs
+tools/_*.py
+
+# Ảnh trung gian khi chụp preview (tái tạo được: xem tools/shoot_*.mjs)
+tools/shots/_*
