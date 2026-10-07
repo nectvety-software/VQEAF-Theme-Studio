@@ -97,30 +97,31 @@
 
     <component id="keyStyle_0" type="button-style">
         target: "0"
-        preset: "candy_pink"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 18dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF0F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000055" y: 4dp blur: 10dp }
-        glow { color: "#FF9BC5" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C83274"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "flower" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -131,64 +132,66 @@
 
     <component id="keyStyle_1" type="button-style">
         target: "1"
-        preset: "pixel_rose"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FF9EB0", "#F43F5E", "#9F1239" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFE4E6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#4C0519"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E85A75", "#881337" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_2" type="button-style">
         target: "2"
-        preset: "candy_pink"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 18dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF0F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000055" y: 4dp blur: 10dp }
-        glow { color: "#FF9BC5" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C83274"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "flower" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -199,30 +202,31 @@
 
     <component id="keyStyle_3" type="button-style">
         target: "3"
-        preset: "sakura_gloss"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 20dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFD0E2", "#F48FBF", "#D55D98" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF1F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000044" y: 4dp blur: 12dp }
-        glow { color: "#FFB1D2" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C34D86"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "leaf" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E992B7", "#BE4E86" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -233,30 +237,31 @@
 
     <component id="keyStyle_4" type="button-style">
         target: "4"
-        preset: "sakura_gloss"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 20dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFD0E2", "#F48FBF", "#D55D98" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF1F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000044" y: 4dp blur: 12dp }
-        glow { color: "#FFB1D2" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C34D86"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "leaf" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E992B7", "#BE4E86" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -267,98 +272,101 @@
 
     <component id="keyStyle_5" type="button-style">
         target: "5"
-        preset: "pixel_amber"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFE45E", "#FFB800", "#B45309" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF6D6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#713F12"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F2C230", "#92400E" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_6" type="button-style">
         target: "6"
-        preset: "pixel_rose"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FF9EB0", "#F43F5E", "#9F1239" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFE4E6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#4C0519"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E85A75", "#881337" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_7" type="button-style">
         target: "7"
-        preset: "candy_pink"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 18dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF0F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000055" y: 4dp blur: 10dp }
-        glow { color: "#FF9BC5" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C83274"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "flower" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -369,30 +377,31 @@
 
     <component id="keyStyle_8" type="button-style">
         target: "8"
-        preset: "sakura_gloss"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 20dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFD0E2", "#F48FBF", "#D55D98" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF1F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000044" y: 4dp blur: 12dp }
-        glow { color: "#FFB1D2" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C34D86"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "leaf" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E992B7", "#BE4E86" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -403,166 +412,171 @@
 
     <component id="keyStyle_9" type="button-style">
         target: "9"
-        preset: "pixel_rose"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FF9EB0", "#F43F5E", "#9F1239" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFE4E6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#4C0519"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E85A75", "#881337" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_menu" type="button-style">
         target: "menu"
-        preset: "pixel_rose"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FF9EB0", "#F43F5E", "#9F1239" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFE4E6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#4C0519"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E85A75", "#881337" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_up" type="button-style">
         target: "up"
-        preset: "pixel_amber"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFE45E", "#FFB800", "#B45309" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF6D6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#713F12"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F2C230", "#92400E" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_rsk" type="button-style">
         target: "rsk"
-        preset: "pixel_rose"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FF9EB0", "#F43F5E", "#9F1239" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFE4E6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#4C0519"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E85A75", "#881337" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_left" type="button-style">
         target: "left"
-        preset: "candy_pink"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 18dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF0F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000055" y: 4dp blur: 10dp }
-        glow { color: "#FF9BC5" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C83274"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "flower" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -573,64 +587,66 @@
 
     <component id="keyStyle_ok" type="button-style">
         target: "ok"
-        preset: "pixel_amber"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFE45E", "#FFB800", "#B45309" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF6D6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#713F12"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F2C230", "#92400E" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_right" type="button-style">
         target: "right"
-        preset: "sakura_gloss"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 20dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFD0E2", "#F48FBF", "#D55D98" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF1F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000044" y: 4dp blur: 12dp }
-        glow { color: "#FFB1D2" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C34D86"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "leaf" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E992B7", "#BE4E86" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -641,30 +657,31 @@
 
     <component id="keyStyle_down" type="button-style">
         target: "down"
-        preset: "candy_pink"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 18dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFC0D7", "#FF7FB1", "#D94E89" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF0F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000055" y: 4dp blur: 10dp }
-        glow { color: "#FF9BC5" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C83274"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "flower" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F58AAC", "#C8477D" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
@@ -675,64 +692,66 @@
 
     <component id="keyStyle_star" type="button-style">
         target: "*"
-        preset: "pixel_amber"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 3dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFE45E", "#FFB800", "#B45309" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF6D6" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000088" y: 4dp blur: 0dp }
-        glow { color: "#00000000" radius: 0dp }
-        gloss { enabled: false opacity: 0.00 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#713F12"
-            outlineWidth: 1dp
-            size: 13sp
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
             weight: 900
         }
         decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#F2C230", "#92400E" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">
-            opacity: 0.40
-            saturation: 0.15
+            opacity: 0.45
+            saturation: 0.25
         </state>
     </component>
 
     <component id="keyStyle_pound" type="button-style">
         target: "#"
-        preset: "sakura_gloss"
+        preset: "keycap"
         shape {
-            type: "capsule"
-            radius: 20dp
+            type: "square"
+            radius: 6dp
             fill {
                 type: linear
                 angle: 180deg
-                colors: [ "#FFD0E2", "#F48FBF", "#D55D98" ]
+                colors: [ "#5D4B55", "#37202C", "#1B0C14" ]
             }
-            stroke { width: 2dp color: "#FFF1F7" }
+            stroke { width: 0dp color: "#72636B" }
         }
-        shadow { color: "#00000044" y: 4dp blur: 12dp }
-        glow { color: "#FFB1D2" radius: 5dp }
-        gloss { enabled: true opacity: 0.50 style: "top-arc" }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#2A121F" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
         text {
             color: "#FFFFFF"
-            outline: "#C34D86"
-            outlineWidth: 1dp
+            outline: "#000000"
+            outlineWidth: 0dp
             size: 14sp
             weight: 900
         }
-        decoration { left: "flower" right: "leaf" }
+        decoration { left: "none" right: "none" }
         <state name="pressed">
-            fill { type: linear angle: 180deg colors: [ "#E992B7", "#BE4E86" ] }
+            fill { type: linear angle: 180deg colors: [ "#160A10", "#0F070B" ] }
             transform { scale: 0.96 }
         </state>
         <state name="disabled">

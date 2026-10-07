@@ -13,10 +13,10 @@ Quy ước cho **người và AI agent** khi sửa repo này.
 | Entry | `index.html` → `src/app.js` |
 | Module | `src/app.js`, `src/presets.js`, `src/vqeaf.js` |
 | Format | VQEAF 1.0 (`.vqeaf`) — `docs/VQEAF_1_0_SPEC.md` |
-| Theme mẫu | `themes/*.vqeaf` — **phải luôn đủ 64 file** |
+| Theme mẫu | `themes/*.vqeaf` — **phải luôn đủ 66 file** |
 | Chạy | nhấp đúp `rub.bat` |
 | Cache-buster | `?v=<version>` ở `index.html` + 2 import đầu `src/app.js` |
-| Version hiện tại | **3.7.11** |
+| Version hiện tại | **3.7.12** |
 
 ---
 
@@ -77,6 +77,42 @@ hình thoi/lục giác. Ba hệ quả **BẮT BUỘC nhớ**:
 
 ---
 
+## Skill: Vật liệu keycap bóng (V3.7.12)
+
+**When:** sửa màu/hình nút, thêm theme mới, hoặc đụng `.key` trong `styles.css`.
+
+Yêu cầu gốc: *"các nút như hình"* (mockup Spooky Vibes) → nhựa **tối bóng**,
+**không viền ngoài**, **chữ trắng**, **bevel mềm**, texture ảnh hiện **mờ**.
+Áp cho **cả 66 theme**.
+
+- **Màu suy từ palette, KHÔNG hardcode.** Mockup có keycap màu tím mận vì *khung*
+  nó tím mận — keycap dùng chính vật liệu của khung. Hardcode tím mận cho 66 theme
+  là **sai**: mỗi theme mất bản sắc. Dùng `keycapPalette(palette)`:
+  `base = darkenToLum(mix(shellBottom, key, 0.40) → tối 16%, 0.14)`.
+- **`KEYCAP_MAX_LUM = 0.14`** kéo thân nút đủ tối để **chữ trắng đạt WCAG AA**.
+  Không có ngưỡng này thì `pearl_light` (nền trắng) ra nút trắng, chữ trắng mất hẳn.
+  Kiểm bằng `relLum()`, **đừng ước lượng bằng mắt**.
+- **Nguồn sự thật duy nhất** = `keycapPalette()` / `keycapButtonStyle()` trong
+  `src/vqeaf.js`. Ba nơi gọi chung: `applyTheme()` (studio), `gen_keycap_themes.mjs`
+  (sinh `.vqeaf`), `drawPortraitContent`/`drawLandscapeContent` (export PNG).
+  **Sửa công thức thì sửa 1 chỗ**, không copy sang Python/JS khác.
+- **52 theme chỉ có `palette`** → ăn keycap qua CSS, **không sửa file**.
+  **14 theme có `keyStyle_*`** → khối đó hardcode gradient nên **đè CSS**; phải
+  chạy `node tools/gen_keycap_themes.mjs` (sinh lại 266 khối).
+- **Thứ tự sinh theme bắt buộc**: `gen_photo_bg_themes.py` →
+  `gen_keycap_themes.mjs`. Chạy thiếu bước 2 là 3 theme ảnh quay về bảng màu cũ.
+- **Giữ nguyên kiểu xuống dòng khi ghi file**: repo **trộn CRLF và LF**
+  (`spooky_vibes` = CRLF, `pixel_tide` = LF). Chuỗi sinh ra bằng `\n` phải được
+  ép về đúng EOL của từng file (`src.includes('\r\n') ? '\r\n' : '\n'`), nếu không
+  sẽ trộn 2 kiểu trong cùng 1 file.
+- Khi sinh khối để **chèn vào file có sẵn**: `buttonStyleComponent()` trả chuỗi đã
+  thụt lề 4 space ở dòng đầu (đúng khi ghép vào `serializeTheme`). Chèn vào chỗ đã
+  có sẵn 4 space thì phải `.replace(/^ {4}/, '')`, không thì thành 8.
+- Đổi `.key` trong `styles.css` thì **phải sửa luôn export PNG**, không là bản tải
+  về lệch bản xem trước.
+
+---
+
 ## Skill: Bẫy DOM — nút preview Button Builder trùng `data-key`
 
 **When:** viết selector `.key[data-key=...]`, sửa `renderSelection()`,
@@ -87,15 +123,22 @@ hình thoi/lục giác. Ba hệ quả **BẮT BUỘC nhớ**:
 `document.querySelector('.key[data-key="ok"]')` bắt trúng **nút preview**, không phải
 phím thật (nút preview không có `.selectable` / `data-component`).
 
-Bẫy này đã gây **2 bug thật**:
+Bẫy này đã gây **3 bug thật**:
 
 - `renderSelection()` tô `is-selected` vào nút preview → **bấm phím trên điện thoại
   không thấy phím nào sáng**.
 - `applyKeyStyles()` style nút preview với `previewState='normal'`.
+- `tools/shoot_theme_preview.mjs` đọc `.key[data-key="ok"]` **không scope** → ảnh
+  chụp/`okKeyBg` phản ánh **nút preview** (`candy_green`), không phải phím thật.
+  Suýt nữa thì kết luận sai là "keycap không được áp".
 
 → **Luôn scope `#keypad .key[data-key=...]`** cho phím thật. Nút preview do
 `renderButtonBuilderPreview()` vẽ riêng (nó chạy cuối `renderButtonBuilder()` nên là
 nguồn duy nhất, giữ đúng normal/pressed/disabled).
+
+→ Hệ quả phụ: fallback của nút preview **phải là cùng vật liệu với phím thật**
+(`keycapButtonStyle(state.theme)`), không được là `cloneButtonPreset('candy_green')`,
+không thì preview "nói dối" người dùng.
 
 ---
 
@@ -172,7 +215,7 @@ python tools/make_shape_sheet.py               # → bảng có nhãn shape_gall
 Commit tự động từng xuất hiện (`"themes"`, `"Create _dbg.mjs"`) và **xoá 20 file
 `themes/*.vqeaf`** khỏi cả worktree lẫn HEAD (trước đó còn 1 đợt 12 file).
 
-- Sau mỗi lần làm việc: `ls themes | wc -l` → **phải = 64**.
+- Sau mỗi lần làm việc: `ls themes | wc -l` → **phải = 66**.
 - Khôi phục: `git checkout <commit-tốt> -- themes/<file>.vqeaf`.
   Commit gốc tốt gần nhất trước sự cố: `e71d5dc`.
 - **Đừng để file rác trong repo** — auto-commit sẽ đẩy thẳng lên `origin/main`.
@@ -246,7 +289,7 @@ Chứng minh bằng tools/shoot_shape_gallery.mjs + tools/make_shape_sheet.py.
 ### Trước khi push
 ```
 git status → stage theo path cụ thể, KHÔNG git add -A.
-ls themes | wc -l phải = 64. Audit secret. Push.
+ls themes | wc -l phải = 66. Audit secret. Push.
 Verify bằng git rev-parse HEAD origin/main.
 ```
 
@@ -255,21 +298,23 @@ Verify bằng git rev-parse HEAD origin/main.
 ## File map (quick)
 
 ```
-index.html            # entry, cache-buster ?v=3.7.11
-styles.css            # toàn bộ CSS (LCD chữ sáng hardcode ở đây)
+index.html            # entry, cache-buster ?v=3.7.12
+styles.css            # toàn bộ CSS (.key = keycap bóng; LCD chữ sáng hardcode ở đây)
 rub.bat / run.bat     # launcher portable (tự tìm cổng 8080-8099)
 server.ps1            # fallback khi máy không có Python
 src/
   app.js              # editor chính: state, render, inspector, KEY_SHAPE_DEFS
-  presets.js          # 64 preset theme + buttonPreset
-  vqeaf.js            # serializeTheme / parseVqeaf
-themes/               # 64 file .vqeaf   ← PHẢI LUÔN ĐỦ 64
+  presets.js          # 64 preset theme + 54 buttonPreset (gồm 'keycap')
+  vqeaf.js            # serializeTheme / parseVqeaf / keycapPalette / keycapButtonStyle
+themes/               # 66 file .vqeaf   ← PHẢI LUÔN ĐỦ 66
 assets/               # ảnh nguồn (input của gen_photo_bg_themes.py)
 tools/
-  gen_photo_bg_themes.py     # sinh 3 theme "ảnh vào nút"
+  gen_photo_bg_themes.py     # sinh 3 theme "ảnh vào nút" (CHẠY TRƯỚC)
+  gen_keycap_themes.mjs      # đồng bộ keyStyle_* sang vật liệu keycap (CHẠY SAU)
   check_frame_update.mjs     # gate tĩnh: version + tính năng
   verify_photo_themes.mjs    # parse thật + round-trip
-  verify_key_shape_ui.mjs    # test UI hình dạng nút
+  verify_keycap_style.mjs    # 44 check vật liệu keycap (66 theme, WCAG, 266 khối)
+  verify_key_shape_ui.mjs    # test UI hình dạng nút + keycap (Chrome thật)
   shoot_theme_preview.mjs    # chụp preview theme
   shoot_shape_gallery.mjs    # chụp 10 hình dạng
   make_shape_sheet.py        # ghép bảng hình dạng có nhãn
@@ -285,7 +330,7 @@ SKILLS.md             # ← file này
 
 ## Definition of done
 
-- [ ] `ls themes | wc -l` = **64** (auto-commit không xoá mất file nào)
+- [ ] `ls themes | wc -l` = **66** (auto-commit không xoá mất file nào)
 - [ ] `node tools/check_frame_update.mjs` xanh
 - [ ] `node tools/verify_photo_themes.mjs` PASS
 - [ ] `node tools/verify_key_shape_ui.mjs` PASS (cần server `:8099`)

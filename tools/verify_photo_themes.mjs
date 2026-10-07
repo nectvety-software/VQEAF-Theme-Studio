@@ -72,7 +72,11 @@ for (const t of THEMES) {
   ok(s.keypadBackground.position === "above", `keypad position = ${s.keypadBackground.position} (texture tren phim)`);
   ok(s.keypadBackground.renderMode === "per-key-texture", `renderMode = ${s.keypadBackground.renderMode}`);
   ok(s.keypadBackground.textureMode === "per-key", `textureMode = ${s.keypadBackground.textureMode}`);
-  ok(s.keypadBackground.opacity >= 0.45, `do dam texture = ${s.keypadBackground.opacity}`);
+  // V3.7.12: ha tu 0.50 -> 0.32 de keycap la VAT LIEU CHINH, anh chi la lop phu
+  // MO (dung chu "faint texture" trong yeu cau). Qua cao la nut mat chat keycap;
+  // qua thap la mat anh. Khoang 0.28-0.38 moi can bang duoc.
+  ok(s.keypadBackground.opacity >= 0.28 && s.keypadBackground.opacity <= 0.38, `do dam texture (mo, de keycap noi) = ${s.keypadBackground.opacity}`);
+  ok(s.keypadBackground.readabilityAssist !== false, `readabilityAssist = ${s.keypadBackground.readabilityAssist} (chu trang tren anh)`);
   ok(["normal", "overlay"].includes(s.keypadBackground.blend), `blend = ${s.keypadBackground.blend}`);
   // LCD cua studio luon ve chu sang (#c8d0d8 / #e8eef4) -> nen man hinh phai du toi
   const lum = hexLuminance(s.theme.screen);

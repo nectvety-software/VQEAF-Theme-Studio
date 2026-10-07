@@ -53,11 +53,28 @@ Các yêu cầu nối tiếp:
 | 4 | **Tương thích ngược**: theme cũ không có field mới phải render y như trước. |
 | 5 | Không phá: frame background, keypad background, MENU/FPS style riêng, layer stack, random theme, `rub.bat`. |
 | 6 | 19 phím phải round-trip export → new → import đủ. |
-| 7 | `themes/` phải luôn đủ **64** file (repo có auto-commit từng xoá nhầm). |
+| 7 | `themes/` phải luôn đủ **66** file (repo có auto-commit từng xoá nhầm). |
+| 8 | **Chữ trắng trên nút phải đạt WCAG AA** (≥ 4.5:1) — `KEYCAP_MAX_LUM` lo việc này. |
 
 ---
 
-## 4. Tính năng — V3.7.11
+## 4. Tính năng — V3.7.12
+
+### Vật liệu nút — "keycap bóng" (V3.7.12)
+
+Yêu cầu gốc: *"các nút như hình"* (mockup Spooky Vibes) → nút là **nhựa tối
+bóng**, **không viền ngoài**, **chữ trắng**, **bevel mềm**, ảnh texture hiện
+**mờ** bên trong. Áp cho **toàn bộ 66 theme**.
+
+- Màu nút **suy ra từ palette từng theme** (`keycapPalette()`), KHÔNG hardcode
+  tím mận — nếu hardcode thì 66 theme mất bản sắc. Mockup cũng vậy: keycap dùng
+  chính vật liệu tối của khung.
+- Thân nút bị kéo tối về `KEYCAP_MAX_LUM = 0.14` để **chữ trắng luôn đọc được**
+  (66/66 theme đạt WCAG AA, thấp nhất 5.53:1).
+- 52 theme chỉ có `palette` → ăn keycap qua `styles.css` `.key` + biến `--cap*`.
+  14 theme còn `keyStyle_*` → sinh lại 266 khối bằng `gen_keycap_themes.mjs`.
+- Studio có 2 nút áp nhanh: *Vật liệu keycap (theo theme)* / *Keycap cho phím này*.
+- Export PNG dùng **cùng** `keycapPalette()` nên không lệch với bản xem trước.
 
 ### Theme & file
 - Đặt tên theme + tự sinh ID; random theme / random name.
@@ -126,7 +143,7 @@ Hai tool UI cần server tĩnh ở `http://127.0.0.1:8099/`. Chi tiết + mẹo 
 
 ## 7. Tên sản phẩm & phiên bản
 
-**VQEAF Theme Studio** — phiên bản hiện tại **V3.7.11**.
+**VQEAF Theme Studio** — phiên bản hiện tại **V3.7.12**.
 
-Cache-buster `?v=3.7.11` đặt ở `index.html` và 2 dòng import đầu `src/app.js`.
+Cache-buster `?v=3.7.12` đặt ở `index.html` và 2 dòng import đầu `src/app.js`.
 Sửa `src/app.js` hoặc `src/presets.js` thì **phải bump** (xem `SKILLS.md`).

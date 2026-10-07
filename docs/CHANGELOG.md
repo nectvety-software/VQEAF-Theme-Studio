@@ -1,5 +1,56 @@
 # Changelog
 
+## V3.7.12 — Vật liệu "keycap bóng" cho TOÀN BỘ 66 theme
+
+Yêu cầu: *"các nút như hình"* (mockup Spooky Vibes) — nút là **nhựa tối bóng**,
+**không viền**, **chữ trắng**, **bevel mềm**, ảnh texture vẫn hiện **mờ** bên
+trong nút. Áp cho **toàn bộ** theme.
+
+Điểm mấu chốt khi đọc mockup: keycap dùng **chính vật liệu tối của khung máy**,
+không phải một màu ngoại lai. Vì vậy màu nút được **suy ra từ palette của từng
+theme**, không hardcode tím mận — nếu hardcode thì 66 theme sẽ mất bản sắc.
+
+- **Nguồn sự thật duy nhất**: `keycapPalette()` + `keycapButtonStyle()` trong
+  `src/vqeaf.js`. Studio (`applyTheme`), bộ sinh theme
+  (`tools/gen_keycap_themes.mjs`) và **bản export PNG** đều gọi cùng hàm này nên
+  không thể lệch nhau.
+  - `base = darkenToLum(mix(shellBottom, key, 0.40) rồi tối 16%)`
+  - `top/mid/bot` = gradient bóng; `edge` = viền sáng mờ; `sub` = nhãn phụ sáng.
+- **Chữ trắng luôn đọc được**: `KEYCAP_MAX_LUM = 0.14` kéo thân nút về độ sáng
+  thấp hơn ngưỡng bằng binary search. Kiểm chứng: **cả 66 theme đạt WCAG AA**,
+  thấp nhất **5.53:1** (`pearl_light` — theme nền trắng, trước đây sẽ ra nút
+  trắng không đọc được).
+- **52 theme chỉ có `palette`**: không sửa file — `styles.css` `.key` giờ là
+  keycap (gradient `--capTop/--capMid/--capBot`, `border:1px solid transparent`,
+  bevel `inset 0 2px 2px` + `inset 0 -2px 3px`, chữ trắng, **bỏ glow ngoài**),
+  biến `--cap*` do `applyTheme()` set từ palette.
+- **14 theme còn `keyStyle_*`**: các khối này hardcode gradient riêng nên sẽ đè
+  CSS → sinh lại **266 khối** bằng `tools/gen_keycap_themes.mjs`
+  (`stroke width: 0dp`, `glow radius: 0dp`, `outlineWidth: 0dp`, `bevel 2dp`).
+  Chỉ thay đúng khối `keyStyle_*`; phần còn lại giữ **nguyên từng byte**, kể cả
+  kiểu xuống dòng (repo trộn CRLF `spooky_vibes` và LF `pixel_tide`).
+- **Texture trong nút mờ lại**: 3 theme ảnh từ `opacity 0.50 / normal` →
+  `0.32 / normal` + `readabilityAssist: true`, để **keycap là vật liệu chính**,
+  ảnh chỉ là lớp phủ mờ (đúng chữ "faint texture" trong yêu cầu).
+- **Export PNG khớp studio**: `drawPortraitContent` / `drawLandscapeContent`
+  dùng `keycapPalette` thay cho `t.key`/`t.keyBorder`, thêm 2 vạch bevel và
+  **không vẽ viền** khi `borderWidth = 0`.
+- **Sửa 2 lỗi thật phát hiện khi làm**:
+  - Nút xem trước của Button Builder lấy fallback `candy_green` → **nói dối** so
+    với phím thật (đang dùng keycap). Nay fallback là `keycapButtonStyle(theme)`.
+  - `tools/shoot_theme_preview.mjs` đọc `.key[data-key="ok"]` **không scope** →
+    trúng nút preview ở `#buttonBuilder` (đứng trước `#keypad` trong DOM). Đã
+    scope vào `#keypad` và in thêm `okKeyBorder`/`okKeyColor` để tự bắt lỗi.
+  - `ev()` trong test chỉ in `Uncaught` → nay in cả `exception.description`.
+- **UI**: nhóm **Hình dạng nút** thêm 2 nút — *Vật liệu keycap (theo theme)*
+  (áp cả bàn phím) và *Keycap cho phím này*. `buttonPresets` thêm entry
+  `keycap` để lưới preset có lựa chọn tương ứng.
+- **Verify**: `tools/verify_keycap_style.mjs` (**44 check**) — CSS/JS/export/preset,
+  WCAG cho 66 theme, đối chiếu **266 khối** với `keycapButtonStyle()`, round-trip
+  `serializeTheme → parseVqeaf`. `verify_key_shape_ui.mjs` thêm **13 check
+  end-to-end trong Chrome thật** (bấm nút → 19 phím đổi vật liệu, `border=0px`,
+  chữ trắng, tương phản 9.96:1, áp riêng 1 phím không làm lệch phím khác).
+
 ## Docs — PROMPT.md + SKILLS.md ở gốc repo
 
 - Thêm **`PROMPT.md`** — scope sản phẩm (nguồn sự thật): sản phẩm, yêu cầu gốc,

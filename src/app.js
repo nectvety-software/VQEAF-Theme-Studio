@@ -1,5 +1,5 @@
-import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.11';
-import { serializeTheme, parseVqeaf } from './vqeaf.js?v=3.7.11';
+import { presets, draggableComponents, buttonPresets, buttonDecorations } from './presets.js?v=3.7.12';
+import { serializeTheme, parseVqeaf, keycapPalette, keycapButtonStyle } from './vqeaf.js?v=3.7.12';
 
 const defaultPreset = presets[1];
 const DEFAULT_LAYER_ORDER = ['frameBackground','frameFx','screen','keypad','decorations','network','badges'];
@@ -242,6 +242,12 @@ function applyTheme() {
   const t=state.theme, st=els.phone.style;
   st.setProperty('--shell-top',t.shellTop); st.setProperty('--shell-bottom',t.shellBottom); st.setProperty('--shell-border',t.shellBorder); st.setProperty('--screen',t.screen);
   st.setProperty('--key',t.key); st.setProperty('--keyPressed',t.keyPressed); st.setProperty('--keyBorder',t.keyBorder); st.setProperty('--keyText',t.keyText);
+  // V3.7.12 — vat lieu keycap suy ra tu palette (xem keycapPalette o vqeaf.js).
+  // Dat o day => MOI theme (ke ca 52 theme chi co palette, khong co keyStyle_*)
+  // tu dong mang dung phong cach nut nhu mockup.
+  const cap=keycapPalette(t);
+  st.setProperty('--capTop',cap.top); st.setProperty('--capMid',cap.mid); st.setProperty('--capBot',cap.bot);
+  st.setProperty('--capHi',withAlpha(cap.edge,'73')); st.setProperty('--capEdge',withAlpha(cap.edge,'3D')); st.setProperty('--capSub',withAlpha(cap.sub,'D9'));
   st.setProperty('--sub',t.sub); st.setProperty('--glow',t.glow); st.setProperty('--radius',`${t.radius}px`); st.setProperty('--keyRadius',`${t.keyRadius}px`);
   st.setProperty('--zoom',state.zoom); st.setProperty('--floatAmp',`${state.effects.floatAmplitude}px`); st.setProperty('--floatDuration',`${state.effects.floatDuration}ms`); st.setProperty('--floatShadow',`${state.effects.floatShadow}px`);
   els.phone.classList.toggle('landscape',state.orientation==='landscape');
@@ -463,16 +469,26 @@ function keyShapeFields(style,set) {
 }
 /** Copy rieng phan hinh dang tu 1 nut sang nhieu nut khac. */
 function copyKeyShape(fromKey,toKeys) {
-  const src=state.buttonStyles[fromKey]||cloneButtonPreset(state.buttonBuilder.presetId);
+  const src=state.buttonStyles[fromKey]||keycapButtonStyle(state.theme);
   toKeys.forEach(k=>{
-    const x=state.buttonStyles[k]||(state.buttonStyles[k]=cloneButtonPreset(state.buttonBuilder.presetId));
+    const x=state.buttonStyles[k]||(state.buttonStyles[k]=keycapButtonStyle(state.theme));
     x.shape=src.shape; x.radius=src.radius;
     x.bevel=src.bevel; x.bevelBlur=src.bevelBlur; x.bevelColor=src.bevelColor;
   });
 }
+/**
+ * V3.7.12 — ap vat lieu "keycap bong" cho 1 nhom phim.
+ * Mau KHONG lay tu preset co dinh ma suy tu palette cua theme dang mo
+ * (keycapButtonStyle -> keycapPalette), nen nut luon an khop voi khung.
+ */
+function applyKeycapMaterial(target='all') {
+  const style=keycapButtonStyle(state.theme);
+  targetKeys(target).forEach(k=>state.buttonStyles[k]=structuredClone(style));
+  state.buttonBuilder.presetId='keycap';
+}
 function buildKeyShapeGroup() {
   const keyId=state.selectedKey || 'ok';
-  const s=state.buttonStyles[keyId] || cloneButtonPreset(state.buttonBuilder.presetId);
+  const s=state.buttonStyles[keyId] || keycapButtonStyle(state.theme);
   const g=inspectorGroup('Hình dạng nút');
   const help=document.createElement('div'); help.className='mini-help';
   const isPoly=!!keyShapeDef(s).clip;
@@ -489,6 +505,15 @@ function buildKeyShapeGroup() {
   const num=document.createElement('button'); num.className='ghost'; num.textContent='Áp nhóm số';
   num.onclick=()=>commit(()=>copyKeyShape(keyId,KEY_GROUPS.digits));
   row.append(all,nav,num); g.append(row);
+  // V3.7.12 — tra ve vat lieu nut nhu mockup, mau suy tu palette theme.
+  const capRow=document.createElement('div'); capRow.className='button-row';
+  const cap=document.createElement('button'); cap.className='primary-lite'; cap.id='applyKeycapAll';
+  cap.textContent='Vật liệu keycap (theo theme)';
+  cap.onclick=()=>commit(()=>applyKeycapMaterial('all'));
+  const capSel=document.createElement('button'); capSel.className='ghost'; capSel.id='applyKeycapSelected';
+  capSel.textContent='Keycap cho phím này';
+  capSel.onclick=()=>commit(()=>applyKeycapMaterial('selected'));
+  capRow.append(cap,capSel); g.append(capRow);
   return g;
 }
 function applyStyleToKeyElement(el, style, keyId, previewState='normal') {
@@ -551,7 +576,10 @@ function renderButtonBuilderPreview() {
   preview.dataset.key=key;
   const main=preview.querySelector('.builder-preview-label');
   if(main) main.textContent=keyLabelForId(key);
-  applyStyleToKeyElement(preview,state.buttonStyles[key] || cloneButtonPreset(state.buttonBuilder.presetId),key,state.buttonBuilder.previewState || 'normal');
+  // Chua dat style rieng cho phim nay => phim THAT dang dung vat lieu keycap
+  // (CSS .key + --cap*), nen nut xem truoc cung phai hien keycap. Truoc day lay
+  // candy_green -> preview noi doi so voi ban that.
+  applyStyleToKeyElement(preview,state.buttonStyles[key] || keycapButtonStyle(state.theme),key,state.buttonBuilder.previewState || 'normal');
   let label=preview.querySelector('.builder-preview-label');
   if(!label){ label=document.createElement('span'); label.className='builder-preview-label'; label.textContent=keyLabelForId(key); preview.appendChild(label); }
 }
@@ -1542,29 +1570,47 @@ async function drawPortraitContent(ctx, phoneX, phoneY, designW, t, keyRadius) {
   const softH = 26, numH = 30, gap = 4;
   const keyW = (kpW - gap * 2) / 3;
 
+  // V3.7.12 — vat lieu keycap (giong het studio): fallback lay tu palette theme
+  // chu khong lay t.key/t.keyBorder nua, de PNG export khop voi ban xem truoc.
+  const cap = keycapPalette(t);
+
   const drawKey = (x, yy, w, h, label, sub, style, isOk = false) => {
     const s = style || {};
-    const r = isOk ? 12 : (s.radius != null ? s.radius : (label.length <= 1 || label === '—' || label === 'OK' ? 999 : keyRadius));
+    const rr = isOk ? 12 : (s.radius != null ? s.radius : (label.length <= 1 || label === '—' || label === 'OK' ? 999 : keyRadius));
+    const rad = isOk ? 12 : (rr === 999 ? h / 2 : Number(rr));
     // fill gradient
     const kg = ctx.createLinearGradient(0, yy, 0, yy + h);
-    const a = s.colorA || t.key, b = s.colorB || t.key, c = s.colorC || s.colorB || t.key;
+    const a = s.colorA || cap.top, b = s.colorB || cap.mid, c = s.colorC || s.colorB || cap.bot;
     kg.addColorStop(0, a); kg.addColorStop(0.58, b); kg.addColorStop(1, c);
-    roundRect(ctx, x, yy, w, h, isOk ? 12 : (r === 999 ? h / 2 : Number(r)));
+    roundRect(ctx, x, yy, w, h, rad);
     ctx.fillStyle = kg;
     ctx.fill();
-    // border
-    ctx.strokeStyle = s.border || t.keyBorder;
-    ctx.lineWidth = Number(s.borderWidth ?? 1);
-    roundRect(ctx, x + 0.5, yy + 0.5, w - 1, h - 1, isOk ? 12 : (r === 999 ? h / 2 : Number(r)));
-    ctx.stroke();
+    // bevel keycap: 1 vach sang mat tren + 1 vach toi mat day, cat theo bo goc.
+    ctx.save();
+    roundRect(ctx, x, yy, w, h, rad);
+    ctx.clip();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = withAlpha(cap.edge, '6B');
+    ctx.beginPath(); ctx.moveTo(x, yy + 1.5); ctx.lineTo(x + w, yy + 1.5); ctx.stroke();
+    ctx.strokeStyle = '#0000007A';
+    ctx.beginPath(); ctx.moveTo(x, yy + h - 1.5); ctx.lineTo(x + w, yy + h - 1.5); ctx.stroke();
+    ctx.restore();
+    // border ngoai: mockup KHONG co vien -> mac dinh 0dp, chi ve khi style yeu cau.
+    const bw = Number(s.borderWidth ?? 0);
+    if (bw > 0) {
+      ctx.strokeStyle = s.border || cap.edge;
+      ctx.lineWidth = bw;
+      roundRect(ctx, x + bw / 2, yy + bw / 2, w - bw, h - bw, rad);
+      ctx.stroke();
+    }
     // text
-    ctx.fillStyle = s.text || t.keyText;
+    ctx.fillStyle = s.text || '#FFFFFF';
     ctx.font = `800 ${s.fontSize || (isOk ? 12 : sub ? 13 : 11)}px system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if (sub) {
       ctx.fillText(label, x + w / 2, yy + h / 2 - 5);
-      ctx.fillStyle = t.sub;
+      ctx.fillStyle = cap.sub;
       ctx.font = '500 7px system-ui, sans-serif';
       ctx.fillText(sub, x + w / 2, yy + h / 2 + 8);
     } else {
@@ -1618,7 +1664,8 @@ async function drawLandscapeContent(ctx, phoneX, phoneY, designW, designH, t, ke
   ctx.font = '10px system-ui, sans-serif';
   ctx.fillText('Đang chờ VXPEmu...', sx + sw / 2, sy + sh / 2 + 14);
 
-  // keypad grid right
+  // keypad grid right — V3.7.12: cung vat lieu keycap nhu portrait.
+  const capL = keycapPalette(t);
   const kpW = 234;
   const kpX = sx + sw + gap;
   let ky = sy + 8;
@@ -1638,13 +1685,22 @@ async function drawLandscapeContent(ctx, phoneX, phoneY, designW, designH, t, ke
       if (!label) return;
       const x = kpX + i * (keyW + g);
       const h = ri < 3 ? softH : numH;
-      roundRect(ctx, x, ky, keyW, h, label === 'OK' ? 10 : h / 2);
-      ctx.fillStyle = t.key;
+      const rad = label === 'OK' ? 10 : h / 2;
+      const kg = ctx.createLinearGradient(0, ky, 0, ky + h);
+      kg.addColorStop(0, capL.top); kg.addColorStop(0.56, capL.mid); kg.addColorStop(1, capL.bot);
+      roundRect(ctx, x, ky, keyW, h, rad);
+      ctx.fillStyle = kg;
       ctx.fill();
-      ctx.strokeStyle = t.keyBorder;
+      ctx.save();
+      roundRect(ctx, x, ky, keyW, h, rad);
+      ctx.clip();
       ctx.lineWidth = 1;
-      ctx.stroke();
-      ctx.fillStyle = t.keyText;
+      ctx.strokeStyle = withAlpha(capL.edge, '6B');
+      ctx.beginPath(); ctx.moveTo(x, ky + 1.5); ctx.lineTo(x + keyW, ky + 1.5); ctx.stroke();
+      ctx.strokeStyle = '#0000007A';
+      ctx.beginPath(); ctx.moveTo(x, ky + h - 1.5); ctx.lineTo(x + keyW, ky + h - 1.5); ctx.stroke();
+      ctx.restore();
+      ctx.fillStyle = '#FFFFFF';
       ctx.font = `800 ${ri < 3 ? 10 : 11}px system-ui, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';

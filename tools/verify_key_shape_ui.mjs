@@ -58,7 +58,12 @@ try {
   });
   const ev = async (expression) => {
     const r = await send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true });
-    if (r.exceptionDetails) throw new Error(r.exceptionDetails.text);
+    if (r.exceptionDetails) {
+      // Chi lay `text` thi chi ra "Uncaught" — vo dung khi debug. Lay them
+      // description (stack) cua exception.
+      const d = r.exceptionDetails.exception?.description || "";
+      throw new Error(r.exceptionDetails.text + (d ? ": " + d.split("\n").slice(0, 3).join(" | ") : ""));
+    }
     return r.result?.value;
   };
   const waitFor = async (expr, label, tries = 120) => {
@@ -103,8 +108,11 @@ try {
   ok(ui.shapeValue === "square", `kieu dang hien tai = ${ui.shapeValue} (tu .vqeaf)`);
   const SHAPES = ["capsule","pill","square","circle","rhombus","hexagon","octagon","triangle","parallelogram","star"];
   const POLY = ["rhombus","hexagon","octagon","triangle","parallelogram","star"];
-  ok(JSON.stringify(ui.shapeOptions) === JSON.stringify(SHAPES), `${ui.shapeOptions.length} lua chon kieu: ${ui.shapeOptions.join(", ")}`);
-  ok(ui.btns.length === 3, `3 nut ap nhanh: ${ui.btns.join(" / ")}`);
+  ok(ui.shapeOptions.length === 10 && SHAPES.every(s => ui.shapeOptions.includes(s)), `${ui.shapeOptions.length} lua chon kieu: ${ui.shapeOptions.join(", ")}`);
+  // V3.7.12: nhom nay co them 2 nut ap vat lieu keycap -> tong 5 nut.
+  const REQUIRED_BTNS = ["Áp cho cả bàn phím", "Áp nhóm điều hướng", "Áp nhóm số", "Vật liệu keycap (theo theme)", "Keycap cho phím này"];
+  const missingBtn = REQUIRED_BTNS.filter(b => !ui.btns.includes(b));
+  ok(missingBtn.length === 0, `${ui.btns.length} nut ap nhanh: ${ui.btns.join(" / ")}`);
 
   const radius0 = await ev(`getComputedStyle(document.querySelector('#keypad .key[data-key="ok"]')).borderRadius`);
   ok(radius0 === "6px", `nut 'ok' bo goc ${radius0} (keycap)`);
@@ -183,6 +191,72 @@ try {
     ok(r.keycap, `${t}: ca 19 phim vuong keycap 6px`);
     ok(r.bevel, `${t}: ca 19 phim co vien noi`);
     ok(r.prevStyled && r.prevRadius === "6px", `${t}: nut xem truoc Button Builder van duoc to style (radius ${r.prevRadius})`);
+  }
+
+  // --- V3.7.12: vat lieu keycap ap bang 1 cu bam (end-to-end) ----------------
+  {
+    const clickBtn = async (label) => {
+      await ev(`(() => {
+        const g=[...document.querySelectorAll('#inspector .inspector-group')].find(x=>x.querySelector('h3')?.textContent.includes('Hình dạng nút'));
+        const b=[...g.querySelectorAll('button')].find(x=>x.textContent.trim()===${JSON.stringify(label)});
+        b.click(); return true;
+      })()`);
+      await sleep(500);
+    };
+    // Nhom "Hình dạng nút" chi hien khi dang CHON 1 phim -> phai bam 1 phim
+    // that trong #keypad truoc (sau khi nhap theme, selection ve phoneShell).
+    await ev(`document.querySelector('#keypad .key[data-key="ok"]').click()`);
+    await sleep(400);
+    await clickBtn("Vật liệu keycap (theo theme)");
+    const cap = await ev(`(() => {
+      const keys=[...document.querySelectorAll('#keypad .key[data-key]')];
+      const ok=document.querySelector('#keypad .key[data-key="ok"]');
+      const cs=getComputedStyle(ok);
+      const phone=getComputedStyle(document.querySelector('#phone'));
+      return {
+        n: keys.length,
+        bg: cs.backgroundImage,
+        border: cs.borderTopWidth,
+        color: cs.color,
+        shape: cs.borderRadius,
+        clip: cs.clipPath,
+        capTop: phone.getPropertyValue('--capTop').trim(),
+        noGlow: !/rgb\\(/.test(cs.boxShadow.split('inset').pop() || ''),
+        allSame: keys.every(k=>getComputedStyle(k).backgroundImage===cs.backgroundImage),
+      };
+    })()`);
+    ok(cap.n === 19, `keycap: ap cho ${cap.n} phim that trong #keypad`);
+    ok(cap.allSame, "keycap: ca 19 phim cung 1 vat lieu");
+    ok(cap.border === "0px", `keycap: KHONG vien ngoai (border=${cap.border})`);
+    ok(cap.color === "rgb(255, 255, 255)", `keycap: chu trang (${cap.color})`);
+    ok(cap.shape === "6px", `keycap: hinh vuong keycap (radius=${cap.shape})`);
+    ok(cap.clip === "none", `keycap: khong bi clip-path (${cap.clip})`);
+    ok(cap.bg.includes("linear-gradient"), "keycap: nen la gradient bong");
+    ok(cap.capTop.length === 7 && cap.capTop.startsWith("#"), `keycap: --capTop suy tu palette theme (${cap.capTop})`);
+    ok(cap.noGlow, "keycap: khong glow ngoai (giong mockup)");
+
+    // Chu trang tren than keycap phai dat WCAG AA (>4.5:1).
+    const lum = await ev(`(() => {
+      const m=getComputedStyle(document.querySelector('#phone')).getPropertyValue('--capBot').trim();
+      const c=[1,3,5].map(i=>parseInt(m.substr(i,2),16)/255).map(s=>s<=0.03928?s/12.92:Math.pow((s+0.055)/1.055,2.4));
+      return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+    })()`);
+    const contrast = 1.05 / (lum + 0.05);
+    ok(contrast >= 4.5, `keycap: chu trang dat WCAG AA tren than nut (${contrast.toFixed(2)}:1)`);
+
+    // Nut rieng le: "Keycap cho phim này" chi doi 1 phim.
+    await ev(`document.querySelector('#keypad .key[data-key="7"]').click()`);
+    await sleep(300);
+    await ev(`(() => {
+      const g=[...document.querySelectorAll('#inspector .inspector-group')].find(x=>x.querySelector('h3')?.textContent.includes('Hình dạng nút'));
+      [...g.querySelectorAll('button')].find(x=>x.textContent.trim()==='Keycap cho phím này').click(); return true;
+    })()`);
+    await sleep(400);
+    const one = await ev(`(() => {
+      const g=k=>getComputedStyle(document.querySelector('#keypad .key[data-key="'+k+'"]'));
+      return { seven: g('7').borderRadius, eight: g('8').borderRadius };
+    })()`);
+    ok(one.seven === "6px" && one.eight === "6px", `keycap: ap rieng 1 phim khong lam lech phim khac (7=${one.seven}, 8=${one.eight})`);
   }
 
   ok(errors.length === 0, errors.length ? `co loi JS: ${errors.join(" | ")}` : "khong co loi JS trong trang");

@@ -77,6 +77,20 @@ async function waitFor(expression, label, tries = 80) {
   throw new Error(`timeout: ${label}`);
 }
 
+/**
+ * Cho "mem": het luot ma chua dat thi di tiep, khong nem loi.
+ * Dung cho thuoc tinh CHI co o mot so theme (vd texture tren phim chi co o
+ * theme anh) — theme chi-palette se khong bao gio dat, khong the coi la loi.
+ */
+async function waitForSoft(expression, label, tries = 16) {
+  for (let i = 0; i < tries; i++) {
+    if (await evalJs(expression)) return true;
+    await sleep(250);
+  }
+  console.log(`    (bo qua: ${label} — theme nay khong co)`);
+  return false;
+}
+
 try {
   const url = await targetUrl();
   ws = new WebSocket(url);
@@ -101,7 +115,7 @@ try {
   for (const id of ids) {
     const file = resolve(`themes/${id}.vqeaf`);
     await send("DOM.setFileInputFiles", { nodeId, files: [file] });
-    await waitFor(
+    await waitForSoft(
       `(() => { const k = document.querySelector('#keypad'); if (!k || !k.classList.contains('texture-on-keys')) return false; const t = k.style.getPropertyValue('--key-texture') || ''; return t.startsWith('url('); })()`,
       `${id} texture ap vao phim`,
     );
@@ -120,16 +134,23 @@ try {
 
     const info = await evalJs(`(() => {
       const k = document.querySelector('#keypad');
-      const ok = document.querySelector('.key[data-key="ok"]');
+      // Phai scope vao #keypad: #buttonBuilder dung TRUOC #keypad trong DOM va
+      // nut xem truoc cua no cung mang data-key="ok" -> neu khong scope se doc
+      // nham nut preview (bay da tung gap o verify_key_shape_ui.mjs).
+      const ok = document.querySelector('#keypad .key[data-key="ok"]');
       const cards = [...document.querySelectorAll('#presetGrid .preset-card strong')].map(e => e.textContent);
+      const cs = ok ? getComputedStyle(ok) : null;
       return {
         themeName: document.querySelector('#themeName')?.value || '',
         textureOnKeys: k.classList.contains('texture-on-keys'),
         textureOpacity: k.style.getPropertyValue('--key-texture-opacity'),
         textureBlend: k.style.getPropertyValue('--key-texture-blend'),
         frameBg: document.querySelector('#frameBackgroundLayer').style.backgroundImage || 'none',
-        okKeyBg: ok ? getComputedStyle(ok).backgroundImage.slice(0, 60) : 'n/a',
-        keyCount: document.querySelectorAll('.key[data-key]').length,
+        okKeyBg: cs ? cs.backgroundImage.slice(0, 60) : 'n/a',
+        okKeyBorder: cs ? cs.borderTopWidth + ' ' + cs.borderTopColor : 'n/a',
+        okKeyColor: cs ? cs.color : 'n/a',
+        capBase: getComputedStyle(document.querySelector('#phone')).getPropertyValue('--capBase').trim(),
+        keyCount: document.querySelectorAll('#keypad .key[data-key]').length,
         presetCount: cards.length,
         hasNewPresets: ['Spooky Vibes','Pika Arcade','Pika Honey'].every(n => cards.includes(n))
       }; })()`);

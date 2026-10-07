@@ -1,4 +1,4 @@
-# VQEAF Theme Studio V3.7.11
+# VQEAF Theme Studio V3.7.12
 
 Webapp nhẹ để thiết kế theme `.vqeaf` cho frame Classic 240×320 / VXPQeaf.
 
@@ -42,7 +42,12 @@ Sau đó mở `http://127.0.0.1:8080/`.
 - Chỉnh opacity, blend, brightness, contrast, saturation, blur, scale, offset, rotate/flip.
 - Decoration kéo thả có xóa, xoay, lật ngang/dọc và floating animation.
 - Layer Stack: Frame Background, Frame FX, LCD, Keypad, Decoration, Network LED, `menuButton / fpsBadge`.
-- **Button Builder (Tạo nút)**: keycap glossy/candy/fantasy + 20+ preset nút (candy, pop, classic, Tết, Trung Thu, Hà Nội…).
+- **Vật liệu nút "keycap bóng" (V3.7.12)** — mặc định cho **cả 66 theme**: nhựa tối
+  bóng, **không viền ngoài**, chữ trắng, bevel mềm, ảnh texture hiện **mờ** bên trong.
+  Màu **suy ra từ palette từng theme** (`keycapPalette()`), thân nút bị kéo tối để
+  chữ trắng luôn đạt **WCAG AA** (66/66 theme, thấp nhất 5.53:1). 2 nút áp nhanh ở
+  nhóm *Hình dạng nút*: *Vật liệu keycap (theo theme)* / *Keycap cho phím này*.
+- **Button Builder (Tạo nút)**: keycap glossy/candy/fantasy + 50+ preset nút (candy, pop, classic, Tết, Trung Thu, Hà Nội…).
 - Panel phải hiển thị **ID component `.vqeaf`** khi chọn thành phần (`phoneShell`, `keyStyle_ok`, `menuButton`, `decoration_…`).
 - Nút **📷 Chụp khung** trên topbar: xuất preview khung Nokia ra PNG.
 - Ảnh raster được tối ưu rồi nhúng Data URI vào chính file `.vqeaf`.

@@ -1,0 +1,1109 @@
+@vqeaf 1.0
+
+<theme id="halloween_trick" name="Halloween Trick">
+
+    metadata {
+        author: "DOXUANHOP"
+        website: "https://qeafivels.com/"
+        version: "1.0.0"
+        description: "Halloween Trick - Nokia 225 frame (original art, no third-party logos)"
+    }
+
+    studio {
+        orientation: "portrait"
+        autoId: false
+        layerOrder: [ "frameBackground", "frameFx", "screen", "keypad", "decorations", "network", "badges" ]
+        frameFxOpacity: 0.12
+        frameFxBlend: "screen"
+    }
+
+    palette {
+        shellTop: "#26262B"
+        shellBottom: "#050507"
+        shellBorder: "#9CA3AF"
+        screen: "#C9710C"
+        key: "#111114"
+        keyPressed: "#2A2A30"
+        keyBorder: "#D1D5DB"
+        keyText: "#FFFFFF"
+        subText: "#FF9A1F"
+        accent: "#FF8A00"
+        glow: "#FF8A00"
+    }
+
+    metrics {
+        shellRadius: 24dp
+        keyRadius: 10dp
+        keyBorder: 1dp
+    }
+
+    <component id="phoneShell" type="container">
+        shape {
+            type: rect
+            radius: $metrics.shellRadius
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ $palette.shellTop, $palette.shellBottom ]
+            }
+            stroke { width: 1.5dp color: $palette.shellBorder }
+        }
+        background {
+            source: @frame_background
+            opacity: 0.95
+            fit: "cover"
+            blend: "normal"
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+            brightness: 1.00
+            contrast: 1.05
+            saturation: 1.00
+            clipToFrameShape: true
+            raised: false
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+        }
+        effect {
+            frameFxOpacity: 0.12
+            frameFxBlend: "screen"
+            floating: false
+            floatAmplitude: 6dp
+            floatDuration: 3200ms
+            floatShadow: 30dp
+        }
+        
+    </component>
+
+    <component id="screen" type="panel">
+        shape { radius: 4dp fill: $palette.screen }
+    </component>
+
+    <component id="key" type="button">
+        shape {
+            radius: $metrics.keyRadius
+            fill: $palette.key
+            stroke { width: $metrics.keyBorder color: $palette.keyBorder }
+        }
+        text { color: $palette.keyText weight: 700 align: center }
+        glow { color: $palette.glow radius: 12dp strength: 0.75 }
+        <state name="pressed">
+            shape { fill: $palette.keyPressed }
+            transform { scale: 0.98 }
+        </state>
+    </component>
+
+    <component id="keyStyle_0" type="button-style">
+        target: "0"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_1" type="button-style">
+        target: "1"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_2" type="button-style">
+        target: "2"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_3" type="button-style">
+        target: "3"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_4" type="button-style">
+        target: "4"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_5" type="button-style">
+        target: "5"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_6" type="button-style">
+        target: "6"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_7" type="button-style">
+        target: "7"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_8" type="button-style">
+        target: "8"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_9" type="button-style">
+        target: "9"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_menu" type="button-style">
+        target: "menu"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_up" type="button-style">
+        target: "up"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_rsk" type="button-style">
+        target: "rsk"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_left" type="button-style">
+        target: "left"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_ok" type="button-style">
+        target: "ok"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_right" type="button-style">
+        target: "right"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_down" type="button-style">
+        target: "down"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_star" type="button-style">
+        target: "*"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_pound" type="button-style">
+        target: "#"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#434345", "#171719", "#050506" ]
+            }
+            stroke { width: 0dp color: "#5C5C5D" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#08080A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#040405", "#030303" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keypad" type="container">
+        background {
+            source: @keypad_background
+            opacity: 0.50
+            fit: "cover"
+            blend: "soft-light"
+            position: "below"
+            renderMode: "per-key-texture"
+            textureMode: "per-key"
+            brightness: 1.00
+            contrast: 1.10
+            saturation: 1.00
+            readabilityAssist: true
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+        }
+    </component>
+
+    <component id="networkLed" type="view">
+        shape { fill: $palette.accent radius: 99dp }
+    </component>
+
+    <component id="menuButton" type="badge">
+        appearance: "solid"
+        shape {
+            radius: 18dp
+            fill: "#1A1A1F"
+            stroke { width: 1dp color: "#FF8A00" }
+        }
+        text {
+            color: "#FFB04D"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FF8A00"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF8A00" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="fpsBadge" type="badge">
+        appearance: "glass"
+        shape {
+            radius: 18dp
+            fill: "#050507"
+            stroke { width: 1dp color: "#9CA3AF" }
+        }
+        text {
+            color: "#FF9A1F"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FF8A00"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF8A00" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="decoration_bat" type="image">
+        icon { source: @bat size: 56dp tint: "#2B2B5E" }
+        transform { translateX: 108dp translateY: 10dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: true
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        animation: @decoration_float_bat
+    </component>
+
+    <component id="decoration_ghost_top" type="image">
+        icon { source: @ghost size: 48dp tint: "#DDE6F5" }
+        transform { translateX: 212dp translateY: 8dp rotation: 8deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: true
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        animation: @decoration_float_ghost_top
+    </component>
+
+    <component id="decoration_skel" type="image">
+        icon { source: @skeleton size: 40dp tint: "#9FB4D8" }
+        transform { translateX: 12dp translateY: 12dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_skel2" type="image">
+        icon { source: @skeleton size: 40dp tint: "#9FB4D8" }
+        transform { translateX: 52dp translateY: 12dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_web_lcd" type="image">
+        icon { source: @web size: 60dp tint: "#FFFFFF" }
+        transform { translateX: 196dp translateY: 60dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_ghost_l" type="image">
+        icon { source: @ghost size: 38dp tint: "#FFFFFF" }
+        transform { translateX: 14dp translateY: 258dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_candy_l" type="image">
+        icon { source: @candy size: 34dp tint: "#D9A441" }
+        transform { translateX: 70dp translateY: 262dp rotation: -10deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_pumpkin_ok" type="image">
+        icon { source: @pumpkin size: 48dp tint: "#FF7A18" }
+        transform { translateX: 110dp translateY: 262dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: true
+            floatAmplitude: 3dp
+            floatDuration: 2600ms
+        }
+        animation: @decoration_float_pumpkin_ok
+    </component>
+
+    <component id="decoration_corn_r" type="image">
+        icon { source: @candycorn size: 34dp tint: "#FFC21A" }
+        transform { translateX: 170dp translateY: 262dp rotation: 12deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_sweets_r" type="image">
+        icon { source: @candy size: 36dp tint: "#E8A317" }
+        transform { translateX: 216dp translateY: 262dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_dracula" type="image">
+        icon { source: @vampire size: 40dp tint: "#C9B8D9" }
+        transform { translateX: 12dp translateY: 198dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_runner" type="image">
+        icon { source: @skeleton size: 42dp tint: "#B7F04A" }
+        transform { translateX: 10dp translateY: 508dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <resource id="keypad_background" type="image">
+        name: "halloween_keys.webp"
+        mime: "image/webp"
+        encoding: "data-uri"
+        data: "data:image/webp;base64,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"
+    </resource>
+
+    <resource id="frame_background" type="image">
+        name: "halloween_frame.webp"
+        mime: "image/webp"
+        encoding: "data-uri"
+        data: "data:image/webp;base64,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"
+    </resource>
+
+    <vector id="bat">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#2B2B5E" data="M1,8 L6,6 L9,9 L12,5 L15,9 L18,6 L23,8 L19,14 L15,12.5 L12,18 L9,12.5 L5,14 Z"></path>
+    </vector>
+
+    <vector id="ghost">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#DDE6F5" data="M6,20 V10 C6,5 9,3 12,3 C16,3 18,6 18,10 V20 L15,18 L12,20 L9,18 Z"></path>
+    </vector>
+
+    <vector id="skeleton">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#9FB4D8" data="M12,2 C14.5,2 16,3.8 16,6 C16,7.6 15.2,8.6 14,9.2 L14,10 L10,10 L10,9.2 C8.8,8.6 8,7.6 8,6 C8,3.8 9.5,2 12,2 Z M11,10.5 L13,10.5 L13,16 L11,16 Z M6,11.5 L18,11.5 L18,13 L6,13 Z M9,16.5 L11,16.5 L10,22 L8,22 Z M13,16.5 L15,16.5 L16,22 L14,22 Z"></path>
+    </vector>
+
+    <vector id="web">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path stroke="#FFFFFF" strokeWidth=1 fill="#00000000" data="M0,0 L24,24 M12,0 L12,24 M0,12 L24,12 M24,0 L0,24 M2,2 C9,8 15,8 22,2 M4,4 C10,10 14,10 20,4 M2,22 C9,16 15,16 22,22"></path>
+    </vector>
+
+    <vector id="candy">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#D9A441" data="M7,8 C9,6.5 15,6.5 17,8 C18.5,9.5 18.5,14.5 17,16 C15,17.5 9,17.5 7,16 C5.5,14.5 5.5,9.5 7,8 Z M7,12 L2,8 L2,16 Z M17,12 L22,8 L22,16 Z"></path>
+    </vector>
+
+    <vector id="pumpkin">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#FF7A18" data="M12,4 C7,4 3.5,8 3.5,13 C3.5,18 7,21 12,21 C17,21 20.5,18 20.5,13 C20.5,8 17,4 12,4 Z M11,2 L13,2 L13,5 L11,5 Z"></path>
+    </vector>
+
+    <vector id="candycorn">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#FFC21A" data="M12,3 L19,20 C19,21 18,22 17,22 L7,22 C6,22 5,21 5,20 Z"></path>
+    </vector>
+
+    <vector id="vampire">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#C9B8D9" data="M12,3 C16.5,3 19,6 19,10 C19,13.5 17,16 15,17.5 L14,19 L13,17.5 L12,19 L11,17.5 L10,19 L9,17.5 C7,16 5,13.5 5,10 C5,6 7.5,3 12,3 Z M2,20 L9,18 L12,22 L15,18 L22,20 L22,23 L2,23 Z"></path>
+    </vector>
+
+
+
+    <animation id="decoration_float_bat">
+        duration: 2600ms
+        loop: true
+        easing: easeInOut
+        frames: [
+            { at: 0% transform { translateY: 0dp } },
+            { at: 50% transform { translateY: -5dp } },
+            { at: 100% transform { translateY: 0dp } }
+        ]
+    </animation>
+
+    <animation id="decoration_float_ghost_top">
+        duration: 2600ms
+        loop: true
+        easing: easeInOut
+        frames: [
+            { at: 0% transform { translateY: 0dp } },
+            { at: 50% transform { translateY: -5dp } },
+            { at: 100% transform { translateY: 0dp } }
+        ]
+    </animation>
+
+    <animation id="decoration_float_pumpkin_ok">
+        duration: 2600ms
+        loop: true
+        easing: easeInOut
+        frames: [
+            { at: 0% transform { translateY: 0dp } },
+            { at: 50% transform { translateY: -3dp } },
+            { at: 100% transform { translateY: 0dp } }
+        ]
+    </animation>
+
+</theme>

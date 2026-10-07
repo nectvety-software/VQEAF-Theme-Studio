@@ -9,6 +9,13 @@ frame lan keypad), nhom theme nay:
     position: "above" + renderMode: "per-key-texture", nen tung phim hien anh.
 
 Chay:  python tools/gen_photo_bg_themes.py
+       node tools/gen_keycap_themes.mjs      # <-- BAT BUOC chay sau buoc tren
+
+V3.7.12: script nay van sinh `keyStyle_*` theo bang mau rieng tung phim (di san),
+nhung vat lieu nut CHUAN bay gio la "keycap bong" va duoc dong bo boi
+`gen_keycap_themes.mjs` (nguon su that: keycapButtonStyle() trong src/vqeaf.js).
+Vi vay SAU KHI chay script nay PHAI chay tiep gen_keycap_themes.mjs, neu khong
+cac nut se quay ve bang mau cu va lech voi 52 theme con lai.
 """
 
 from pathlib import Path
@@ -478,7 +485,7 @@ SPECS = [
         palette=("#4B2B58", "#1B0D22", "#C9A227", "#14110F", "#43284F", "#5E3A6E",
                  "#C9A227", "#EDE3F7", "#C9A227", "#C9A227", "#8A4FBF"),
         metrics=(20, 9),
-        keypad=dict(opacity=0.50, blend="normal", scale=1.10, offsetY=0,
+        keypad=dict(opacity=0.32, blend="normal", scale=1.10, offsetY=0,
                     brightness=1.05, contrast=1.14, saturation=1.25,
                     readabilityAssist=True, menu_bg="#4B2B58", menu_brd="#C9A227", menu_txt="#EDE3F7"),
         style_map=SPOOKY_MAP, styles=SPOOKY_STYLES, decor_map=SPOOKY_DECOR,
@@ -492,7 +499,7 @@ SPECS = [
         palette=("#E23A50", "#8E0F24", "#FFD23F", "#141428", "#2C2C4A", "#45456E",
                  "#FFD23F", "#FFF6D8", "#FFE07A", "#3BB273", "#FFD23F"),
         metrics=(22, 10),
-        keypad=dict(opacity=0.50, blend="normal", scale=1.10, offsetY=0,
+        keypad=dict(opacity=0.32, blend="normal", scale=1.10, offsetY=0,
                     brightness=1.04, contrast=1.12, saturation=1.15,
                     readabilityAssist=True, menu_bg="#2C2C4A", menu_brd="#FFD23F", menu_txt="#FFD23F"),
         style_map=PIKA_MAP, styles=PIKA_STYLES, decor_map=PIKA_DECOR,
@@ -507,9 +514,9 @@ SPECS = [
         palette=("#FFD24A", "#E0901E", "#6B4226", "#241505", "#F7B733", "#E09A18",
                  "#6B4226", "#3A2410", "#6B4226", "#E8443C", "#FFD966"),
         metrics=(24, 12),
-        keypad=dict(opacity=0.50, blend="normal", scale=1.10, offsetY=0,
+        keypad=dict(opacity=0.32, blend="normal", scale=1.10, offsetY=0,
                     brightness=1.04, contrast=1.10, saturation=1.12,
-                    readabilityAssist=False, menu_bg="#FFF1CC", menu_brd="#6B4226", menu_txt="#4A2E10"),
+                    readabilityAssist=True, menu_bg="#FFF1CC", menu_brd="#6B4226", menu_txt="#4A2E10"),
         style_map=HONEY_MAP, styles=HONEY_STYLES, decor_map=HONEY_DECOR,
         vectors=["star", "sparkle", "flower", "leaf", "gem"],
     ),

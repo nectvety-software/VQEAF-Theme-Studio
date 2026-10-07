@@ -1,0 +1,1001 @@
+@vqeaf 1.0
+
+<theme id="web_hero" name="Web Hero">
+
+    metadata {
+        author: "DOXUANHOP"
+        website: "https://qeafivels.com/"
+        version: "1.0.0"
+        description: "Web Hero - Nokia 225 frame (original art, no third-party logos)"
+    }
+
+    studio {
+        orientation: "portrait"
+        autoId: false
+        layerOrder: [ "frameBackground", "frameFx", "screen", "keypad", "decorations", "network", "badges" ]
+        frameFxOpacity: 0.12
+        frameFxBlend: "screen"
+    }
+
+    palette {
+        shellTop: "#10256A"
+        shellBottom: "#081440"
+        shellBorder: "#E82634"
+        screen: "#6F8B2A"
+        key: "#C8101E"
+        keyPressed: "#8E0A14"
+        keyBorder: "#FFB3B8"
+        keyText: "#FFFFFF"
+        subText: "#FFB3B8"
+        accent: "#E82634"
+        glow: "#FF4A55"
+    }
+
+    metrics {
+        shellRadius: 24dp
+        keyRadius: 10dp
+        keyBorder: 1dp
+    }
+
+    <component id="phoneShell" type="container">
+        shape {
+            type: rect
+            radius: $metrics.shellRadius
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ $palette.shellTop, $palette.shellBottom ]
+            }
+            stroke { width: 1.5dp color: $palette.shellBorder }
+        }
+        background {
+            source: @frame_background
+            opacity: 0.95
+            fit: "cover"
+            blend: "normal"
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+            brightness: 1.00
+            contrast: 1.02
+            saturation: 1.05
+            clipToFrameShape: true
+            raised: false
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+        }
+        effect {
+            frameFxOpacity: 0.12
+            frameFxBlend: "screen"
+            floating: false
+            floatAmplitude: 6dp
+            floatDuration: 3200ms
+            floatShadow: 30dp
+        }
+        
+    </component>
+
+    <component id="screen" type="panel">
+        shape { radius: 4dp fill: $palette.screen }
+    </component>
+
+    <component id="key" type="button">
+        shape {
+            radius: $metrics.keyRadius
+            fill: $palette.key
+            stroke { width: $metrics.keyBorder color: $palette.keyBorder }
+        }
+        text { color: $palette.keyText weight: 700 align: center }
+        glow { color: $palette.glow radius: 12dp strength: 0.75 }
+        <state name="pressed">
+            shape { fill: $palette.keyPressed }
+            transform { scale: 0.98 }
+        </state>
+    </component>
+
+    <component id="keyStyle_0" type="button-style">
+        target: "0"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_1" type="button-style">
+        target: "1"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_2" type="button-style">
+        target: "2"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_3" type="button-style">
+        target: "3"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_4" type="button-style">
+        target: "4"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_5" type="button-style">
+        target: "5"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_6" type="button-style">
+        target: "6"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_7" type="button-style">
+        target: "7"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_8" type="button-style">
+        target: "8"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_9" type="button-style">
+        target: "9"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_menu" type="button-style">
+        target: "menu"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_up" type="button-style">
+        target: "up"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_rsk" type="button-style">
+        target: "rsk"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_left" type="button-style">
+        target: "left"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_ok" type="button-style">
+        target: "ok"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_right" type="button-style">
+        target: "right"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_down" type="button-style">
+        target: "down"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_star" type="button-style">
+        target: "*"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keyStyle_pound" type="button-style">
+        target: "#"
+        preset: "keycap"
+        shape {
+            type: "square"
+            radius: 6dp
+            fill {
+                type: linear
+                angle: 180deg
+                colors: [ "#73495D", "#521D37", "#2D0A1B" ]
+            }
+            stroke { width: 0dp color: "#866172" }
+        }
+        bevel { size: 2dp blur: 2dp color: "#FFFFFF" }
+        shadow { color: "#00000066" y: 3dp blur: 6dp }
+        glow { color: "#470F2A" radius: 0dp }
+        gloss { enabled: true opacity: 0.34 style: "top-arc" }
+        text {
+            color: "#FFFFFF"
+            outline: "#000000"
+            outlineWidth: 0dp
+            size: 14sp
+            weight: 900
+        }
+        decoration { left: "none" right: "none" }
+        <state name="pressed">
+            fill { type: linear angle: 180deg colors: [ "#240816", "#19060F" ] }
+            transform { scale: 0.96 }
+        </state>
+        <state name="disabled">
+            opacity: 0.45
+            saturation: 0.25
+        </state>
+    </component>
+
+    <component id="keypad" type="container">
+        background {
+            source: @keypad_background
+            opacity: 0.55
+            fit: "cover"
+            blend: "soft-light"
+            position: "below"
+            renderMode: "per-key-texture"
+            textureMode: "per-key"
+            brightness: 1.00
+            contrast: 1.08
+            saturation: 1.05
+            readabilityAssist: true
+            rotation: 0deg
+            scaleX: 1
+            scaleY: 1
+            scale: 1.00
+            offsetX: 0dp
+            offsetY: 0dp
+            blur: 0dp
+        }
+    </component>
+
+    <component id="networkLed" type="view">
+        shape { fill: $palette.accent radius: 99dp }
+    </component>
+
+    <component id="menuButton" type="badge">
+        appearance: "solid"
+        shape {
+            radius: 18dp
+            fill: "#C8101E"
+            stroke { width: 1dp color: "#FFB3B8" }
+        }
+        text {
+            color: "#FFFFFF"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#FFFFFF"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF4A55" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="fpsBadge" type="badge">
+        appearance: "glass"
+        shape {
+            radius: 18dp
+            fill: "#081440"
+            stroke { width: 1dp color: "#E82634" }
+        }
+        text {
+            color: "#FFB3B8"
+            size: 11sp
+            weight: 800
+            letterSpacing: 0.04
+            uppercase: true
+        }
+        indicator {
+            color: "#E82634"
+            size: 6dp
+            glow: 8dp
+        }
+        glow { color: "#FF4A55" radius: 8dp }
+        shadow { blur: 18dp }
+        opacity: 1.00
+        padding { horizontal: 13dp vertical: 11dp }
+    </component>
+
+    <component id="decoration_logo" type="image">
+        icon { source: @sparkle size: 34dp tint: "#FFD84A" }
+        transform { translateX: 90dp translateY: 18dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: true
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        animation: @decoration_float_logo
+    </component>
+
+    <component id="decoration_spider_top" type="image">
+        icon { source: @spider size: 44dp tint: "#E82634" }
+        transform { translateX: 212dp translateY: 14dp rotation: -12deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_spider_lcd" type="image">
+        icon { source: @spider size: 34dp tint: "#FFFFFF" }
+        transform { translateX: 6dp translateY: 226dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: true
+            floatAmplitude: 3dp
+            floatDuration: 2600ms
+        }
+        animation: @decoration_float_spider_lcd
+    </component>
+
+    <component id="decoration_web_ok" type="image">
+        icon { source: @heart size: 44dp tint: "#E82634" }
+        transform { translateX: 112dp translateY: 262dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_bam_l" type="image">
+        icon { source: @bam size: 34dp tint: "#FFD84A" }
+        transform { translateX: 74dp translateY: 262dp rotation: -8deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_bam_r" type="image">
+        icon { source: @bam size: 34dp tint: "#FFD84A" }
+        transform { translateX: 166dp translateY: 262dp rotation: 8deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <component id="decoration_spider_btm" type="image">
+        icon { source: @spider size: 40dp tint: "#FFFFFF" }
+        transform { translateX: 8dp translateY: 512dp rotation: 0deg scaleX: 1 scaleY: 1 }
+        opacity: 1.00
+        layer { zIndex: 1 }
+        effect {
+            floating: false
+            floatAmplitude: 5dp
+            floatDuration: 2600ms
+        }
+        
+    </component>
+
+    <resource id="keypad_background" type="image">
+        name: "web_hero_keys.webp"
+        mime: "image/webp"
+        encoding: "data-uri"
+        data: "data:image/webp;base64,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"
+    </resource>
+
+    <resource id="frame_background" type="image">
+        name: "web_hero_frame.webp"
+        mime: "image/webp"
+        encoding: "data-uri"
+        data: "data:image/webp;base64,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"
+    </resource>
+
+    <vector id="sparkle">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#FFD84A" data="M12,2 L13.5,10.5 L22,12 L13.5,13.5 L12,22 L10.5,13.5 L2,12 L10.5,10.5 Z"></path>
+    </vector>
+
+    <vector id="spider">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#FFFFFF" data="M12,8 C14,8 15.5,9.5 15.5,12 C15.5,15 14,17 12,17 C10,17 8.5,15 8.5,12 C8.5,9.5 10,8 12,8 Z M12,3.5 C13,3.5 13.8,4.3 13.8,5.3 C13.8,6.3 13,7.1 12,7.1 C11,7.1 10.2,6.3 10.2,5.3 C10.2,4.3 11,3.5 12,3.5 Z M9,10 L2,5 M9,12 L1,12 M9,14 L2,19 M10,16 L5,22 M15,10 L22,5 M15,12 L23,12 M15,14 L22,19 M14,16 L19,22"></path>
+    </vector>
+
+    <vector id="heart">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#E82634" data="M12,21 C5,15 2,11 2,7.5 C2,4.5 4.3,3 6.8,3 C9,3 11,4.2 12,6 C13,4.2 15,3 17.2,3 C19.7,3 22,4.5 22,7.5 C22,11 19,15 12,21 Z"></path>
+    </vector>
+
+    <vector id="bam">
+        width: 24dp
+        height: 24dp
+        viewportWidth: 24
+        viewportHeight: 24
+        <path fill="#FFD84A" data="M12,1 L14.5,7 L21,4 L18.5,10.5 L23,13 L17,15 L19,22 L12.5,18 L8,23 L7.5,16 L1,16 L6.5,12 L2,7 L9,8 Z"></path>
+    </vector>
+
+
+
+    <animation id="decoration_float_logo">
+        duration: 2600ms
+        loop: true
+        easing: easeInOut
+        frames: [
+            { at: 0% transform { translateY: 0dp } },
+            { at: 50% transform { translateY: -5dp } },
+            { at: 100% transform { translateY: 0dp } }
+        ]
+    </animation>
+
+    <animation id="decoration_float_spider_lcd">
+        duration: 2600ms
+        loop: true
+        easing: easeInOut
+        frames: [
+            { at: 0% transform { translateY: 0dp } },
+            { at: 50% transform { translateY: -3dp } },
+            { at: 100% transform { translateY: 0dp } }
+        ]
+    </animation>
+
+</theme>

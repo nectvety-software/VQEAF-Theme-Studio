@@ -209,10 +209,134 @@ ${decorationAnimations}
 }
 
 
-function safeKeyId(id) {
+export function safeKeyId(id) {
   return String(id).replace('*','star').replace('#','pound').replace(/[^A-Za-z0-9_-]/g,'_');
 }
-function buttonStyleComponent(id,s={}) {
+
+/* ---------------------------------------------------------------------------
+ * V3.7.12 — Vat lieu "keycap bong" (glossy keycap)
+ *
+ * Yeu cau goc: "cac nut nhu hinh" (mockup Spooky Vibes QWERTY) — nut la NHUA
+ * BONG TOI, khong vien, chu trang, bevel mem. Diem mau chot cua mockup: keycap
+ * dung CHINH vat lieu toi cua khung may, khong phai mot mau ngoai lai. Vi vay
+ * o day ta SUY RA tu palette cua tung theme thay vi hardcode tim man.
+ *
+ * Day la NGUON SU THAT DUY NHAT: studio (applyTheme), bo sinh theme
+ * (tools/gen_keycap_themes.mjs) va ban export PNG deu goi cung ham nay.
+ * ------------------------------------------------------------------------- */
+
+/** '#RGB' | '#RRGGBB' | '#RRGGBBAA' -> [r,g,b] (0..255). Sai dinh dang -> den. */
+function rgb6(v) {
+  let h = String(v ?? '').trim().replace(/^#/, '');
+  if (h.length === 3) h = h.split('').map(c => c + c).join('');
+  h = h.slice(0, 6);
+  if (!/^[0-9a-f]{6}$/i.test(h)) h = '000000';
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+}
+/** Tron 2 mau theo kenh sRGB. amount: 0 = giu a, 1 = lay het b. */
+export function mixHex(a, b, amount) {
+  const A = rgb6(a), B = rgb6(b);
+  const t = Math.max(0, Math.min(1, Number(amount) || 0));
+  const ch = i => Math.round(A[i] + (B[i] - A[i]) * t);
+  return '#' + [ch(0), ch(1), ch(2)].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+/** Do sang tuong doi (WCAG) — de kiem tra chu trang co doc duoc khong. */
+export function relLum(v) {
+  const [r, g, b] = rgb6(v).map(c => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+/** Lam toi mau cho den khi do sang <= maxLum (binary search, chinh xac ~1e-6). */
+function darkenToLum(hex, maxLum) {
+  if (relLum(hex) <= maxLum) return hex;
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 20; i++) {
+    const mid = (lo + hi) / 2;
+    if (relLum(mixHex(hex, '#000000', mid)) > maxLum) lo = mid; else hi = mid;
+  }
+  return mixHex(hex, '#000000', hi);
+}
+
+/** Do sang toi da cua than keycap. <= 0.14 => chu trang dat ~5.5:1 (WCAG AA). */
+export const KEYCAP_MAX_LUM = 0.14;
+
+/**
+ * Suy ra vat lieu keycap tu palette cua theme.
+ *   base — than nut (vat lieu khung, da keo toi cho chu trang doc duoc)
+ *   top  — highlight mat tren (gloss)
+ *   mid  — diem dung thu 2 cua gradient (gloss tat dan)
+ *   bot  — bong mat day
+ *   edge — vien sang mong tren dinh nut (thay cho border)
+ *   sub  — nhan phu, sang de doc tren than toi
+ */
+export function keycapPalette(palette = {}) {
+  const shellBottom = palette.shellBottom || '#101018';
+  const key = palette.key || palette.shellBottom || '#20202C';
+  // Than nut = vat lieu khung pha nhe mau phim -> giu dung "chat" tung theme.
+  const raw = mixHex(mixHex(shellBottom, key, 0.40), '#000000', 0.16);
+  const base = darkenToLum(raw, KEYCAP_MAX_LUM);
+  return {
+    base,
+    top: mixHex(base, '#FFFFFF', 0.24),
+    mid: mixHex(base, '#FFFFFF', 0.06),
+    bot: mixHex(base, '#000000', 0.36),
+    edge: mixHex(base, '#FFFFFF', 0.34),
+    sub: mixHex(base, '#FFFFFF', 0.62),
+  };
+}
+
+/** Vien ngoai mong cua keycap (mockup KHONG co vien vang — chi co bevel). */
+export const KEYCAP_BEVEL = { size: 2, blur: 2, color: '#FFFFFF' };
+
+/**
+ * Style day du cho 1 phim theo vat lieu keycap. Dung boi:
+ *   - tools/gen_keycap_themes.mjs (sinh keyStyle_* trong themes/*.vqeaf)
+ *   - studio khi nguoi dung bam "Keycap bong" trong Button Builder
+ */
+export function keycapButtonStyle(palette = {}, opts = {}) {
+  const cap = keycapPalette(palette);
+  const bot = cap.bot;
+  return {
+    presetId: 'keycap',
+    shape: 'square',
+    radius: 6,
+    colorA: cap.top,
+    colorB: cap.mid,
+    colorC: cap.bot,
+    pressedA: mixHex(bot, '#000000', 0.20),
+    pressedB: mixHex(bot, '#000000', 0.45),
+    border: cap.edge,
+    borderWidth: 0,                       // mockup: khong vien
+    bevel: KEYCAP_BEVEL.size,
+    bevelBlur: KEYCAP_BEVEL.blur,
+    bevelColor: KEYCAP_BEVEL.color,
+    shadow: '#00000066',
+    shadowY: 3,
+    shadowBlur: 6,
+    glow: cap.base,
+    glowRadius: 0,                        // mockup: khong glow ngoai
+    gloss: true,
+    glossOpacity: 0.34,
+    text: '#FFFFFF',
+    textOutline: '#000000',
+    textOutlineWidth: 0,                  // chu trang tran, khong vien chu
+    fontSize: Number(opts.fontSize ?? 14),
+    fontWeight: 900,
+    decorLeft: 'none',
+    decorRight: 'none',
+    disabledOpacity: 0.45,
+    disabledSaturation: 0.25,
+  };
+}
+
+/** Nhan dien 1 button-style da la keycap chua (dung cho verify + UI). */
+export function isKeycapStyle(s = {}) {
+  return String(s.presetId || '') === 'keycap' && Number(s.borderWidth ?? 0) === 0;
+}
+
+export function buttonStyleComponent(id,s={}) {
   const bevel=Number(s.bevel ?? 0);
   const bevelBlock=bevel>0
     ? `\n        bevel { size: ${bevel}dp blur: ${Number(s.bevelBlur ?? 0)}dp color: ${color(s.bevelColor || '#FFFFFF')} }`
